@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entidade.Cliente" table="cliente" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cidade" class="entidade.Cidade" fetch="select">
+            <column name="id_cidade" not-null="true" />
+        </many-to-one>
+        <property name="razaoSocial" type="string">
+            <column name="razao_social" length="150" not-null="true" />
+        </property>
+        <property name="cpfCnpj" type="string">
+            <column name="cpf_cnpj" length="18" />
+        </property>
+        <property name="tipoCadastro" type="char">
+            <column name="tipo_cadastro" length="1" not-null="true" />
+        </property>
+        <property name="clientecol" type="string">
+            <column name="clientecol" length="45" />
+        </property>
+        <property name="endereco" type="string">
+            <column name="endereco" length="150" />
+        </property>
+        <property name="telefone" type="string">
+            <column name="telefone" length="15" />
+        </property>
+        <property name="situacao" type="char">
+            <column name="situacao" length="1" not-null="true" />
+        </property>
+        <set name="tarefas" table="tarefa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" not-null="true" />
+            </key>
+            <one-to-many class="entidade.Tarefa" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entidade.Motivo" table="motivo" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="descricao" type="string">
+            <column name="descricao" length="45" not-null="true" />
+        </property>
+        <property name="situacao" type="char">
+            <column name="situacao" length="1" not-null="true" />
+        </property>
+        <set name="tarefas" table="tarefa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_motivo" not-null="true" />
+            </key>
+            <one-to-many class="entidade.Tarefa" />
+        </set>
+    </class>
+</hibernate-mapping>

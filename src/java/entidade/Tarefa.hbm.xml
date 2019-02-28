@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entidade.Tarefa" table="tarefa" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cliente" class="entidade.Cliente" fetch="select">
+            <column name="id_cliente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="fase" class="entidade.Fase" fetch="select">
+            <column name="id_fase" not-null="true" />
+        </many-to-one>
+        <many-to-one name="modulo" class="entidade.Modulo" fetch="select">
+            <column name="id_modulo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="motivo" class="entidade.Motivo" fetch="select">
+            <column name="id_motivo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="prioridade" class="entidade.Prioridade" fetch="select">
+            <column name="id_prioridade" not-null="true" />
+        </many-to-one>
+        <many-to-one name="projeto" class="entidade.Projeto" fetch="select">
+            <column name="id_projeto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdUsuarioResponsavel" class="entidade.Usuario" fetch="select">
+            <column name="id_usuario_responsavel" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdUsuarioAutor" class="entidade.Usuario" fetch="select">
+            <column name="id_usuario_autor" not-null="true" />
+        </many-to-one>
+        <many-to-one name="versaoByIdVersaoCorrecao" class="entidade.Versao" fetch="select">
+            <column name="id_versao_correcao" not-null="true" />
+        </many-to-one>
+        <many-to-one name="versaoByIdVersaoBug" class="entidade.Versao" fetch="select">
+            <column name="id_versao_bug" not-null="true" />
+        </many-to-one>
+        <property name="titulo" type="string">
+            <column name="titulo" length="150" not-null="true" />
+        </property>
+        <property name="descricao" type="string">
+            <column name="descricao" />
+        </property>
+        <property name="datahoraCriacao" type="timestamp">
+            <column name="datahora_criacao" length="29" not-null="true" />
+        </property>
+        <property name="datahoraPrevisao" type="date">
+            <column name="datahora_previsao" length="29" not-null="true" />
+        </property>
+       
+        <property name="situacao" type="char">
+            <column name="situacao" length="1" not-null="true" />
+        </property>
+        <set name="movimentoTarefas" table="movimento_tarefa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tarefa" not-null="true" />
+            </key>
+            <one-to-many class="entidade.MovimentoTarefa" />
+        </set>
+        <set name="tarefaUsuarios" table="tarefa_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tarefa" not-null="true" />
+            </key>
+            <one-to-many class="entidade.TarefaUsuario" />
+        </set>
+    </class>
+</hibernate-mapping>

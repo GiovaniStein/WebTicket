@@ -106,7 +106,7 @@
     </section>
     <!-- /.sidebar -->
     
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script>
       var x = $("#lateral-menu-bar");
       var height = screen.height;

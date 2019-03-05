@@ -96,6 +96,50 @@ public class acao extends HttpServlet {
             response.sendRedirect("index.jsp");
         }
         
+          if (parametro.equals("edCidade")) {
+            int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+
+            ArrayList<Cidade> cidades = new CidadeDAO().consultarId(id);
+            Cidade cid = new Cidade();
+            cid = cidades.get(0);
+            request.setAttribute("objcid", cid);
+
+            encaminharPagina("cadastroCidade.jsp", request, response);
+        }
+        
+        if (parametro.equals("exCidade")) {
+            PrintWriter out = response.getWriter();
+            try {
+                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            Cidade cid = new Cidade();
+            cid.setId(id);
+            ControleCidade controleCidade = new ControleCidade();
+            ArrayList<Cidade> cidades = controleCidade.consultarId(cid.getId());
+            cid.setDescricao(cidades.get(0).getDescricao());
+
+            cid.setSituacao('I');
+
+            int retorno = new ControleCidade().salvar(cid);
+
+            request.setAttribute("paginaOrigem", "cadastroCidade.jsp");
+
+          if (retorno == 1) {
+                out.println("ok");
+                //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
+            } else if(retorno == 2)  {
+                out.println("Nome precisa ter de 3 até 45 caractere");
+                //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+            }else if(retorno == 3)  {
+                out.println("Cidade já cadastrada");
+                //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+            }else{
+                out.println("Erro desconhecido");
+            }
+            } catch (Exception e) {
+                out.println(""+e);
+            }
+        }
+        
         if (parametro.equals("edUsuario")) {
             int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
 
@@ -110,8 +154,9 @@ public class acao extends HttpServlet {
         }
         
         if (parametro.equals("exUsuario")) {
-
-            int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            PrintWriter out = response.getWriter();
+            try {
+                int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
             Usuario user = new Usuario();
             user.setId(id);
 
@@ -128,25 +173,81 @@ public class acao extends HttpServlet {
 
             request.setAttribute("paginaOrigem", "cadastroUsuario.jsp");
 
+             
             if (retorno == 1) {
-                encaminharPagina("cadastroUsuario.jsp?m=10", request, response);
-            } else {
-                encaminharPagina("cadastroUsuario.jsp?m=11", request, response);
+                out.println("ok");
+               //redirecionarPagina("cadastroUsuario.jsp?m=1", request, response); 
+            } else if(retorno == 2){
+                out.println("Nome precisa ter de 3 até 150 caracteres");
+                //redirecionarPagina("cadastroUsuario.jsp?m=" + retorno, request, response);
+            }else if(retorno == 3){
+                out.println("Login já utilizado em outro cadastro");
+            
+            }else if(retorno == 4){
+                out.println("Os campos de senha não conferem");
+            }else if(retorno == 5){
+                out.println("O login ou email já está em uso. Por favor, escolha outro!");
+            }else{
+               out.println("Erro desconhecido");
             }
 
+        
+            } catch (Exception e) {
+                out.println(""+e);
+            }
         }
     }
+            
+    
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
         
+         if (parametro.equals("cadCidade")) {
+             PrintWriter out = response.getWriter();
+             try{
+                  Cidade cid = new Cidade();
+            int id;
+            if (request.getParameter("id").equals("")) {
+                id = 0;
+            } else {
+                id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            }
+            cid.setId(id);
+            cid.setDescricao(request.getParameter("descricao"));
+            cid.setSituacao('A');
+            ControleCidade controleCidade = new ControleCidade();
+            int retorno = controleCidade.salvar(cid);
+            request.setAttribute("paginaOrigem", "cadastroCidade.jsp");
+
+            
+            if (retorno == 1) {
+                out.println("ok");
+                //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
+            } else if(retorno == 2)  {
+                out.println("Nome precisa ter de 3 até 45 caractere");
+                //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+            }else if(retorno == 3)  {
+                out.println("Cidade já cadastrada");
+                //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+            }else{
+                out.println("Erro desconhecido");
+            }
+             }catch(Exception e){
+                 out.println(""+e);
+             }
+        }
+        
          if (parametro.equals("cadUsuario")) {
-            Usuario usuario = new Usuario();
+             PrintWriter out = response.getWriter();
+             try{
+                Usuario usuario = new Usuario();
             int id;
             if (request.getParameter("id").equals("")) {
                 id = 0;
@@ -162,12 +263,27 @@ public class acao extends HttpServlet {
             ControleUsuario controleUsuario = new ControleUsuario();
             int retorno = controleUsuario.salvar(usuario);
             request.setAttribute("paginaOrigem", "cadastroUsuario.jsp");
-
+            
             if (retorno == 1) {
-                redirecionarPagina("cadastroUsuario.jsp?m=1", request, response);
-            } else {
-                redirecionarPagina("cadastroUsuario.jsp?m=" + retorno, request, response);
+                out.println("ok");
+               //redirecionarPagina("cadastroUsuario.jsp?m=1", request, response); 
+            } else if(retorno == 2){
+                out.println("Nome precisa ter de 3 até 150 caracteres");
+                //redirecionarPagina("cadastroUsuario.jsp?m=" + retorno, request, response);
+            }else if(retorno == 3){
+                out.println("Login já utilizado em outro cadastro");
+            
+            }else if(retorno == 4){
+                out.println("Os campos de senha não conferem");
+            }else if(retorno == 5){
+                out.println("O login ou email já está em uso. Por favor, escolha outro!");
+            }else{
+               out.println("Erro desconhecido");
             }
+             }catch(Exception e){
+                 out.println(""+e);
+             }
+            
 
         }
         

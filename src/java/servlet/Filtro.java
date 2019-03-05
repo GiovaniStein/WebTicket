@@ -117,6 +117,12 @@ public class Filtro extends HttpServlet implements Filter {
         excessoes.add("/WebTicket/bower_components/fastclick/lib/fastclick.js");
         excessoes.add("/WebTicket/dist/js/adminlte.min.js");
         excessoes.add("/WebTicket/dist/js/demo.js");
+        excessoes.add("/WebTicket/images/ic_launcher.jpg");
+        excessoes.add("/WebTicket/images/ic_launcher.png");
+        excessoes.add("/WebTicket/js/jquery-3.3.1.min.js");
+        excessoes.add("/WebTicket/js/sweetalert2.js");
+        excessoes.add("/WebTicket/js/sweetalert2.css");
+        
         
 //         excessoes.add("/WebTicket/");
 //         excessoes.add("/WebTicket/");

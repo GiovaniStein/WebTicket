@@ -19,29 +19,20 @@
              folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
         <link rel="stylesheet" href="css/mycss.css">
-
-
-
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.js"></script>
         <!--  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+        <script src="js/sweetalert2.js" type="text/javascript"></script>
+        <link href="js/sweetalert2.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        
+        
+
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
-        <div style="background-color: #ffffff" class="wrapper">
-
-            <header class="main-header">
-                <!-- Logo -->
-                <a style="background-color: #1a3246" href="" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <!--      <span class="logo-mini"><b>A</b>LT</span>-->
-                    <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Web</b> Ticket</span>
-                    -->
-                </a>
-                <!-- Header Navbar: style can be found in header.less -->
-                <nav style="background-color: #1a3246" class="navbar navbar-static-top">
-
-                </nav>
-            </header>
+        <div style="background-color: #1a3246 !important" class="wrapper">
 
 
             <!-- Content Wrapper. Contains page content -->
@@ -59,72 +50,47 @@
                 <section  class="box-header">
                     <div class="row">
 
-                        <div class="col-md-6">
+                        <div style="width: 100%" class="col-md-6">
                             <!-- Horizontal Form -->
 
+
+
+                            <div style="text-align: center;font-size: 53px;color: #ffffff;">
+                                <img src="images/ic_launcher.png" alt="" width="80" height="80"/>
+                                WebTicket
+                            </div>
+
                             <!--box box-info-->
-                            <div style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);display: inline-block;position: fixed;top: 0;bottom: 0;left: 0;right: 0;width: 367px;height: 322px;margin: auto;" class="box col-sm-offset-6">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Web Ticket - Login</h3>
-                                </div>
-                             
+                            <div style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);display: inline-block;position: fixed;top: 0;bottom: 0;left: 0;right: 0;width: 367px;height: 286px;margin: auto;" class="box col-sm-offset-6">
+
 
                                 <form name="login" class="form-horizontal" action="/WebTicket/acao?parametro=login" method="post">
-                                    <div class="box-body">
-                                        <div style="margin-top: 23px;" class="form-group">
+                                    <div style="padding-top: 40px; padding-left: 40px; padding-right: 40px;" class="box-body">
+                                        <div  class="form-group">
                                             <label for="login" class="col-sm-2 control-label" >Login</label>
-
-                                            <div class="col-sm-10">
+                                            <div style="float:none;width: 100%" class="col-sm-10">
 
                                                 <input type="email" class="form-control" name="login" value="">
 
-
                                             </div>
                                         </div>
-                                        <div style="margin-top: 23px;" class="form-group">
-                                            <label for="senha" class="col-sm-2 control-label">Senha</label>
 
-                                            <div class="col-sm-10">
-                                                <input type="password" class="form-control" name="senha" value="">
-
-                                            </div>
-                                        </div>
                                         <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
 
+                                            <label for="senha" class="col-sm-2 control-label">Senha</label>
+                                            <div style="float:none;width: 100%" class="col-sm-10">
+                                                <input type="password" class="form-control" name="senha" value="">
                                             </div>
                                         </div>
 
 
-                                        <%
-                                            if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("2"))) {
-                                        %>
-                                        <div class="alert alert-danger alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                            <h4><i class="icon fa fa-ban"></i> Erro!</h4>
-                                            <%if (request.getParameter("m").equals("2")) {
-                                            %>
-                                            Erro ao fazer login!
-                                            Usuário ou senha inválida.
-                                            <%
-                                                }
-                                            %>
 
-                                        </div>
-                                        <%
-                                            }
-                                        %>
 
-                                        <div class="box-footer">
-
-                                            <input style="width: 95px" type="submit" class="btn btn-info pull-right" name="enviar" value="Login"> 
-
+                                        <div style="padding-top: 13px">
+                                            <input style="width: 287px" type="submit" class="btn btn-info pull-right" name="enviar" value="Login"> 
                                         </div>
 
                                 </form>
-
-
-
 
                             </div>
 
@@ -136,6 +102,24 @@
                 <!-- /.content -->
             </div>
 
-
     </body>
+    <%
+        if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("2"))) {
+    %>
+
+    <%if (request.getParameter("m").equals("2")) {
+    %>
+    <script>
+        $(window).on("load", function () {
+            swal("Oops", "O usuário não foi encontrado. Por Favor, verifique o login e a senha e tente novamente", "error")
+        });
+    </script>
+    <%
+        }
+    %>
+
+
+    <%
+        }
+    %>
 </html>

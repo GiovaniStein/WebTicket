@@ -38,7 +38,7 @@ public class ControleUsuario {
             todosusuarios = listarTodos(usuario);
             
             for(Usuario u:todosusuarios){
-                if(u.getLogin().equals(usuario.getLogin())){
+                if(u.getLogin().equals(usuario.getLogin()) && usuario.getId()!=u.getId()){
                     return 5;
                 }
             }

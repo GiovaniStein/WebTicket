@@ -47,6 +47,9 @@
 
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <script src="js/sweetalert2.js" type="text/javascript"></script>
+        <link href="js/sweetalert2.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
     </head>
     <body class="hold-transition skin-blue sidebar-mini" >
@@ -91,47 +94,11 @@
                                 %>
 
 
-                                <span class="hidden-xs"><%=users.get(0).getNome()%></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header">
-                                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                                    <p>
-                                        <%=users.get(0).getNome()%>
-                                        <small><%=users.get(0).getLogin()%></small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="/WebTicket/acao?parametro=logout" class="btn btn-default btn-flat">Sair</a>
-                                    </div>
-                                </li>
-                            </ul>
                         </li>
                         <!-- Control Sidebar Toggle Button -->
                         <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            <a href="/WebTicket/acao?parametro=logout">Sair</a>
                         </li>
                     </ul>
                 </div>

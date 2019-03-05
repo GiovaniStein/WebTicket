@@ -15,8 +15,7 @@
 <%@include file = "barraLateral.jsp"%>
 
 
-<%
-    // Cidade cid = new Cidade();
+<%    // Cidade cid = new Cidade();
     Usuario usuario = (Usuario) request.getAttribute("objuser");
 
     if (usuario == null) {
@@ -26,13 +25,58 @@
         usuario.setLogin("");
         usuario.setSenha("");
         usuario.setRepetirSenha("");
-        
 
     }
 %>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+
+    <script type="text/javascript">
+
+        // Via JQuery
+        $(document).ready(function () {
+            $('#cadastraUsuario').click(function (event) {
+                event.preventDefault();
+                if (valida_form() === true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/WebTicket/acao?parametro=cadUsuario",
+                        data: $('form').serialize()
+                    }).done(function (retorno) {
+                        var resultado = $.trim(retorno);
+                        if (resultado !== "ok") {
+                            swal("Houve um erro!", resultado, "error");
+                            $('#nomeUsuario').focus();
+                        } else {
+                            swal("Sucesso ao Salvar!", "", "success");
+                            $('#formusuario').each(function () {
+                                this.reset();
+                            });
+                            $("#listadeUsuarios").load("listaUsuarios.jsp");
+                        }
+                    });
+                    return false;
+
+                } else {
+
+                    swal("Preencha os campos corretamente!");
+                }
+            }
+            );
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        function valida_form() {
+            if ((document.getElementById("nomeUsuario").value == null || document.getElementById("nomeUsuario").value == "") || (document.getElementById("loginUsuario").value == null || document.getElementById("loginUsuario").value == "") || (document.getElementById("senhaUsuario").value == null || document.getElementById("senhaUsuario").value == "") || (document.getElementById("repetirSenhaUsuario").value == null || document.getElementById("repetirSenhaUsuario").value == "")) {
+                return false
+            } else {
+                return true
+            }
+        }
+    </script>
 
     <!-- Main content -->
     <section class="content">
@@ -46,7 +90,7 @@
                         <h3 class="box-title">Cadastro de usuário</h3>
                     </div>
 
-                    <form name="cadCliente" class="form-horizontal" action="/WebTicket/acao?parametro=cadUsuario" method="post">
+                    <form id="formusuario" name="cadCliente" class="form-horizontal">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="id" class="col-sm-2 control-label" >ID</label>
@@ -54,12 +98,12 @@
 
                                 <div class="col-md-3">
                                     <%                                                       if (usuario.getId() > 0) {%>
-                                    <input style="width: 95px" type="text" class="form-control" name="id" value="<%= usuario.getId()%>" Use readonly="true" >
+                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="<%= usuario.getId()%>" readonly >
 
                                     <%} else {
                                     %>
 
-                                    <input style="width: 95px" type="text" class="form-control" name="id" value="" Use readonly="true" >
+                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="" readonly >
 
                                     <%
                                         }
@@ -72,11 +116,11 @@
                                 <label for="nome" class="col-sm-2 control-label">Nome*</label>
 
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
+                                    <input id="nomeUsuario" type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
 
                                 </div>
                             </div>
-                           
+
 
                             <div class="form-group">
                                 <label for="login" class="col-sm-2 control-label">Login</label>
@@ -85,11 +129,11 @@
                                     <%
                                         if (usuario.getLogin() != null || usuario.getLogin() != "") {
                                     %>
-                                    <input type="email" class="form-control" name="login" value="<%=usuario.getLogin()%>">        
+                                    <input id="loginUsuario" type="email" class="form-control" name="login" value="<%=usuario.getLogin()%>">        
                                     <%
                                     } else {
                                     %>
-                                    <input type="email" class="form-control">        
+                                    <input id="loginUsuario" type="email" class="form-control">        
 
                                     <%    }
                                     %>
@@ -102,20 +146,20 @@
                                 <label for="senha" class="col-sm-2 control-label">Senha</label>
 
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" name="senha" value="<%=usuario.getSenha()%>">
+                                    <input id="senhaUsuario" type="password" class="form-control" name="senha" value="<%=usuario.getSenha()%>">
 
                                 </div>
                             </div>
-                                    
-                                   <div class="form-group">
+
+                            <div class="form-group">
                                 <label for="repetirSenha" class="col-sm-2 control-label">Repetir senha</label>
 
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" name="repetirSenha" value="<%=usuario.getRepetirSenha()%>">
+                                    <input id="repetirSenhaUsuario" type="password" class="form-control" name="repetirSenha" value="<%=usuario.getRepetirSenha()%>">
 
                                 </div>
                             </div>
-                                    
+
 
 
 
@@ -126,61 +170,9 @@
                                 </div>
                             </div>
                         </div>
-                        <%                            if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("1") || request.getParameter("m").equals("10"))) {
-                        %>
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
-                            <%if (request.getParameter("m").equals("1")) {
-                            %>
-                            Cliente salvo com sucesso!
-                            <%
-                            } else if (request.getParameter("m").equals("10")) {
-                            %>
-                            Cliente excluído com sucesso!
-                            <%
-                                }
-                            %>
-
-                        </div>
-                        <%                                        }
-                        %>
-
-                        <%
-                            if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("2") || request.getParameter("m").equals("3")
-                                    || request.getParameter("m").equals("4") || request.getParameter("m").equals("5") || request.getParameter("m").equals("6"))) {
-                        %>
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-ban"></i> Erro ao salvar cliente!</h4>
-                            <%if (request.getParameter("m").equals("2")) {
-                            %>
-                            <h5>Nome precisa ter de 3 até 150 caracteres.</h5>   
-                            <% } else if (request.getParameter("m").equals("3")) {
-                            %>                           
-                            Login já utilizado em outro cadastro
-
-                            <%} else if (request.getParameter("m").equals("4")) {
-                            %> 
-                            Senha e repetir senha não conferem
-                            <% 
-                            %>
-                            <%} else if (request.getParameter("m").equals("5")) {
-                            %> 
-                            O login ou email já está em uso. Por favor, escolha outro
-                            <%
-                            } 
-                            %> 
-                            
-
-
-                        </div>
-                        <%                                        }
-                        %>
-
                         <div class="box-footer">
 
-                            <input style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
+                            <input id="cadastraUsuario" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
 
                         </div>
 
@@ -193,8 +185,10 @@
         </div>
         <!-- /.row -->
     </section>
-
-    <%@include file = "listaUsuarios.jsp"%>
+    <div id="listadeUsuarios">  
+        <%@include file = "listaUsuarios.jsp"%>
+    </div>
+    
 
 </div>
 
@@ -217,19 +211,7 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
 
-<script>
-    $(function () {
-        $('#example1').DataTable()
-        $('#example2').DataTable({
-            'paging': true,
-            'lengthChange': false,
-            'searching': false,
-            'ordering': true,
-            'info': true,
-            'autoWidth': false
-        })
-    })
-</script>    
+ 
 
 
 

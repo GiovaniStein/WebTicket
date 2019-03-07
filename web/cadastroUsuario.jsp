@@ -36,7 +36,9 @@
 
         // Via JQuery
         $(document).ready(function () {
+          
             $('#cadastraUsuario').click(function (event) {
+                var resultado = "";
                 event.preventDefault();
                 if (valida_form() === true) {
                     $.ajax({
@@ -44,10 +46,11 @@
                         url: "/WebTicket/acao?parametro=cadUsuario",
                         data: $('form').serialize()
                     }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
+                        resultado = $.trim(retorno);
+                        
                         if (resultado !== "ok") {
                             swal("Houve um erro!", resultado, "error");
-                            $('#nomeUsuario').focus();
+                            //$('#loginUsuario').focus();
                         } else {
                             swal("Sucesso ao Salvar!", "", "success");
                             $('#formusuario').each(function () {
@@ -55,7 +58,9 @@
                             });
                             $("#listadeUsuarios").load("listaUsuarios.jsp");
                         }
+                        
                     });
+                     $('#nomeUsuario').focus();
                     return false;
 
                 } else {
@@ -116,7 +121,7 @@
                                 <label for="nome" class="col-sm-2 control-label">Nome*</label>
 
                                 <div class="col-sm-7">
-                                    <input id="nomeUsuario" type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
+                                    <input autofocus="true" id="nomeUsuario" type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
 
                                 </div>
                             </div>

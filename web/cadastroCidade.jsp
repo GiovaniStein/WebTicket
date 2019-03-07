@@ -37,7 +37,7 @@
                         var resultado = $.trim(retorno);
                         if (resultado !== "ok") {
                             swal("Houve um erro!", resultado, "error");
-                            $('#idDescricao').focus();
+                            //$('#idDescricao').focus();
                         } else {
                             swal("Sucesso ao Salvar!", "", "success");
                             $('#formCidade').each(function () {
@@ -100,7 +100,7 @@
                                 <label for="nome" class="col-sm-2 control-label">Nome</label>
 
                                 <div class="col-sm-7">
-                                    <input id="idDescricao" type="text" class="form-control" name="descricao" value="<%= cid.getDescricao()%>">
+                                    <input autofocus="true" id="idDescricao" type="text" class="form-control" name="descricao" value="<%= cid.getDescricao()%>">
 
                                 </div>
                             </div>

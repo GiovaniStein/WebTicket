@@ -1,12 +1,9 @@
-
-<%@page import="entidade.Usuario"%>
-<%@page import="DAO.CidadeDAO"%>
 <%@page import="DAO.ProjetoDAO"%>
 
 <%@page import="java.util.ArrayList"%>
 
-<%@page import="entidade.Cidade"%>
-<%@page import="entidade.Cliente"%>
+<%@page import="entidade.Projeto"%>
+<%@page import="entidade.Modulo"%>
 
 
 <!DOCTYPE html>
@@ -16,16 +13,16 @@
 
 
 <%    // Cidade cid = new Cidade();
-    Usuario usuario = (Usuario) request.getAttribute("objuser");
+    Modulo modulo = (Modulo) request.getAttribute("objmod");
 
-    if (usuario == null) {
-        usuario = new Usuario();
-        usuario.setSituacao('A');
-        usuario.setNome("");
-        usuario.setLogin("");
-        usuario.setSenha("");
-        usuario.setRepetirSenha("");
+    if (modulo == null) {
+        modulo = new Modulo();
+        modulo.setSituacao('A');
+        modulo.setDescricao("");
 
+        Projeto projeto = new Projeto();
+
+        modulo.setProjeto(projeto);
     }
 %>
 
@@ -36,35 +33,29 @@
 
         // Via JQuery
         $(document).ready(function () {
-          
-            $('#cadastraUsuario').click(function (event) {
-                var resultado = "";
+            $('#cadastraModulo').click(function (event) {
                 event.preventDefault();
                 if (valida_form() === true) {
                     $.ajax({
                         type: "POST",
-                        url: "/WebTicket/acao?parametro=cadUsuario",
+                        url: "/WebTicket/acao?parametro=cadModulo",
                         data: $('form').serialize()
                     }).done(function (retorno) {
-                        resultado = $.trim(retorno);
-                        
+                        var resultado = $.trim(retorno);
                         if (resultado !== "ok") {
                             swal("Houve um erro!", resultado, "error");
-                            //$('#loginUsuario').focus();
+                            //$('#idDescricao').focus();
                         } else {
                             swal("Sucesso ao Salvar!", "", "success");
-                            $('#formusuario').each(function () {
+                            $('#formModulo').each(function () {
                                 this.reset();
                             });
-                            $("#listadeUsuarios").load("listaUsuarios.jsp");
+                            $("#listadeModulos").load("listaModulos.jsp");
                         }
-                        
                     });
-                     $('#nomeUsuario').focus();
                     return false;
 
                 } else {
-
                     swal("Preencha os campos corretamente!");
                 }
             }
@@ -75,10 +66,11 @@
     <script type="text/javascript">
 
         function valida_form() {
-            if ((document.getElementById("nomeUsuario").value == null || document.getElementById("nomeUsuario").value == "") || (document.getElementById("loginUsuario").value == null || document.getElementById("loginUsuario").value == "") || (document.getElementById("senhaUsuario").value == null || document.getElementById("senhaUsuario").value == "") || (document.getElementById("repetirSenhaUsuario").value == null || document.getElementById("repetirSenhaUsuario").value == "")) {
-                return false
+            if ((document.getElementById("moduloDescricao").value === null || document.getElementById("moduloDescricao").value === "") ||
+                    (document.getElementById("selectProjeto").value === null || document.getElementById("selectProjeto").value === "")) {
+                return false;
             } else {
-                return true
+                return true;
             }
         }
     </script>
@@ -88,85 +80,70 @@
         <div class="row">
 
             <!-- right column -->
-            <div style="width: 100%" class="col-md-6">
+             <div style="width: 100%" class="col-md-6">
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Cadastro de usuário</h3>
+                        <h3 class="box-title">Cadastro de módulos</h3>
                     </div>
 
-                    <form id="formusuario" name="cadCliente" class="form-horizontal">
+                    <form id="formModulo" name="cadModulo" class="form-horizontal" action="" method="post">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="id" class="col-sm-2 control-label" >ID</label>
 
-
-                                <div class="col-md-3">
-                                    <%                                                       if (usuario.getId() > 0) {%>
-                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="<%= usuario.getId()%>" readonly >
-
+                                <div class="col-sm-2">
+                                    <%                                                       if (modulo.getId() > 0) {%>
+                                    <input id="idmodulo" type="text" class="form-control" name="id" value="<%= modulo.getId()%>" readonly >
                                     <%} else {
                                     %>
 
-                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="" readonly >
-
+                                    <input id="idmodulo" type="text" class="form-control" name="id" value="" readonly >
                                     <%
                                         }
                                     %>
-
-
                                 </div>
                             </div>
+
+
                             <div class="form-group">
                                 <label for="nome" class="col-sm-2 control-label">Nome*</label>
 
-                                <div class="col-sm-7">
-                                    <input autofocus id="nomeUsuario" type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
+                                <div class="col-sm-6">
+                                    <input id="moduloDescricao" type="text" class="form-control" name="descricao" value="<%= modulo.getDescricao()%>">
 
                                 </div>
                             </div>
-
-
                             <div class="form-group">
-                                <label for="login" class="col-sm-2 control-label">Login</label>
+                                <label for="projeto" class="col-sm-2 control-label">Projeto*</label>
 
-                                <div class="col-sm-7">
+                                 <div class="col-sm-6">
+                                <select id="selectProjeto" class="form-control select2" name="projeto">
+
                                     <%
-                                        if (usuario.getLogin() != null || usuario.getLogin() != "") {
+
+                                        Projeto projeto = new Projeto();
+                                        projeto.setDescricao("");
+                                        projeto.setSituacao('A');
+
+                                        ArrayList<Projeto> projetos = new ProjetoDAO().listar(projeto);
+
+                                        for (int i = 0; i < projetos.size(); i++) {
+                                            if (modulo.getProjeto().getId() == projetos.get(i).getId()) {
                                     %>
-                                    <input id="loginUsuario" type="email" class="form-control" name="login" value="<%=usuario.getLogin()%>">        
+                                    <option value="<%=projetos.get(i).getId()%>" selected><%=projetos.get(i).getDescricao()%> </option>
+
                                     <%
                                     } else {
                                     %>
-                                    <input id="loginUsuario" type="email" class="form-control">        
-
-                                    <%    }
+                                    <option value="<%=projetos.get(i).getId()%>"><%=projetos.get(i).getDescricao()%></option>
+                                    <%
+                                            }
+                                        }
                                     %>
-
-                                </div>
-
+                                </select>
+                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="senha" class="col-sm-2 control-label">Senha</label>
-
-                                <div class="col-sm-7">
-                                    <input id="senhaUsuario" type="password" class="form-control" name="senha" value="<%=usuario.getSenha()%>">
-
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="repetirSenha" class="col-sm-2 control-label">Repetir senha</label>
-
-                                <div class="col-sm-7">
-                                    <input id="repetirSenhaUsuario" type="password" class="form-control" name="repetirSenha" value="<%=usuario.getRepetirSenha()%>">
-
-                                </div>
-                            </div>
-
-
-
 
 
                             <div class="form-group">
@@ -177,7 +154,7 @@
                         </div>
                         <div class="box-footer">
 
-                            <input id="cadastraUsuario" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
+                            <input id="cadastraModulo" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
 
                         </div>
 
@@ -190,12 +167,16 @@
         </div>
         <!-- /.row -->
     </section>
-    <div id="listadeUsuarios">  
-        <%@include file = "listaUsuarios.jsp"%>
-    </div>
-    
 
+    <div id="listadeModulos">
+        <%@include file = "listaModulos.jsp"%>
+    </div>
+
+
+
+    <!-- /.content -->
 </div>
+
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -216,7 +197,6 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
 
- 
 
 
 
@@ -290,37 +270,4 @@
     })
 </script>
 
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $(".select2").select2();
-        //Money Euro
-        $("[data-mask]").inputmask();
-        //Desabilita e habilita conforme a manutencao
-        $(document).ready(ajustaInterface);
-        $(document).ready(habilitarCampos);
-        //Ajusta o CNPJ/CPF conforme o tipo de pessoa
-        $("#tipo").on("change", ajustaInterface);
-    });
-    function ajustaInterface() {
-        if ($("#tipo").val() === 'F') {
-            $("#grupo_cnpj").hide();
-            $("#grupo_cpf").show();
-            $("#cnpj").prop('required', false);
-            $("#cpf").prop('required', true);
-        } else {
-            $("#grupo_cnpj").show();
-            $("#grupo_cpf").hide();
-            $("#cnpj").prop('required', true);
-            $("#cpf").prop('required', false);
-        }
-    }
 
-    function habilitarCampos() {
-        if ($("#id").val() == 0) {
-            $("#tipo").prop("disabled", false);
-        } else {
-            $("#tipo").prop("disabled", false);
-        }
-    }
-</script>

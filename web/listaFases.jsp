@@ -1,3 +1,5 @@
+<%@page import="DAO.FaseDAO"%>
+<%@page import="entidade.Fase"%>
 <%@page import="DAO.CidadeDAO"%>
 <%@page import="entidade.Cidade"%>
 <%@page import="java.util.ArrayList"%>
@@ -6,13 +8,13 @@
 
 
 <section class="content-header">
-    
-     <script>
+
+    <script>
         function removeUser(element) {
             var value = $(element).val();
             swal({
                 title: 'Cuidado!',
-                text: "Tem certeza que deseja remover essa cidade?",
+                text: "Tem certeza que deseja remover essa fase?",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -23,15 +25,15 @@
                 if (isConfirm.value) {
                     $.ajax({
                         type: "GET",
-                        url: '/WebTicket/acao?parametro=exCidade&id='+value,
+                        url: '/WebTicket/acao?parametro=exFase&id=' + value,
                         data: $('form').serialize()
                     }).done(function (retorno) {
                         var resultado = $.trim(retorno);
                         if (resultado !== "ok") {
-                            swal("Erro ao remover cidade!", resultado, "error");
+                            swal("Erro ao remover fase!", resultado, "error");
                         } else {
-                            swal("Cidade removida com sucesso!", "", "success");
-                            $("#listadeCidades").load("listaCidades.jsp");
+                            swal("Fase removida com sucesso!", "", "success");
+                            $("#listadeFase").load("listaFases.jsp");
                         }
                     });
                     return false;
@@ -45,18 +47,18 @@
             var element = $(element);
             var row = element.parent().parent();
             var td = row[0].children;
-            $('#idCidade').val(td[0].innerText);
-            $('#idDescricao').val(td[1].innerText);
+            $('#idfase').val(td[0].innerText);
+            $('#faseDescricao').val(td[1].innerText);
         }
     </script>
 
     <div class="box box-info">
         <div class="box-header">
-            <h3 class="box-title">Lista de cidades</h3>
+            <h3 class="box-title">Lista de fases</h3>
         </div>
 
         <div class="box-body">
-            <table id="tableCidade" class="table table-bordered table-striped table-hover">
+            <table id="tablefase" class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -66,18 +68,19 @@
                 </thead>
                 <tbody>
                     <%
-                        Cidade cidade = new Cidade();
-                        cidade.setDescricao("");
-                        ArrayList<Cidade> cidades = new CidadeDAO().listar(cidade);
+                        Fase fas = new Fase();
+                        fas.setDescricao("");
+                        ArrayList<Fase> fases = new FaseDAO().listar(fas);
 
-                        for (int i = 0; i < cidades.size(); i++) {
+                        for (int i = 0; i < fases.size(); i++) {
                     %>
 
                     <tr>
-                        <td><%=cidades.get(i).getId()%></td>
-                        <td><%=cidades.get(i).getDescricao()%></td>
-                        <td><button title="Editar Cidade" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Cidade" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=cidades.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                        <td><%=fases.get(i).getId()%></td>
+                        <td><%=fases.get(i).getDescricao()%></td>
+                        <td>
+                            <button title="Editar Fase" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Fase" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=fases.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                         </td>
 
                     </tr>
@@ -91,18 +94,21 @@
     </div>
     <script>
         $(function () {
-            $('#tableCidade').DataTable();
-            $('#tableCidade2').DataTable({
+            $('#tablefase').DataTable()
+            $('#tablefase2').DataTable({
                 'paging': true,
                 'lengthChange': false,
                 'searching': false,
                 'ordering': true,
                 'info': true,
                 'autoWidth': false
-            });
-        });
-    </script> 
+            })
+        })
+    </script>  
 
 </section>
+
+
+
 
 <!--</body>-->

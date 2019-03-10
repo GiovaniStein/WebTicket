@@ -1,6 +1,8 @@
+<%@page import="entidade.Prioridade"%>
+<%@page import="entidade.Projeto"%>
 <%@page import="entidade.Cidade"%>
 
-
+<!DOCTYPE html>
 <!--<html>-->
 
 
@@ -10,28 +12,28 @@
 <%//@include file = "inicio-teste.jsp"%>
 
 <%
-    // Cidade cid = new Cidade();
-    Cidade cid = (Cidade) request.getAttribute("objcid");
+    Prioridade prio = (Prioridade) request.getAttribute("objprio");
 
-    if (cid == null) {
-        cid = new Cidade();
-        cid.setSituacao('A');
-        cid.setDescricao("");
+    if (prio == null) {
+        prio = new Prioridade();
+        prio.setSituacao('A');
+        prio.setDescricao("");
     }
 %>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+
     <script type="text/javascript">
 
         // Via JQuery
         $(document).ready(function () {
-            $('#cadastraCidade').click(function (event) {
+            $('#cadastraPrioridade').click(function (event) {
                 event.preventDefault();
                 if (valida_form() === true) {
                     $.ajax({
                         type: "POST",
-                        url: "/WebTicket/acao?parametro=cadCidade",
+                        url: "/WebTicket/acao?parametro=cadPrioridade",
                         data: $('form').serialize()
                     }).done(function (retorno) {
                         var resultado = $.trim(retorno);
@@ -40,10 +42,10 @@
                             //$('#idDescricao').focus();
                         } else {
                             swal("Sucesso ao Salvar!", "", "success");
-                            $('#formCidade').each(function () {
+                            $('#formPrioridade').each(function () {
                                 this.reset();
                             });
-                            $("#listadeCidades").load("listaCidades.jsp");
+                            $("#listadePrioridade").load("listaPrioridades.jsp");
                         }
                     });
                     return false;
@@ -59,7 +61,7 @@
     <script type="text/javascript">
 
         function valida_form() {
-            if ((document.getElementById("idDescricao").value === null || document.getElementById("idDescricao").value === "")) {
+            if ((document.getElementById("prioridadeDescricao").value === null || document.getElementById("prioridadeDescricao").value === "")) {
                 return false;
             } else {
                 return true;
@@ -76,21 +78,21 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Cadastro de cidade</h3>
+                        <h3 class="box-title">Cadastro de prioridade</h3>
                     </div>
 
-                    <form id="formCidade" name="cadCidade" class="form-horizontal" action="" method="post">
+                    <form id="formPrioridade" name="cadPrioridade" class="form-horizontal" action="" method="post">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="id" class="col-sm-2 control-label" >ID</label>
 
                                 <div class="col-sm-2">
-                                    <%                                                       if (cid.getId() > 0) {%>
-                                    <input id="idCidade" type="text" class="form-control" name="id" value="<%= cid.getId()%>" readonly />
+                                    <%                                                       if (prio.getId() > 0) {%>
+                                    <input id="idprioridade" type="text" class="form-control" name="id" value="<%= prio.getId()%>" readonly >
                                     <%} else {
                                     %>
 
-                                    <input id="idCidade" type="text" class="form-control" name="id" value="" readonly >
+                                    <input id="idprioridade" type="text" class="form-control" name="id" value="" readonly >
                                     <%
                                         }
                                     %>
@@ -98,22 +100,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="nome" class="col-sm-2 control-label">Nome</label>
-
                                 <div class="col-sm-7">
-                                    <input autofocus id="idDescricao" type="text" class="form-control" name="descricao" value="<%= cid.getDescricao()%>">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-
+                                    <input id="prioridadeDescricao" type="text" class="form-control" name="descricao" value="<%= prio.getDescricao()%>">
                                 </div>
                             </div>
                         </div>
 
+
                         <div class="box-footer">
 
-                            <input id="cadastraCidade" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
+                            <input id="cadastraPrioridade" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
 
                         </div>
 
@@ -126,8 +122,9 @@
         </div>
         <!-- /.row -->
     </section>
-    <div id="listadeCidades">
-        <%@include file = "listaCidades.jsp"%>
+
+    <div id="listadePrioridade">
+        <%@include file = "listaPrioridades.jsp"%>
     </div>
 
     <!-- /.content -->
@@ -149,5 +146,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- page script -->
+
 
 

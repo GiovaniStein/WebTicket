@@ -1,6 +1,7 @@
-<%@page import="entidade.Cidade"%>
+<%@page import="entidade.Motivo"%>
 
 
+<!DOCTYPE html>
 <!--<html>-->
 
 
@@ -11,27 +12,28 @@
 
 <%
     // Cidade cid = new Cidade();
-    Cidade cid = (Cidade) request.getAttribute("objcid");
+    Motivo motiv = (Motivo) request.getAttribute("objmot");
 
-    if (cid == null) {
-        cid = new Cidade();
-        cid.setSituacao('A');
-        cid.setDescricao("");
+    if (motiv == null) {
+        motiv = new Motivo();
+        motiv.setSituacao('A');
+        motiv.setDescricao("");
     }
 %>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+
     <script type="text/javascript">
 
         // Via JQuery
         $(document).ready(function () {
-            $('#cadastraCidade').click(function (event) {
+            $('#cadastraMotivo').click(function (event) {
                 event.preventDefault();
                 if (valida_form() === true) {
                     $.ajax({
                         type: "POST",
-                        url: "/WebTicket/acao?parametro=cadCidade",
+                        url: "/WebTicket/acao?parametro=cadMotivo",
                         data: $('form').serialize()
                     }).done(function (retorno) {
                         var resultado = $.trim(retorno);
@@ -40,10 +42,10 @@
                             //$('#idDescricao').focus();
                         } else {
                             swal("Sucesso ao Salvar!", "", "success");
-                            $('#formCidade').each(function () {
+                            $('#formMotivo').each(function () {
                                 this.reset();
                             });
-                            $("#listadeCidades").load("listaCidades.jsp");
+                            $("#listadeMotivo").load("listaMotivos.jsp");
                         }
                     });
                     return false;
@@ -59,7 +61,7 @@
     <script type="text/javascript">
 
         function valida_form() {
-            if ((document.getElementById("idDescricao").value === null || document.getElementById("idDescricao").value === "")) {
+            if ((document.getElementById("motivoDescricao").value === null || document.getElementById("motivoDescricao").value === "")) {
                 return false;
             } else {
                 return true;
@@ -76,21 +78,21 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Cadastro de cidade</h3>
+                        <h3 class="box-title">Cadastro de motivos</h3>
                     </div>
 
-                    <form id="formCidade" name="cadCidade" class="form-horizontal" action="" method="post">
+                    <form id="formMotivo" name="cadMotivo" class="form-horizontal" action="" method="post">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="id" class="col-sm-2 control-label" >ID</label>
 
                                 <div class="col-sm-2">
-                                    <%                                                       if (cid.getId() > 0) {%>
-                                    <input id="idCidade" type="text" class="form-control" name="id" value="<%= cid.getId()%>" readonly />
+                                    <%                                                       if (motiv.getId() > 0) {%>
+                                    <input id="idmotivo" type="text" class="form-control" name="id" value="<%= motiv.getId()%>" readonly >
                                     <%} else {
                                     %>
 
-                                    <input id="idCidade" type="text" class="form-control" name="id" value="" readonly >
+                                    <input id="idmotivo" type="text" class="form-control" name="id" value="" readonly >
                                     <%
                                         }
                                     %>
@@ -100,12 +102,7 @@
                                 <label for="nome" class="col-sm-2 control-label">Nome</label>
 
                                 <div class="col-sm-7">
-                                    <input autofocus id="idDescricao" type="text" class="form-control" name="descricao" value="<%= cid.getDescricao()%>">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input id="motivoDescricao" type="text" class="form-control" name="descricao" value="<%= motiv.getDescricao()%>">
 
                                 </div>
                             </div>
@@ -113,7 +110,7 @@
 
                         <div class="box-footer">
 
-                            <input id="cadastraCidade" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
+                            <input id="cadastraMotivo" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
 
                         </div>
 
@@ -126,8 +123,9 @@
         </div>
         <!-- /.row -->
     </section>
-    <div id="listadeCidades">
-        <%@include file = "listaCidades.jsp"%>
+
+    <div id="listadeMotivo">
+        <%@include file = "listaMotivos.jsp"%>
     </div>
 
     <!-- /.content -->
@@ -149,5 +147,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- page script -->
+
 
 

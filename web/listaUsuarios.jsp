@@ -25,7 +25,7 @@
                 if (isConfirm.value) {
                     $.ajax({
                         type: "GET",
-                        url: value,
+                        url: '/WebTicket/acao?parametro=exUsuario&id='+value,
                         data: $('form').serialize()
                     }).done(function (retorno) {
                         var resultado = $.trim(retorno);
@@ -84,8 +84,8 @@
                         <td><%=usuarios.get(i).getId()%></td>
                         <td><%=usuarios.get(i).getNome()%></td>
                         <td><%=usuarios.get(i).getLogin()%></td>
-                        <td><button title="Editar Usuário" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" value="/WebTicket/acao?parametro=edUsuario&id=<%=usuarios.get(i).getId()%>"><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Usuário" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="/WebTicket/acao?parametro=exUsuario&id=<%=usuarios.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                        <td><button title="Editar Usuário" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Usuário" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=usuarios.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     <%

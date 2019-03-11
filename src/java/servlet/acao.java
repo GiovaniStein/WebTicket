@@ -214,6 +214,44 @@ public class acao extends HttpServlet {
             }
 
         }
+        
+        if (parametro.equals("exCliente")) {
+            PrintWriter out = response.getWriter();
+            
+            try {
+                int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            Cliente cli = new Cliente();
+            cli.setId(id);
+            ControleCliente controleCliente = new ControleCliente();
+            ArrayList<Cliente> clientes = controleCliente.consultarId(cli.getId());
+            Cidade cid = new Cidade();
+            cid.setId(clientes.get(0).getCidade().getId());
+            cli.setRazaoSocial(clientes.get(0).getRazaoSocial());
+            cli.setCpfCnpj(clientes.get(0).getCpfCnpj());
+            // cli = clientes.get(0);
+            cli.setEndereco(clientes.get(0).getEndereco());
+            cli.setTelefone(clientes.get(0).getTelefone());
+            cli.setTipoCadastro(clientes.get(0).getTipoCadastro());
+            cli.setSituacao('I');
+            cli.setCidade(cid);
+            int retorno;
+
+            retorno = controleCliente.salvar(cli);
+
+            request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
+
+             if (retorno == 1) {
+                    out.println("ok");
+                } else {
+                    out.println("erro");
+                }
+            } catch (Exception e) {
+                out.println(""+e);
+            }
+
+            
+
+        }
 
         if (parametro.equals("exModulo")) {
             PrintWriter out = response.getWriter();
@@ -382,6 +420,77 @@ public class acao extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
+        
+        
+        if (parametro.equals("cadCliente")) {
+            
+            PrintWriter out = response.getWriter();
+            
+            try {
+                 String idCidade = request.getParameter("cidade");
+            // System.out.println(".i.d" + id);
+            Cliente cliente = new Cliente();
+            Cidade cid = new Cidade();
+            int idCliente;
+            if (request.getParameter("id").equals("")) {
+                idCliente = 0;
+            } else {
+                idCliente = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            }
+            cliente.setId(idCliente);
+            cliente.setRazaoSocial(request.getParameter("nome"));
+            cliente.setTipoCadastro(request.getParameter("tipo").charAt(0));
+            cliente.setTelefone(request.getParameter("telefone"));
+            cliente.setEndereco(request.getParameter("endereco"));
+            System.out.println("cpf = " + request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
+            System.out.println("cnpj = " + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+            try {
+                if (request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", "").replace("_", "  ").length() < 12) {
+                    System.out.println("cpf acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                    cliente.setCpfCnpj(request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
+                } else {
+                    cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                }
+            } catch (Exception e) {
+                System.out.println("cnpj acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                System.out.println("Erro validar cpf" + e);
+            }
+
+            cid.setId(Integer.parseInt(idCidade));
+            cliente.setCidade(cid);
+            cliente.setSituacao('A');
+
+            ControleCliente controleCliente = new ControleCliente();
+            int retorno = controleCliente.salvar(cliente);
+
+            request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
+
+            if (retorno == 1) {
+                    out.println("ok");
+                    //redirecionarPagina("cadastroUsuario.jsp?m=1", request, response); 
+                } else if (retorno == 2) {
+                    out.println("Nome precisa ter de 3 até 150 caracteres");
+                    //redirecionarPagina("cadastroUsuario.jsp?m=" + retorno, request, response);
+                } else if (retorno == 3) {
+                    out.println("É preciso selecionar um tipo");
+
+                } else if (retorno == 4) {
+                    out.println("CPF/CNPJ inválido");
+                } else if (retorno == 5) {
+                    out.println("CPF/CNPJ já utilizado em outro cadastro");
+                } else {
+                    out.println("Erro desconhecido");
+                }
+            } catch (Exception e) {
+                out.println(""+e);
+            }
+            
+           
+
+        }
+        
+        
 
         if (parametro.equals("cadVersao")) {
 

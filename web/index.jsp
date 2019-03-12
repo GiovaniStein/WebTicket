@@ -35,46 +35,7 @@
         <div style="background-color: #1a3246 !important" class="wrapper">
             
             
-            <script type="text/javascript">
-
-        // Via JQuery
-        $(document).ready(function () {
-            $('#LoginButton').click(function (event) {
-                event.preventDefault();
-                if (valida_form() === true) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/WebTicket/acao?parametro=login",
-                        data: $('form').serialize()
-                    }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
-                        if (resultado !== "ok") {
-                            swal("Houve um erro!", resultado, "error");
-                        } else {
-                            window.location.href="inicio.jsp"
-                        }
-                    });
-                    return false;
-
-                } else {
-                    swal("Preencha os campos corretamente!");
-                }
-            }
-            );
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        function valida_form() {
-            if ((document.getElementById("loginemail").value === null || document.getElementById("loginemail").value === "") ||
-                    (document.getElementById("loginsenha").value === null || document.getElementById("loginsenha").value === "")) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    </script>
+          
 
 
             <!-- Content Wrapper. Contains page content -->
@@ -106,7 +67,7 @@
                             <div style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);display: inline-block;position: fixed;top: 0;bottom: 0;left: 0;right: 0;width: 367px;height: 286px;margin: auto;" class="box col-sm-offset-6">
 
 
-                                <form name="login" class="form-horizontal" action="" method="post">
+                                <form name="login" class="form-horizontal" action="/WebTicket/acao?parametro=login" method="post">
                                     <div style="padding-top: 40px; padding-left: 40px; padding-right: 40px;" class="box-body">
                                         <div  class="form-group">
                                             <label for="login" class="col-sm-2 control-label" >Login</label>
@@ -145,4 +106,23 @@
             </div>
 
     </body>
+    <%
+        if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("2"))) {
+    %>
+
+    <%if (request.getParameter("m").equals("2")) {
+    %>
+    <script>
+        $(window).on("load", function () {
+            swal("Oops", "O usuário não foi encontrado. Por Favor, verifique o login e a senha e tente novamente", "error");
+        });
+    </script>
+    <%
+        }
+    %>
+
+
+    <%
+        }
+    %>
 </html>

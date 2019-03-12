@@ -55,6 +55,7 @@
                                 this.reset();
                             });
                             $("#listadeCliente").load("listaClientes.jsp");
+                            $('#clienteCidade').val(0).change();
                         }
                     });
                     return false;

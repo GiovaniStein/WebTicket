@@ -836,15 +836,16 @@ public class acao extends HttpServlet {
                 }
 
                 if (retorno) {
-                    if (user != null) {
-                        HttpSession sessao = request.getSession();
-                        //System.out.println("id..."+usuarios.get(0).getId());
-                        sessao.setAttribute("usuarioLogado", usuarios.get(0).getId());
-                        out.println("ok");
-                    }
-                } else {
-                    out.println("Usuário não encontrado verifique o login e senha");
+                if (user != null) {
+                    HttpSession sessao = request.getSession();
+                    //System.out.println("id..."+usuarios.get(0).getId());
+                    sessao.setAttribute("usuarioLogado", usuarios.get(0).getId());
+
                 }
+                response.sendRedirect("inicio.jsp");
+            } else {
+                redirecionarPagina("index.jsp?m=2", request, response);
+            }
             } catch (Exception e) {
                 out.println("" + e);
             }

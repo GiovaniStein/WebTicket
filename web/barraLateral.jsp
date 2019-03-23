@@ -49,7 +49,6 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="cadastroCliente.jsp"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                    <!-- <li class="active"><a href="cadastroCidade.jsp"><i class="fa fa-circle-o"></i> Cidades</a></li>-->  
                     <li><a href="cadastroCidade.jsp"><i class="fa fa-circle-o"></i> Cidades</a></li>
                     <li><a href="cadastroVersao.jsp"><i class="fa fa-vimeo"></i> Cadastro de Versão</a></li>
                     <li><a href="cadastroMotivo.jsp"><i class="fa fa-commenting-o"></i> Cadastro de Motivo</a></li>
@@ -74,7 +73,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="cadastroTarefa.jsp"><i class="fa fa-vimeo"></i> Cadastro de Tarefa</a></li>
-                    <li><a href="listaTarefas1.jsp"><i class="fa fa-vimeo"></i> Listagem de Tarefas</a></li>
+                    <li><a href="listaTarefas.jsp"><i class="fa fa-vimeo"></i> Listagem de Tarefas</a></li>
 
                 </ul>
             </li>

@@ -101,7 +101,7 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div style="height: 887px;overflow: auto;" class="content-wrapper">
 
     <!-- Main content -->
     <section class="content">
@@ -171,7 +171,7 @@
                                             </div>
 
                                             <div class="col-xs-8">
-                                                <select readonly="readonly"  class="form-control select2" style="width: 100%;" name="autor"  >
+                                                <select readonly class="form-control select2" style="width: 100%;" name="autor"  >
                                                     <!--disabled = "true"-->
                                                     <%
                                                         Usuario autor = new Usuario();

@@ -27,7 +27,7 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div style="height: 887px;overflow: auto;" class="content-wrapper">
 
     <script type="text/javascript">
 
@@ -67,7 +67,7 @@
 
         function valida_form() {
             if ((document.getElementById("versaoDescricao").value === null || document.getElementById("versaoDescricao").value === "") ||
-                    (document.getElementById("selectProjetoVersao").value === null || document.getElementById("selectProjetoVersao").value === "")) {
+                    (document.getElementById("selectProjetoVersao").value === '0' || document.getElementById("selectProjetoVersao").value === "")) {
                 return false;
             } else {
                 return true;

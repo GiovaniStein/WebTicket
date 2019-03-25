@@ -67,7 +67,64 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div style="height: 887px;overflow: auto;" class="content-wrapper">
+
+    <script type="text/javascript">
+
+        // Via JQuery
+        $(document).ready(function () {
+            $('#cadastraTarefa').click(function (event) {
+                event.preventDefault();
+                if (valida_form() === true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/WebTicket/acao?parametro=cadTarefa",
+                        data: $('form').serialize()
+                    }).done(function (retorno) {
+                        var resultado = $.trim(retorno);
+                        if (resultado !== "ok") {
+                            swal("Houve um erro!", resultado, "error");
+                            //$('#idDescricao').focus();
+                        } else {
+                            swal("Sucesso ao Salvar!", "", "success");
+                            $('#cadTarefa').each(function () {
+                                this.reset();
+                            });
+                        }
+                    });
+                    return false;
+
+                } else {
+                    swal("Preencha os campos corretamente!");
+                }
+            }
+            );
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        function valida_form() {
+            if ((document.getElementById("selectCliente").value === '0' || document.getElementById("selectCliente").value === "") || 
+                    ((document.getElementById("selectAutor").value === '0' || document.getElementById("selectAutor").value === "")) || 
+                    ((document.getElementById("selectResponsavel").value === '0' || document.getElementById("selectResponsavel").value === "")) ||
+                    ((document.getElementById("selectProjeto").value === '0' || document.getElementById("selectProjeto").value === "")) ||
+                    ((document.getElementById("selectMotivo").value === '0' || document.getElementById("selectMotivo").value === "")) ||
+                    ((document.getElementById("selectModulo").value === '0' || document.getElementById("selectModulo").value === "")) ||
+                    ((document.getElementById("selectFase").value === '0' || document.getElementById("selectFase").value === "")) ||
+                    ((document.getElementById("selectPrioridade").value === '0' || document.getElementById("selectPrioridade").value === "")) ||
+                    ((document.getElementById("selectVersao").value === '0' || document.getElementById("selectVersao").value === "")) ||
+                    ((document.getElementById("selectVersaoCorrecao").value === '0' || document.getElementById("selectVersaoCorrecao").value === "")) ||
+                    ((document.getElementById("dataPrevisao").value === '' || document.getElementById("dataPrevisao").value === null)) ||
+                    ((document.getElementById("datahoraCriacao").value === '' || document.getElementById("datahoraCriacao").value === null)) ||
+                    ((document.getElementById("tituloTarefa").value === '' || document.getElementById("tituloTarefa").value === null)) ||
+                    ((document.getElementById("editor1").value === '' || document.getElementById("editor1").value === null))) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
 
     <!-- Main content -->
     <section class="content">
@@ -81,7 +138,7 @@
                         <h3 class="box-title">Cadastro de tarefa</h3>
                     </div>
 
-                    <form name="cadTarefa" class="form-horizontal" action="/HelpWeb/acao?parametro=cadTarefa" method="post">
+                    <form name="cadTarefa" class="form-horizontal" action="" method="post">
 
                         <div class="box-body">
                             <div class="form-group">
@@ -99,502 +156,412 @@
                                     %>
 
                                 </div>
-                                    
-                                 <label for="cliente" class="col-sm-1 control-label">Cliente*</label>
+
+                                <label for="cliente" class="col-sm-1 control-label">Cliente*</label>
                                 <div class="col-sm-4">
-                                <select class="form-control select2" name="cliente">
-                                    <option value="0">Selecione </option>
+                                    <select id="selectCliente" class="form-control select2" name="cliente">
+                                        <option value="0">Selecione </option>
+                                        <%
+                                            Cliente cliente = new Cliente();
+                                            cliente.setRazaoSocial("");
+                                            cliente.setSituacao('A');
+
+                                            ArrayList<Cliente> clientes = new ClienteDAO().listar(cliente);
+
+                                            for (int i = 0; i < clientes.size(); i++) {
+                                                if (tar.getCliente().getId() == clientes.get(i).getId()) {
+                                        %>
+                                        <option value="<%=clientes.get(i).getId()%>" selected><%=clientes.get(i).getRazaoSocial()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=clientes.get(i).getId()%>"><%=clientes.get(i).getRazaoSocial()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+
+
+                                <label  for="autor" class="col-sm-1 control-label"  >Autor</label>
+
+                                <div class="col-sm-2">
+                                    <select id="selectAutor" class="form-control select2"  name="autor"  >
+                                        <!--disabled = "true"-->
+                                        <%
+                                            Usuario autor = new Usuario();
+                                            if (tar.getId() == 0) {
+                                                autor.setId(Integer.parseInt(session.getAttribute("usuarioLogado").toString()));
+                                            }
+
+                                            //System.out.println(autor.getId() + "....id");
+                                            autor.setNome("");
+                                            autor.setLogin("");
+                                            autor.setSituacao('A');
+                                            //tar.setUsuarioByIdUsuarioAutor(autor);
+                                            //System.out.println(" id do autor.... "+tar.getUsuarioByIdUsuarioAutor().getId());
+
+                                            UsuarioDAO usuarioDAO = new UsuarioDAO();
+                                            ArrayList<Usuario> usuarios = usuarioDAO.listar(autor);
+
+                                            for (int i = 0; i < usuarios.size(); i++) {
+                                                //System.out.println(usuarios.size()+".. tamanho");
+                                                if (tar.getUsuarioByIdUsuarioAutor().getId() == usuarios.get(i).getId()) {
+                                        %>
+                                        <option  value="<%=usuarios.get(i).getId()%>"  selected ><%=usuarios.get(i).getNome()%>  </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option  value="<%=usuarios.get(i).getId()%>"><%=usuarios.get(i).getNome()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </select>
+
+
+                                </div>
+
+                                <label for="responsavel" class="col-sm-1 control-label">Responsavel*</label>
+                                <div class="col-sm-2">
+                                    <select id="selectResponsavel" class="form-control select2"  name="responsavel">
+
+                                        <option value="0" >Selecione </option>
+
+                                        <%
+                                            Usuario responsavel = new Usuario();
+                                            responsavel.setNome("");
+                                            responsavel.setLogin("");
+                                            responsavel.setRepetirSenha("");
+                                            responsavel.setSenha("");
+
+                                            responsavel.setSituacao('A');
+                                            //tar.setUsuarioByIdUsuarioResponsavel(responsavel);
+
+                                            UsuarioDAO responsavelDAO = new UsuarioDAO();
+                                            ArrayList<Usuario> responsaveis = responsavelDAO.listar(responsavel);
+
+                                            for (int i = 0; i < responsaveis.size(); i++) {
+                                                // System.out.println(responsaveis.size() + ".. tamanho");
+                                                if (tar.getUsuarioByIdUsuarioResponsavel().getId() == responsaveis.get(i).getId()) {
+                                        %>
+                                        <option value="<%=responsaveis.get(i).getId()%>" selected><%=responsaveis.get(i).getNome()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=responsaveis.get(i).getId()%>"><%=responsaveis.get(i).getNome()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </select>
+
+                                </div>
+
+                                <label for="projeto" class="col-sm-1 control-label">Projeto*</label>
+                                <div class="col-sm-2">
+                                    <select id="selectProjeto"  class="form-control select2"  name="projeto" >
+
+                                        <option value="0" >Selecione </option>
+
+                                        <%
+                                            Projeto projeto = new Projeto();
+                                            projeto.setDescricao("");
+                                            projeto.setSituacao('A');
+                                            // tar.setProjeto(projeto);
+
+                                            ProjetoDAO projetoDAO = new ProjetoDAO();
+                                            ArrayList<Projeto> projetos = projetoDAO.listar(projeto);
+
+                                            for (int i = 0; i < projetos.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getProjeto().getId() == projetos.get(i).getId()) {
+                                        %>
+                                        <option value="<%=projetos.get(i).getId()%>" selected><%=projetos.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=projetos.get(i).getId()%>"><%=projetos.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+
+                                    </select>
+                                </div>
+
+                                <label for="motivo" class="col-sm-1 control-label">Motivo*</label>
+                                <div class="col-sm-2">
+                                    <select id="selectMotivo" class="form-control select2" name="motivo" >
+
+                                        <option value="0">Selecione </option>
+
+                                        <%
+                                            Motivo motivo = new Motivo();
+                                            motivo.setDescricao("");
+                                            motivo.setSituacao('A');
+
+                                            //tar.setMotivo(motivo);
+                                            MotivoDAO motivoDAO = new MotivoDAO();
+                                            ArrayList<Motivo> motivos = motivoDAO.listar(motivo);
+
+                                            for (int i = 0; i < motivos.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getMotivo().getId() == motivos.get(i).getId()) {
+                                        %>
+                                        <option value="<%=motivos.get(i).getId()%>" selected><%=motivos.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=motivos.get(i).getId()%>"><%=motivos.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <label for="moculo" class="col-sm-1 control-label">Módulo*</label>
+
+
+                                <div class="col-sm-2">
+                                    <select id="selectModulo"  class="form-control select2" name="modulo" >
+
+                                        <option value="0">Selecione </option>
+
+                                        <%
+                                            Modulo modulo = new Modulo();
+                                            modulo.setDescricao("");
+                                            modulo.setSituacao('A');
+                                            // modulo.setProjeto(projeto);
+                                            //tar.setModulo(modulo);
+
+                                            ModuloDAO moduloDAO = new ModuloDAO();
+                                            ArrayList<Modulo> modulos = moduloDAO.listar(modulo);
+
+                                            for (int i = 0; i < modulos.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getModulo().getId() == modulos.get(i).getId()) {
+                                        %>
+                                        <option value="<%=modulos.get(i).getId()%>" selected><%=modulos.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=modulos.get(i).getId()%>"><%=modulos.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+                                </div>
+
+                                <label for="fase" class="col-sm-1 control-label">Fase*</label>
+                                <div class="col-sm-2">
+
+                                    <select id="selectFase" class="form-control select2" name="fase">
+
+                                        <option value="0" >Selecione </option>
+
+                                        <%
+                                            Fase fase = new Fase();
+                                            fase.setDescricao("");
+                                            fase.setSituacao('A');
+                                            //tar.setFase(fase);
+
+                                            FaseDAO faseDAO = new FaseDAO();
+                                            ArrayList<Fase> fases = faseDAO.listar(fase);
+
+                                            for (int i = 0; i < fases.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getFase().getId() == fases.get(i).getId()) {
+                                        %>
+                                        <option value="<%=fases.get(i).getId()%>" selected><%=fases.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=fases.get(i).getId()%>"><%=fases.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+
+
+                                </div>
+
+                                <label  for="prioridade" class="col-sm-1 control-label">Prioridade*</label>
+                                <div class="col-sm-2">
+                                    <select  id="selectPrioridade" class="form-control select2" name="prioridade" >
+
+                                        <option value="0">Selecione </option>
+
+                                        <%
+                                            Prioridade prioridade = new Prioridade();
+                                            prioridade.setDescricao("");
+                                            prioridade.setSituacao('A');
+
+                                            PrioridadeDAO prioridadeDAO = new PrioridadeDAO();
+                                            ArrayList<Prioridade> prioridades = prioridadeDAO.listar(prioridade);
+
+                                            for (int i = 0; i < prioridades.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getPrioridade().getId() == prioridades.get(i).getId()) {
+                                        %>
+                                        <option value="<%=prioridades.get(i).getId()%>" selected><%=prioridades.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=prioridades.get(i).getId()%>"><%=prioridades.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+                                </div>
+
+                                <label  for="versao" class="col-sm-1 control-label">V.BUG*</label>
+                                <div class="col-sm-2">
+                                    <select id="selectVersao"  class="form-control select2" name="versao" >
+
+                                        <option value="0">Selecione </option>
+
+
+                                        <%
+                                            Versao versaoBug = new Versao();
+                                            versaoBug.setDescricao("");
+                                            versaoBug.setSituacao('A');
+                                            //  versaoBug.setProjeto(projeto);
+                                            //    tar.setVersaoByIdVersaoBug(versaoBug);
+
+                                            VersaoDAO versaoBugDAO = new VersaoDAO();
+                                            ArrayList<Versao> versoesBug = versaoBugDAO.listar(versaoBug);
+
+                                            for (int i = 0; i < versoesBug.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getVersaoByIdVersaoBug().getId() == versoesBug.get(i).getId()) {
+                                        %>
+                                        <option value="<%=versoesBug.get(i).getId()%>" selected><%=versoesBug.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=versoesBug.get(i).getId()%>"><%=versoesBug.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <label  for="versaoCorrecao" class="col-sm-1 control-label">Correção*</label>
+
+
+                                <div class="col-sm-2">
+                                    <select id="selectVersaoCorrecao"  class="form-control select2" name="versaoCorrecao" >
+
+                                        <option value="0" >Selecione </option>
+
+                                        <%
+                                            Versao versaoCorrecao = new Versao();
+                                            versaoCorrecao.setDescricao("");
+                                            versaoCorrecao.setSituacao('A');
+                                            //  versaoCorrecao.setProjeto(projeto);
+                                            //tar.setVersaoByIdVersaoCorrecao(versaoCorrecao);
+
+                                            VersaoDAO versaoCorrecaoDAO = new VersaoDAO();
+                                            ArrayList<Versao> versoesCorrecao = versaoCorrecaoDAO.listar(versaoCorrecao);
+
+                                            for (int i = 0; i < versoesCorrecao.size(); i++) {
+                                                // System.out.println(projetos.size()+".. tamanho");
+                                                if (tar.getVersaoByIdVersaoCorrecao().getId() == versoesCorrecao.get(i).getId()) {
+                                        %>
+                                        <option value="<%=versoesCorrecao.get(i).getId()%>" selected><%=versoesCorrecao.get(i).getDescricao()%> </option>
+
+                                        <%
+                                        } else {
+                                        %>
+                                        <option value="<%=versoesCorrecao.get(i).getId()%>"><%=versoesCorrecao.get(i).getDescricao()%></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </select>
+                                </div>
+
+                                <label for="datahoraCriacao" class="col-sm-1 control-label" >Inclusão</label>
+                                <div class="col-sm-2">
                                     <%
-                                        Cliente cliente = new Cliente();
-                                        cliente.setRazaoSocial("");
-                                        cliente.setSituacao('A');
+                                        try {
+                                            if (tar.getDatahoraCriacao().toString().length() > 0) {
+                                                System.out.println("tem inclusao" + tar.getDatahoraPrevisao());
+                                                //System.out.println("tem inclusao" +tar.getDatahoraPrevisao());
 
-                                        ArrayList<Cliente> clientes = new ClienteDAO().listar(cliente);
-
-                                        for (int i = 0; i < clientes.size(); i++) {
-                                            if (tar.getCliente().getId() == clientes.get(i).getId()) {
                                     %>
-                                    <option value="<%=clientes.get(i).getId()%>" selected><%=clientes.get(i).getRazaoSocial()%> </option>
 
+                                    <input id="datahoraCriacao" type="datetime" class="form-control" name="datahoraCriacao"  value="<%=Formatacao.formatacaoDataDMAHMS(tar.getDatahoraCriacao())%>" readonly>
                                     <%
                                     } else {
+                                        System.out.println("nao tem inclusao");
                                     %>
-                                    <option value="<%=clientes.get(i).getId()%>"><%=clientes.get(i).getRazaoSocial()%></option>
+                                    <input type="date" class="form-control" name="datahoraCriacao"  value="" readonly>
+
                                     <%
-                                            }
+                                            System.out.println("nao tem inclusao");
+                                        }
+                                    } catch (Exception e) {
+//System.out.println("entrou na catch");
+                                    %>
+                                    <input id="datahoraCriacao" type="date" name="datahoraCriacao" class="form-control" value="" readonly>
+
+                                    <%
                                         }
                                     %>
-                                </select>
-                                </div>
-                            </div>
-
-                              
-                                    <div class="form-group">
-                                   
-                                        
-                                      <label  for="autor" class="col-sm-1 control-label"  >Autor</label>
-                                          
-                                             <div class="col-sm-2">
-                                                <select class="form-control select2"  name="autor"  >
-                                                    <!--disabled = "true"-->
-                                                    <%
-                                                        Usuario autor = new Usuario();
-                                                        if (tar.getId() == 0) {
-                                                            autor.setId(Integer.parseInt(session.getAttribute("usuarioLogado").toString()));
-                                                        }
-
-                                                        //System.out.println(autor.getId() + "....id");
-                                                        autor.setNome("");
-                                                        autor.setLogin("");
-                                                        autor.setSituacao('A');
-                                                        //tar.setUsuarioByIdUsuarioAutor(autor);
-                                                        //System.out.println(" id do autor.... "+tar.getUsuarioByIdUsuarioAutor().getId());
-
-                                                        UsuarioDAO usuarioDAO = new UsuarioDAO();
-                                                        ArrayList<Usuario> usuarios = usuarioDAO.listar(autor);
-
-                                                        for (int i = 0; i < usuarios.size(); i++) {
-                                                            //System.out.println(usuarios.size()+".. tamanho");
-                                                            if (tar.getUsuarioByIdUsuarioAutor().getId() == usuarios.get(i).getId()) {
-                                                    %>
-                                                    <option  value="<%=usuarios.get(i).getId()%>"  selected ><%=usuarios.get(i).getNome()%>  </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option  value="<%=usuarios.get(i).getId()%>"><%=usuarios.get(i).getNome()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-                                                </select>
-                                            </div>
-
-                                        
-
-                                    </div>
-                                
-                                <div class="col-sm-3" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3">
-                                                <label for="responsavel" class="col-sm-1 control-label">Responsavel*</label>
-
-                                            </div>
-                                            <div class="col-xs-8">
-                                                <select class="form-control select2" style="width: 100%;" name="responsavel">
-                                                   
-                                                    <option value="0" >Selecione </option>
-                                                   
-                                                    <%
-                                                        Usuario responsavel = new Usuario();
-                                                        responsavel.setNome("");
-                                                        responsavel.setLogin("");
-                                                        responsavel.setRepetirSenha("");
-                                                        responsavel.setSenha("");
-                                                        
-                                                        responsavel.setSituacao('A');
-                                                        //tar.setUsuarioByIdUsuarioResponsavel(responsavel);
-
-                                                        UsuarioDAO responsavelDAO = new UsuarioDAO();
-                                                        ArrayList<Usuario> responsaveis = responsavelDAO.listar(responsavel);
-
-                                                        for (int i = 0; i < responsaveis.size(); i++) {
-                                                           // System.out.println(responsaveis.size() + ".. tamanho");
-                                                            if (tar.getUsuarioByIdUsuarioResponsavel().getId() == responsaveis.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=responsaveis.get(i).getId()%>" selected><%=responsaveis.get(i).getNome()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=responsaveis.get(i).getId()%>"><%=responsaveis.get(i).getNome()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-                                                </select>
-
-                                            </div>
-
-
-                                        </div>
-
-
-
-                                    </div>
-
                                 </div>
 
-                                <div class="col-sm-3" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3 ">
-                                                <label style="float: right;" for="projeto" class="col-sm-0 control-label">Projeto*</label>
-                                            </div>
+                                <label for="dataPrevisao" class="col-sm-1 control-label" >Previsão*</label>
 
-                                            <div class="col-xs-8">
-                                                <select  class="form-control select2" style="width: 100%;" name="projeto" >
-                                             
-                                                    <option value="0" >Selecione </option>
-                                                   
-                                                    <%
-                                                        Projeto projeto = new Projeto();
-                                                        projeto.setDescricao("");
-                                                        projeto.setSituacao('A');
-                                                       // tar.setProjeto(projeto);
-
-                                                        ProjetoDAO projetoDAO = new ProjetoDAO();
-                                                        ArrayList<Projeto> projetos = projetoDAO.listar(projeto);
-
-                                                        for (int i = 0; i < projetos.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getProjeto().getId() == projetos.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=projetos.get(i).getId()%>" selected><%=projetos.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=projetos.get(i).getId()%>"><%=projetos.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-
-                                                </select>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
+                                <div class="col-sm-2">                                                                                                      <!--data-inputmask='"mask": "99/99/9999"' data-mask -->
+                                    <input id="dataPrevisao" type="date" class="form-control" name="dataPrevisao"  value="<%=tar.getDatahoraPrevisao()%>">
                                 </div>
 
-
-
-                                <div class="col-xs-6 col-sm-3">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-4 col-sm-3">
-                                                <label style="float: right;" for="motivo" class="col-sm-0 control-label">Motivo*</label>
-                                            </div>
-
-                                            <div class="col-xs-8 col-sm-8">
-                                                <select  class="form-control select2" style="width: 100%;" name="motivo" >
-                                                    
-                                                    <option value="0">Selecione </option>
-                                                   
-                                                    <%
-                                                        Motivo motivo = new Motivo();
-                                                        motivo.setDescricao("");
-                                                        motivo.setSituacao('A');
-                                                        
-                                                        //tar.setMotivo(motivo);
-
-                                                        MotivoDAO motivoDAO = new MotivoDAO();
-                                                        ArrayList<Motivo> motivos = motivoDAO.listar(motivo);
-
-                                                        for (int i = 0; i < motivos.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getMotivo().getId() == motivos.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=motivos.get(i).getId()%>" selected><%=motivos.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=motivos.get(i).getId()%>"><%=motivos.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-
-                            
-
-                            <div class="row">
-                                <div class="col-xs-3 col-sm-3 " >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-4">
-                                                <label style="float: right;" for="moculo" class="col-sm-3 col-lg-5   control-label">Módulo*</label>
-                                            </div>
-
-                                            <div class="col-xs-8 col-lg-8">
-                                                <select   class="form-control select2" style="width: 100%;" name="modulo" >
-                                                   
-                                                    <option value="0">Selecione </option>
-                                                    
-                                                    <%
-                                                        Modulo modulo = new Modulo();
-                                                        modulo.setDescricao("");
-                                                        modulo.setSituacao('A');
-                                                       // modulo.setProjeto(projeto);
-                                                        //tar.setModulo(modulo);
-
-                                                        ModuloDAO moduloDAO = new ModuloDAO();
-                                                        ArrayList<Modulo> modulos = moduloDAO.listar(modulo);
-
-                                                        for (int i = 0; i < modulos.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getModulo().getId() == modulos.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=modulos.get(i).getId()%>" selected><%=modulos.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=modulos.get(i).getId()%>"><%=modulos.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-xs-3" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3">
-                                                <label for="fase" class="col-sm-1 control-label">Fase*</label>
-
-                                            </div>
-                                            <div class="col-xs-8">
-                                                <select class="form-control select2" style="width: 100%;" name="fase">
-                                                    
-                                                    <option value="0" >Selecione </option>
-                                                    
-                                                    <%
-                                                        Fase fase = new Fase();
-                                                        fase.setDescricao("");
-                                                        fase.setSituacao('A');
-                                                        //tar.setFase(fase);
-
-                                                        FaseDAO faseDAO = new FaseDAO();
-                                                        ArrayList<Fase> fases = faseDAO.listar(fase);
-
-                                                        for (int i = 0; i < fases.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getFase().getId() == fases.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=fases.get(i).getId()%>" selected><%=fases.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=fases.get(i).getId()%>"><%=fases.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-6 col-sm-3" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-4 col-sm-3">
-                                                <label style="float: right;" for="prioridade" class="col-lg-0  control-label">Prioridade*</label>
-                                            </div>
-
-                                            <div class="col-xs-8">
-                                                <select   class="form-control select2" style="width: 100%;" name="prioridade" >
-                                                   
-                                                    <option value="0">Selecione </option>
-                                                   
-                                                    <%
-                                                        Prioridade prioridade = new Prioridade();
-                                                        prioridade.setDescricao("");
-                                                        prioridade.setSituacao('A');
-                                                      
-
-                                                        PrioridadeDAO prioridadeDAO = new PrioridadeDAO();
-                                                        ArrayList<Prioridade> prioridades = prioridadeDAO.listar(prioridade);
-
-                                                        for (int i = 0; i < prioridades.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getPrioridade().getId() == prioridades.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=prioridades.get(i).getId()%>" selected><%=prioridades.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=prioridades.get(i).getId()%>"><%=prioridades.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-3">
-                                    <div class="form-group">
-                                        <label for="datahoraCriacao" class="col-sm-3 control-label" >Inclusão</label>
-                                        <div class="row">
-                                            <div class="col-xs-4 col-sm-8">
-                                                <%
-                                                    try {
-                                                        if (tar.getDatahoraCriacao().toString().length() > 0) {
-                                                            System.out.println("tem inclusao" + tar.getDatahoraPrevisao());
-                                                            //System.out.println("tem inclusao" +tar.getDatahoraPrevisao());
-
-                                                %>
-
-                                                <input type="datetime" class="form-control" name="datahoraCriacao"  value="<%=Formatacao.formatacaoDataDMAHMS(tar.getDatahoraCriacao())%>" Use readonly="true" >
-                                                <%
-                                                } else {
-                                                    System.out.println("nao tem inclusao");
-                                                %>
-                                                <input type="date" class="form-control" name="datahoraCriacao"  value="" Use readonly="true" >
-
-                                                <%
-                                                        System.out.println("nao tem inclusao");
-                                                    }
-                                                } catch (Exception e) {
-//System.out.println("entrou na catch");
-                                                %>
-                                                <input type="date" name="datahoraCriacao" class="form-control" value="" Use readonly="true" >
-
-                                                <%
-                                                    }
-                                                %>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- -->
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-3 " >
-                                    <div class="form-group">
-
-
-                                        <label for="dataPrevisao" class="col-sm-4  control-label" >Previsão*</label>
-                                        <div class="row">
-                                            <div class="col-sm-7">                                                                                                      <!--data-inputmask='"mask": "99/99/9999"' data-mask -->
-                                                <input type="date" class="form-control" name="dataPrevisao"  value="<%=tar.getDatahoraPrevisao()%>">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-3 " >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3 ">
-                                                <label  for="versao" class="col-sm-4 control-label">V.BUG*</label>
-                                            </div>
-
-                                            <div class="col-xs-8 ">
-                                                <select   class="form-control select2" style="width: 100%;" name="versao" >
-                                                  
-                                                    <option value="0">Selecione </option>
-                                                  
-                                                    
-                                                    <%
-                                                        Versao versaoBug = new Versao();
-                                                        versaoBug.setDescricao("");
-                                                        versaoBug.setSituacao('A');
-                                                      //  versaoBug.setProjeto(projeto);
-                                                    //    tar.setVersaoByIdVersaoBug(versaoBug);
-
-                                                        VersaoDAO versaoBugDAO = new VersaoDAO();
-                                                        ArrayList<Versao> versoesBug = versaoBugDAO.listar(versaoBug);
-
-                                                        for (int i = 0; i < versoesBug.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getVersaoByIdVersaoBug().getId() == versoesBug.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=versoesBug.get(i).getId()%>" selected><%=versoesBug.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=versoesBug.get(i).getId()%>"><%=versoesBug.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-3" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <label  for="versaoCorrecao" class="col-xs-4 control-label">Correção*</label>
-                                            </div>
-
-                                            <div class="col-xs-6">
-                                                <select   class="form-control select2" style="width: 100%;" name="versaoCorrecao" >
-                                                    
-                                                    
-                                                    <option value="0" >Selecione </option>
-                                                    
-                                                    <%
-                                                        Versao versaoCorrecao = new Versao();
-                                                        versaoCorrecao.setDescricao("");
-                                                        versaoCorrecao.setSituacao('A');
-                                                      //  versaoCorrecao.setProjeto(projeto);
-                                                        //tar.setVersaoByIdVersaoCorrecao(versaoCorrecao);
-
-                                                        VersaoDAO versaoCorrecaoDAO = new VersaoDAO();
-                                                        ArrayList<Versao> versoesCorrecao = versaoCorrecaoDAO.listar(versaoCorrecao);
-
-                                                        for (int i = 0; i < versoesCorrecao.size(); i++) {
-                                                            // System.out.println(projetos.size()+".. tamanho");
-                                                            if (tar.getVersaoByIdVersaoCorrecao().getId() == versoesCorrecao.get(i).getId()) {
-                                                    %>
-                                                    <option value="<%=versoesCorrecao.get(i).getId()%>" selected><%=versoesCorrecao.get(i).getDescricao()%> </option>
-
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <option value="<%=versoesCorrecao.get(i).getId()%>"><%=versoesCorrecao.get(i).getDescricao()%></option>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -656,80 +623,53 @@
                                     }
                                 %>
                             </div>
-                            <div class="box-footer">
 
-                                <input type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
 
-                            </div>             
-                            <div class="row">
-                                <div class="col-xs-6" >
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label for="nome" class="col-xs-2 control-label">Título*</label>
-
-                                            <div class="col-xs-10">
-                                                <input type="text" class="form-control" name="titulo" value="<%= tar.getTitulo()%>">
-
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="form-group">
+                                <label for="nome" class="col-sm-1 control-label">Título*</label>
+                                <div class="col-xs-6">
+                                    <input id="tituloTarefa" type="text" class="form-control" name="titulo" value="<%= tar.getTitulo()%>">
                                 </div>
                             </div>
-                            <div class="col-xs-12" >
-                                <div class="form-group">
-
-                                    <h4>
-                                        Descrição*
-
-                                    </h4>
-
-                                    <section class="content col-xs-12">
-
-                                        <div class="col-xs-12">
-
-                                            <textarea id="editor1" name="descricao"  rows="5" cols="5">
-                                                <%=tar.getDescricao()%></textarea>
-                                        </div>
-
-                                    </section>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12" >
-                                <div class="form-group">
-
-                                    <h4>
-                                        Nova movimentação
-
-                                    </h4>
-
-                                    <section class="content col-xs-12">
-
-                                        <div class="col-xs-12">
-
-                                            <textarea id="editor2" name="movimentacao"  rows="5" cols="5">
-                                            </textarea>
-                                        </div>
-
-                                    </section>
-                                </div>
-                            </div>
-
-
-
 
 
 
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
 
+                                <label for="descricao" class="col-sm-1 control-label">Descrição*</label>
+
+
+
+                                <div class="col-xs-8">
+
+                                    <textarea id="editor1" name="descricao"  rows="5" cols="5">
+                                        <%=tar.getDescricao()%></textarea>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="movimentacao" class="col-sm-1 control-label">Movimentação</label>
+                                <div class="col-xs-8">
+
+                                    <textarea id="editor2" name="movimentacao"  rows="5" cols="5">
+                                    </textarea>
                                 </div>
                             </div>
+
+
+
+
+
+                            <div class="box-footer">
+
+                                <input id="cadastraTarefa" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
+
+                            </div>
                         </div>
-
-
-
-                        <!-- aqui -->
 
                     </form>
 
@@ -739,9 +679,9 @@
 
             </div>
             <!--/.col (right) -->
-        <!--</div>-->
-        <!-- /.row -->
-        <%//@include file = "listaMovimentacoes.jsp"%>
+            <!--</div>-->
+            <!-- /.row -->
+            <%//@include file = "listaMovimentacoes.jsp"%>
     </section>
 
     <%@include file = "listaMovimentacoes.jsp"%>
@@ -786,17 +726,17 @@
 
 <!-- page script -->
 <script>
-    $(function () {
-        $('#example1').DataTable()
-        $('#example2').DataTable({
-            'paging': true,
-            'lengthChange': false,
-            'searching': false,
-            'ordering': true,
-            'info': true,
-            'autoWidth': false
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
         })
-    })
 </script>    
 
 

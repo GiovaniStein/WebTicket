@@ -52,7 +52,7 @@
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" >
+    <body style="overflow: hidden;" class="hold-transition skin-blue sidebar-mini" >
         <header class="main-header">
             <!-- Logo -->
             <a style="background-color: #1a3246" href="inicio.jsp" class="logo">

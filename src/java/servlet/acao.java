@@ -95,6 +95,33 @@ public class acao extends HttpServlet {
             sessao.invalidate();
             response.sendRedirect("index.jsp");
         }
+        
+        if (parametro.equals("exMotivo")) {
+            
+            PrintWriter out = response.getWriter();
+            
+            try {
+                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            Motivo motiv = new Motivo();
+            motiv.setId(id);
+
+            motiv.setDescricao("");
+            motiv.setSituacao('I');
+
+            int retorno = new ControleMotivo().salvar(motiv);
+
+            request.setAttribute("paginaOrigem", "cadastroMotivo.jsp");
+            
+             if (retorno == 1) {
+                    out.println("ok");
+                } else {
+                    out.println("erro");
+                }
+            } catch (Exception e) {
+                out.println(""+e);
+            }
+
+        }
 
         if (parametro.equals("exVersao")) {
 
@@ -421,6 +448,47 @@ public class acao extends HttpServlet {
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
         
+        
+        if (parametro.equals("cadMotivo")) {
+             PrintWriter out = response.getWriter();
+             try {
+                 Motivo motiv = new Motivo();
+            int id;
+            if (request.getParameter("id").equals("")) {
+                id = 0;
+            } else {
+                id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            }
+            motiv.setId(id);
+            motiv.setDescricao(request.getParameter("descricao"));
+            motiv.setSituacao('A');
+
+            ControleMotivo controleMotivo = new ControleMotivo();
+            int retorno = controleMotivo.salvar(motiv);
+
+            request.setAttribute("paginaOrigem", "cadastroProjeto.jsp");
+            
+            if (retorno == 1) {
+                    out.println("ok");
+                    //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
+                } else if (retorno == 2) {
+                    out.println("Nome precisa ter de 3 até 45 caractere");
+                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+                } else if (retorno == 3) {
+                    out.println("Modulo já cadastrada");
+                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+                } else {
+                    out.println("Erro desconhecido");
+                }
+            
+            } catch (Exception e) {
+                out.println("Erro desconhecido"+e);
+            }
+           
+
+           
+
+        }
         
         if (parametro.equals("cadCliente")) {
             

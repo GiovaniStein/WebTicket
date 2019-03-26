@@ -16,6 +16,48 @@
 
 <section class="content-header">
 
+
+    <script>
+        function removeUser(element) {
+            var value = $(element).val();
+            swal({
+                title: 'Cuidado!',
+                text: "Tem certeza que deseja remover essa tarefa?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não'
+            }).then(function (isConfirm) {
+                if (isConfirm.value) {
+                    $.ajax({
+                        type: "GET",
+                        url: '/WebTicket/acao?parametro=exTarefa&id=' + value,
+                        data: $('form').serialize()
+                    }).done(function (retorno) {
+                        var resultado = $.trim(retorno);
+                        if (resultado !== "ok") {
+                            swal("Erro ao remover tarefa!", resultado, "error");
+                        } else {
+                            swal("Tarefa removida com sucesso!", "", "success");
+                            $("#listadeTarefas").load("listaTarefas_1.jsp");
+                        }
+                    });
+                    return false;
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        // Via JQuery
+        function editTarefa(element) {
+            var value = $(element).val();
+            window.location.href = "/WebTicket/acao?parametro=edTarefa&id="+value;  
+    };
+    </script>
+
     <div class="box box-info">
         <div class="box-header">
             <h3 class="box-title">Lista de tarefas</h3>
@@ -71,8 +113,9 @@
                         <td><%=tarefas.get(i).getUsuarioByIdUsuarioAutor().getNome()%></td>
                         <td><%=tarefas.get(i).getUsuarioByIdUsuarioResponsavel().getNome()%></td>
                         <td><%=tarefas.get(i).getFase().getDescricao()%></td>
-                        <td><a href="/WebTicket/acao?parametro=edTarefa&id=<%=tarefas.get(i).getId()%>"><span class="label label-primary pull-left-container">Editar</span></a>
-                            <a href="/WebTicket/acao?parametro=exTarefa&id=<%=tarefas.get(i).getId()%>"  onclick="return confirm('Tem certeza que deseja excluir a tarefa?');"><span class="label label-danger pull-right-container">Excluir</span></a>
+                        <td><button title="Editar Tarefa" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editTarefa(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Tarefa" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                        </td>
                         </td>
                     </tr>
                     <%

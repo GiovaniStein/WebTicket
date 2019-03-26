@@ -21,7 +21,7 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div style="height: 887px;overflow: auto;" class="content-wrapper">
+<div style="height: 300px;overflow: auto;min-height: 768px;" class="content-wrapper">
     <script type="text/javascript">
 
         // Via JQuery

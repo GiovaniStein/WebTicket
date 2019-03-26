@@ -67,7 +67,7 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div style="height: 887px;overflow: auto;" class="content-wrapper">
+<div style="height: 300px;overflow: auto;min-height: 768px;" class="content-wrapper">
 
     <script type="text/javascript">
 
@@ -116,7 +116,6 @@
                     ((document.getElementById("selectVersao").value === '0' || document.getElementById("selectVersao").value === "")) ||
                     ((document.getElementById("selectVersaoCorrecao").value === '0' || document.getElementById("selectVersaoCorrecao").value === "")) ||
                     ((document.getElementById("dataPrevisao").value === '' || document.getElementById("dataPrevisao").value === null)) ||
-                    ((document.getElementById("datahoraCriacao").value === '' || document.getElementById("datahoraCriacao").value === null)) ||
                     ((document.getElementById("tituloTarefa").value === '' || document.getElementById("tituloTarefa").value === null)) ||
                     ((document.getElementById("editor1").value === '' || document.getElementById("editor1").value === null))) {
                 return false;
@@ -564,66 +563,6 @@
 
 
                             </div>
-
-                            <%
-                                if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("1") || request.getParameter("m").equals("10"))) {
-                            %>
-                            <div class="alert alert-success alert-dismissible">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
-                                <%if (request.getParameter("m").equals("1")) {
-                                %>
-                                Cidade salva com sucesso!
-                                <%
-                                } else if (request.getParameter("m").equals("10")) {
-                                %>
-                                Cidade excluída com sucesso!
-                                <%
-                                    }
-                                %>
-
-                            </div>
-                            <%                                        }
-                            %>
-
-                            <%
-                                if (request.getParameterMap().containsKey("m") && (request.getParameter("m").equals("2") || request.getParameter("m").equals("3") || request.getParameter("m").equals("6") || request.getParameter("m").equals("7"))) {
-                            %>
-                            <div class="alert alert-danger">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
-                                <%if (request.getParameter("m").equals("2")) {
-                                %>
-                                <h5>Erro ao salvar tarefa!</h5><br>
-                                <h5>Título precisa ter de 3 até 100 caracteres.</h5>   
-                                <% } else if (request.getParameter("m").equals("3")) {
-
-                                %>
-
-                                <h5>Erro ao salvar tarefa!</h5><br>  
-                                <h5>Descrição precisa ter de 3 até 100 caracteres.</h5>
-
-                                <%  } else if (request.getParameter("m").equals("6")) {
-
-                                %>
-                                Erro ao salvar tarefa!<br>  
-                                verifique com o suporte.
-
-
-
-                                <%} else if (request.getParameter("m").equals("7")) {
-
-                                %>
-                                Erro ao salvar tarefa!<br>  
-                                verifique se todos os campos estão preenchidos.
-
-
-                                <%                                        }
-
-                                    }
-                                %>
-                            </div>
-
 
                             <div class="form-group">
                                 <label for="nome" class="col-sm-1 control-label">Título*</label>

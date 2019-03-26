@@ -101,7 +101,7 @@
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div style="height: 887px;overflow: auto;" class="content-wrapper">
+<div style="height: 300px;overflow: auto;min-height: 768px;" class="content-wrapper">
 
     <!-- Main content -->
     <section class="content">
@@ -485,7 +485,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
 
 
@@ -657,10 +657,12 @@
         <!-- /.row -->
     </section>
 
-    <%@include file = "listaTarefas_1.jsp"%>
+    <div id="listadeTarefas">
+        <%@include file = "listaTarefas_1.jsp"%>
+    </div>                        
+
     <!-- /.content -->
 </div>
-<%@include file = "inferior.jsp"%>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>

@@ -25,7 +25,13 @@
         </div>
 
         <div class="box-body">
+           
+
+
+
             <table id="tableMovimentacao" class="table table-bordered table-striped table-hover">
+
+
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -38,28 +44,27 @@
                 </thead>
                 <tbody>
                     <%
-            
+
                         MovimentoTarefa movimentoTarefa = new MovimentoTarefa();
-                         //Tarefa tarefa = new Tarefa();
+                        //Tarefa tarefa = new Tarefa();
 
                         movimentoTarefa.setTarefa(tar);
                         Usuario usuario = new Usuario();
-                        
+
                         usuario.setId(Integer.parseInt(session.getAttribute("usuarioLogado").toString()));
-                        
+
                         movimentoTarefa.setUsuario(usuario);
-                        
+
                         movimentoTarefa.setDatahoraMovimento(new Date());
                         movimentoTarefa.setSituacao('A');
-
 
                         ArrayList<MovimentoTarefa> movimentacoes = new MovimentoTarefaDAO().listar(movimentoTarefa);
 
                         for (int i = 0; i < movimentacoes.size(); i++) {
                             SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                     
-                        String str = fmt.format(movimentacoes.get(i).getDatahoraMovimento());
-                         
+
+                            String str = fmt.format(movimentacoes.get(i).getDatahoraMovimento());
+
                     %>
 
                     <tr>
@@ -76,7 +81,7 @@
             </table>
         </div>
     </div>
-                <script>
+    <script>
         $(function () {
             $('#tableMovimentacao').DataTable()
             $('#tableMovimentacao2').DataTable({

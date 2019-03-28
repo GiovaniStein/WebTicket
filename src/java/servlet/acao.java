@@ -532,6 +532,78 @@ public class acao extends HttpServlet {
         System.out.println(parametro);
         
         
+        if (parametro.equals("listarTarefas")) {
+            
+            
+            
+            //-----------------------//
+            String idTarefa = request.getParameter("id");
+            String idCliente = request.getParameter("cliente");
+            String idProjeto = request.getParameter("projeto");
+            String idPrioridade = request.getParameter("prioridade");
+            String idMotivo = request.getParameter("motivo");
+            String idModulo = request.getParameter("modulo");
+            String idFase = request.getParameter("fase");
+            String idVersaoBug = request.getParameter("versao");
+            String idVersaoCorrecao = request.getParameter("versaoCorrecao");
+            String idAutor = request.getParameter("autor");
+            String idResponsavel = request.getParameter("responsavel");
+//
+            Tarefa tarefa = new Tarefa();
+
+            Cliente cliente = new Cliente();
+            Fase fase = new Fase();
+            Modulo modulo = new Modulo();
+            Motivo motivo = new Motivo();
+            Prioridade prioridade = new Prioridade();
+            Projeto projeto = new Projeto();
+            Versao versaoBug = new Versao();
+            Versao versaoCorrecao = new Versao();
+            Usuario autor = new Usuario();
+            Usuario responsavel = new Usuario();
+
+            cliente.setId(Integer.parseInt(idCliente));
+            tarefa.setCliente(cliente);
+          //  tarefa.setDescricao(request.getParameter("descricao"));
+            fase.setId(Integer.parseInt(idFase));
+            System.out.println("id da fase = "+idFase);
+            tarefa.setFase(fase);
+            modulo.setId(Integer.parseInt(idModulo));
+            tarefa.setModulo(modulo);
+            motivo.setId(Integer.parseInt(idMotivo));
+            tarefa.setMotivo(motivo);
+            prioridade.setId(Integer.parseInt(idPrioridade));
+            tarefa.setPrioridade(prioridade);
+            projeto.setId(Integer.parseInt(idProjeto));
+            tarefa.setProjeto(projeto);
+            tarefa.setSituacao('A');
+            try {
+            tarefa.setId(Integer.parseInt(idTarefa));    
+            } catch (Exception e) {
+            }
+            
+
+            versaoBug.setId(Integer.parseInt(idVersaoBug));
+            tarefa.setVersaoByIdVersaoBug(versaoBug);
+            versaoCorrecao.setId(Integer.parseInt(idVersaoCorrecao));
+            tarefa.setVersaoByIdVersaoCorrecao(versaoCorrecao);
+            responsavel.setId(Integer.parseInt(idResponsavel));
+            tarefa.setUsuarioByIdUsuarioResponsavel(responsavel);
+            autor.setId(Integer.parseInt(idAutor));
+            tarefa.setUsuarioByIdUsuarioAutor(autor);
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            ArrayList<Tarefa> tarefas = new ArrayList<>();
+            tarefas = tarefaDAO.listarComParametro(tarefa);
+            
+            
+
+           request.setAttribute("tarefas", tarefas);
+           request.setAttribute("tarefa", tarefa);
+                encaminharPagina("listaTarefas.jsp", request, response);
+        }
+        
+        
         if (parametro.equals("cadTarefa")) {
             
             PrintWriter out = response.getWriter();

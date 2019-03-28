@@ -122,6 +122,8 @@ public class Filtro extends HttpServlet implements Filter {
         excessoes.add("/WebTicket/js/jquery-3.3.1.min.js");
         excessoes.add("/WebTicket/js/sweetalert2.js");
         excessoes.add("/WebTicket/js/sweetalert2.css");
+        excessoes.add("/WebTicket/js/jquery.modal.min.js");
+        excessoes.add("/WebTicket/js/jquery.modal.min.css");
         
         
 //         excessoes.add("/WebTicket/");

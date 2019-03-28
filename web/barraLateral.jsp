@@ -106,6 +106,8 @@
     <!-- /.sidebar -->
     
     <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery.modal.min.js" type="text/javascript"></script>
+    <link href="js/jquery.modal.min.css" rel="stylesheet" type="text/css"/>
     <script>
       var x = $("#lateral-menu-bar");
       var height = screen.height;

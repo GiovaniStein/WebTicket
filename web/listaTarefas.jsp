@@ -115,7 +115,7 @@
                         <h3 class="box-title">Listagem de tarefa</h3>
                     </div>
 
-                    <form name="cadCidade" class="form-horizontal" action="/HelpWeb/acao?parametro=listarTarefas" method="post">
+                    <form name="cadCidade" class="form-horizontal" action="/WebTicket/acao?parametro=listarTarefas" method="post">
                         <div class="box-body">
 
 

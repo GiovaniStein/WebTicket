@@ -41,7 +41,8 @@
                             swal("Erro ao remover tarefa!", resultado, "error");
                         } else {
                             swal("Tarefa removida com sucesso!", "", "success");
-                            $("#listadeTarefas").load("listaTarefas_1.jsp");
+                            $("#listaTarefasContainer").load("listaTarefas.jsp");
+                            $("#buttonPesquisar").click();
                         }
                     });
                     return false;
@@ -116,7 +117,6 @@
                         <td><button title="Editar Tarefa" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editTarefa(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-pencil-square-o"></i></button>
                             <button title="Excluir Tarefa" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                         </td>
-                        </td>
                     </tr>
                     <%
                         }
@@ -127,11 +127,5 @@
     </div>
 
 </section>
-<aside class="control-sidebar control-sidebar-dark">
 
-</aside>
-
-<div class="control-sidebar-bg">
-
-</div>
 

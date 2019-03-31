@@ -29,8 +29,6 @@ public class ControleMovimentacaoTarefa {
                 return 2;
             }
            
-            
-
 
         }
         if (movimentoDAO.salvar(movimentacaoTarefa)) {

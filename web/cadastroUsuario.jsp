@@ -1,22 +1,15 @@
-
 <%@page import="entidade.Usuario"%>
 <%@page import="DAO.CidadeDAO"%>
 <%@page import="DAO.ProjetoDAO"%>
-
 <%@page import="java.util.ArrayList"%>
-
 <%@page import="entidade.Cidade"%>
 <%@page import="entidade.Cliente"%>
-
-
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>
 
-
-<%    // Cidade cid = new Cidade();
-    Usuario usuario = (Usuario) request.getAttribute("objuser");
+<%  Usuario usuario = (Usuario) request.getAttribute("objuser");
 
     if (usuario == null) {
         usuario = new Usuario();
@@ -25,63 +18,12 @@
         usuario.setLogin("");
         usuario.setSenha("");
         usuario.setRepetirSenha("");
-
     }
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div style="height: 300px;overflow: auto;min-height: 768px;" class="content-wrapper">
-
-    <script type="text/javascript">
-
-        // Via JQuery
-        $(document).ready(function () {
-          
-            $('#cadastraUsuario').click(function (event) {
-                var resultado = "";
-                event.preventDefault();
-                if (valida_form() === true) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/WebTicket/acao?parametro=cadUsuario",
-                        data: $('form').serialize()
-                    }).done(function (retorno) {
-                        resultado = $.trim(retorno);
-                        
-                        if (resultado !== "ok") {
-                            swal("Houve um erro!", resultado, "error");
-                            //$('#loginUsuario').focus();
-                        } else {
-                            swal("Sucesso ao Salvar!", "", "success");
-                            $('#formusuario').each(function () {
-                                this.reset();
-                            });
-                            $("#listadeUsuarios").load("listaUsuarios.jsp");
-                        }
-                        
-                    });
-                     $('#nomeUsuario').focus();
-                    return false;
-
-                } else {
-
-                    swal("Preencha os campos corretamente!");
-                }
-            }
-            );
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        function valida_form() {
-            if ((document.getElementById("nomeUsuario").value == null || document.getElementById("nomeUsuario").value == "") || (document.getElementById("loginUsuario").value == null || document.getElementById("loginUsuario").value == "") || (document.getElementById("senhaUsuario").value == null || document.getElementById("senhaUsuario").value == "") || (document.getElementById("repetirSenhaUsuario").value == null || document.getElementById("repetirSenhaUsuario").value == "")) {
-                return false
-            } else {
-                return true
-            }
-        }
-    </script>
+<div style="height: 300px;overflow: auto;min-height: 768px;"
+     class="content-wrapper">
 
     <!-- Main content -->
     <section class="content">
@@ -89,102 +31,117 @@
 
             <!-- right column -->
             <div style="width: 100%" class="col-md-6">
+
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Cadastro de usuário</h3>
                     </div>
-
-                    <form id="formusuario" name="cadCliente" class="form-horizontal">
+                    <form id="formusuario"
+                          name="cadCliente"
+                          class="form-horizontal">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="id" class="col-sm-2 control-label" >ID</label>
-
-
+                                <label for="id"
+                                       class="col-sm-2 control-label">ID</label>
                                 <div class="col-md-3">
-                                    <%                                                       if (usuario.getId() > 0) {%>
-                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="<%= usuario.getId()%>" readonly >
-
-                                    <%} else {
+                                    <%
+                                        if (usuario.getId() > 0) {
                                     %>
-
-                                    <input id="idUsuario" style="width: 95px" type="text" class="form-control" name="id" value="" readonly >
-
+                                    <input id="idUsuario"
+                                           style="width: 95px"
+                                           type="text"
+                                           class="form-control"
+                                           name="id"
+                                           value="<%= usuario.getId()%>"
+                                           readonly>
+                                    <%
+                                    } else {
+                                    %>
+                                    <input id="idUsuario"
+                                           style="width: 95px"
+                                           type="text"
+                                           class="form-control"
+                                           name="id"
+                                           value=""
+                                           readonly>
                                     <%
                                         }
                                     %>
-
-
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="nome" class="col-sm-2 control-label">Nome*</label>
-
+                                <label for="nome"
+                                       class="col-sm-2 control-label">Nome*</label>
                                 <div class="col-sm-7">
-                                    <input autofocus id="nomeUsuario" type="text" class="form-control" name="nome" value="<%=usuario.getNome()%>">
-
+                                    <input autofocus
+                                           id="nomeUsuario"
+                                           type="text"
+                                           class="form-control"
+                                           name="nome"
+                                           value="<%=usuario.getNome()%>">
                                 </div>
                             </div>
-
-
                             <div class="form-group">
-                                <label for="login" class="col-sm-2 control-label">Login</label>
-
+                                <label for="login"
+                                       class="col-sm-2 control-label">Login</label>
                                 <div class="col-sm-7">
                                     <%
                                         if (usuario.getLogin() != null || usuario.getLogin() != "") {
                                     %>
-                                    <input id="loginUsuario" type="email" class="form-control" name="login" value="<%=usuario.getLogin()%>">        
+                                    <input id="loginUsuario"
+                                           type="email"
+                                           class="form-control"
+                                           name="login"
+                                           value="<%=usuario.getLogin()%>">        
                                     <%
                                     } else {
                                     %>
-                                    <input id="loginUsuario" type="email" class="form-control">        
-
-                                    <%    }
+                                    <input id="loginUsuario"
+                                           type="email"
+                                           class="form-control">
+                                    <%
+                                        }
                                     %>
-
                                 </div>
-
                             </div>
-
                             <div class="form-group">
-                                <label for="senha" class="col-sm-2 control-label">Senha</label>
-
+                                <label for="senha"
+                                       class="col-sm-2 control-label">Senha</label>
                                 <div class="col-sm-7">
-                                    <input id="senhaUsuario" type="password" class="form-control" name="senha" value="<%=usuario.getSenha()%>">
-
+                                    <input id="senhaUsuario"
+                                           type="password"
+                                           class="form-control"
+                                           name="senha"
+                                           value="<%=usuario.getSenha()%>">
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label for="repetirSenha" class="col-sm-2 control-label">Repetir senha</label>
-
+                                <label for="repetirSenha"
+                                       class="col-sm-2 control-label">Repetir senha</label>
                                 <div class="col-sm-7">
-                                    <input id="repetirSenhaUsuario" type="password" class="form-control" name="repetirSenha" value="<%=usuario.getRepetirSenha()%>">
-
+                                    <input id="repetirSenhaUsuario"
+                                           type="password"
+                                           class="form-control"
+                                           name="repetirSenha"
+                                           value="<%=usuario.getRepetirSenha()%>">
                                 </div>
                             </div>
-
-
-
-
-
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-
-                            <input id="cadastraUsuario" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
-
+                            <input id="cadastraUsuario"
+                                   style="float: right;width: 95px;background-color: #1087dd;"
+                                   type="submit"
+                                   class="btn btn-dropbox pull-right-container"
+                                   name="enviar"
+                                   value="Salvar">
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
             <!--/.col (right) -->
         </div>
@@ -193,8 +150,6 @@
     <div id="listadeUsuarios">  
         <%@include file = "listaUsuarios.jsp"%>
     </div>
-    
-
 </div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -216,11 +171,49 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
 
- 
+<script type="text/javascript">
+    // Via JQuery
+    $(document).ready(function () {
+        $('#cadastraUsuario').click(function (event) {
+            var resultado = "";
+            event.preventDefault();
+            if (valida_form() === true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/WebTicket/acao?parametro=cadUsuario",
+                    data: $('form').serialize()
+                }).done(function (retorno) {
+                    resultado = $.trim(retorno);
+                    if (resultado !== "ok") {
+                        swal("Houve um erro!", resultado, "error");
+                        //$('#loginUsuario').focus();
+                    } else {
+                        swal("Sucesso ao Salvar!", "", "success");
+                        $('#formusuario').each(function () {
+                            this.reset();
+                        });
+                        $("#listadeUsuarios").load("listaUsuarios.jsp");
+                    }
+                });
+                $('#nomeUsuario').focus();
+                return false;
+            } else {
+                swal("Preencha os campos corretamente!");
+            }
+        }
+        );
+    });
+</script>
 
-
-
-
+<script type="text/javascript">
+    function valida_form() {
+        if ((document.getElementById("nomeUsuario").value == null || document.getElementById("nomeUsuario").value == "") || (document.getElementById("loginUsuario").value == null || document.getElementById("loginUsuario").value == "") || (document.getElementById("senhaUsuario").value == null || document.getElementById("senhaUsuario").value == "") || (document.getElementById("repetirSenhaUsuario").value == null || document.getElementById("repetirSenhaUsuario").value == "")) {
+            return false
+        } else {
+            return true
+        }
+    }
+</script>
 
 <script>
     $(function () {

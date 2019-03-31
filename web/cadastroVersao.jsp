@@ -1,138 +1,103 @@
 <%@page import="DAO.ProjetoDAO"%>
-
 <%@page import="java.util.ArrayList"%>
-
 <%@page import="entidade.Projeto"%>
 <%@page import="entidade.Versao"%>
-
-
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>
 
-
-<%    // Cidade cid = new Cidade();
-    Versao versao = (Versao) request.getAttribute("objver");
+<%  Versao versao = (Versao) request.getAttribute("objver");
 
     if (versao == null) {
         versao = new Versao();
         versao.setSituacao('A');
         versao.setDescricao("");
-
         Projeto projeto = new Projeto();
-
         versao.setProjeto(projeto);
     }
 %>
 
 <!-- Content Wrapper. Contains page content -->
-<div style="height: 300px;overflow: auto;min-height: 768px;" class="content-wrapper">
-
-    <script type="text/javascript">
-
-        // Via JQuery
-        $(document).ready(function () {
-            $('#cadastraVersao').click(function (event) {
-                event.preventDefault();
-                if (valida_form() === true) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/WebTicket/acao?parametro=cadVersao",
-                        data: $('form').serialize()
-                    }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
-                        if (resultado !== "ok") {
-                            swal("Houve um erro!", resultado, "error");
-                            //$('#idDescricao').focus();
-                        } else {
-                            swal("Sucesso ao Salvar!", "", "success");
-                            $('#formVersao').each(function () {
-                                this.reset();
-                            });
-                            $("#listadeVersao").load("listaVersoes.jsp");
-                        }
-                    });
-                    return false;
-
-                } else {
-                    swal("Preencha os campos corretamente!");
-                }
-            }
-            );
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        function valida_form() {
-            if ((document.getElementById("versaoDescricao").value === null || document.getElementById("versaoDescricao").value === "") ||
-                    (document.getElementById("selectProjetoVersao").value === '0' || document.getElementById("selectProjetoVersao").value === "")) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    </script>
+<div style="height: 300px;overflow: auto;min-height: 768px;"
+     class="content-wrapper">
 
     <!-- Main content -->
     <section class="content">
         <div class="row">
 
             <!-- right column -->
-            <div style="width: 100%" class="col-md-6">
+            <div style="width: 100%"
+                 class="col-md-6">
+
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Cadastro de versão</h3>
                     </div>
-
-                    <form id="formVersao" name="cadVersao" class="form-horizontal" action="" method="post">
+                    <form id="formVersao"
+                          name="cadVersao"
+                          class="form-horizontal"
+                          action=""
+                          method="post">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="id" class="col-sm-2 control-label" >ID</label>
-
+                                <label for="id"
+                                       class="col-sm-2 control-label">ID</label>
                                 <div class="col-sm-2">
-                                    <%                                                       if (versao.getId() > 0) {%>
-                                    <input id="idversao" type="text" class="form-control" name="id" value="<%= versao.getId()%>" readonly >
-                                    <%} else {
+                                    <%
+                                        if (versao.getId() > 0) {
                                     %>
-
-                                    <input id="idversao" type="text" class="form-control" name="id" value="" readonly>
+                                    <input id="idversao"
+                                           style="width: 95px"
+                                           type="text"
+                                           class="form-control"
+                                           name="id"
+                                           value="<%= versao.getId()%>"
+                                           readonly>
+                                    <%
+                                    } else {
+                                    %>
+                                    <input id="idversao"
+                                           style="width: 95px"
+                                           type="text"
+                                           class="form-control"
+                                           name="id"
+                                           value=""
+                                           readonly>
                                     <%
                                         }
                                     %>
                                 </div>
                             </div>
-
-
                             <div class="form-group">
-                                <label for="nome" class="col-sm-2 control-label">Nome</label>
-
+                                <label for="nome"
+                                       class="col-sm-2 control-label">Nome</label>
                                 <div class="col-sm-6">
-                                    <input id="versaoDescricao" type="text" class="form-control" name="descricao" value="<%= versao.getDescricao()%>">
-
+                                    <input id="versaoDescricao"
+                                           type="text"
+                                           class="form-control"
+                                           name="descricao"
+                                           value="<%= versao.getDescricao()%>">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="projeto" class="col-sm-2 control-label">Projeto</label>
-
+                                <label for="projeto"
+                                       class="col-sm-2 control-label">Projeto</label>
                                 <div class="col-sm-6">
-                                    <select id="selectProjetoVersao" class="form-control select2" name="projeto">
-
+                                    <select id="selectProjetoVersao"
+                                            class="form-control select2"
+                                            name="projeto">
                                         <%
-
                                             Projeto projeto = new Projeto();
                                             projeto.setDescricao("");
                                             projeto.setSituacao('A');
-
                                             ArrayList<Projeto> projetos = new ProjetoDAO().listar(projeto);
-
                                             for (int i = 0; i < projetos.size(); i++) {
                                                 if (versao.getProjeto().getId() == projetos.get(i).getId()) {
                                         %>
-                                        <option value="<%=projetos.get(i).getId()%>" selected><%=projetos.get(i).getDescricao()%> </option>
-
+                                        <option value="<%=projetos.get(i).getId()%>"
+                                                selected><%=projetos.get(i).getDescricao()%></option>
                                         <%
                                         } else {
                                         %>
@@ -144,38 +109,31 @@
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-
-                            <input id="cadastraVersao" style="float: right;width: 95px;background-color: #1087dd;" type="submit" class="btn btn-dropbox pull-right-container" name="enviar" value="Salvar"> 
-
+                            <input id="cadastraVersao"
+                                   style="float: right;width: 95px;background-color: #1087dd;"
+                                   type="submit"
+                                   class="btn btn-dropbox pull-right-container"
+                                   name="enviar"
+                                   value="Salvar">
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
             <!--/.col (right) -->
         </div>
         <!-- /.row -->
     </section>
-
     <div id="listadeVersao">
         <%@include file = "listaVersoes.jsp"%>
     </div>
-
-
     <!-- /.content -->
 </div>
-
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -196,11 +154,48 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
 
- 
+<script type="text/javascript">
+    // Via JQuery
+    $(document).ready(function () {
+        $('#cadastraVersao').click(function (event) {
+            event.preventDefault();
+            if (valida_form() === true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/WebTicket/acao?parametro=cadVersao",
+                    data: $('form').serialize()
+                }).done(function (retorno) {
+                    var resultado = $.trim(retorno);
+                    if (resultado !== "ok") {
+                        swal("Houve um erro!", resultado, "error");
+                        //$('#idDescricao').focus();
+                    } else {
+                        swal("Sucesso ao Salvar!", "", "success");
+                        $('#formVersao').each(function () {
+                            this.reset();
+                        });
+                        $("#listadeVersao").load("listaVersoes.jsp");
+                    }
+                });
+                return false;
+            } else {
+                swal("Preencha os campos corretamente!");
+            }
+        }
+        );
+    });
+</script>
 
-
-
-
+<script type="text/javascript">
+    function valida_form() {
+        if ((document.getElementById("versaoDescricao").value === null || document.getElementById("versaoDescricao").value === "") ||
+                (document.getElementById("selectProjetoVersao").value === '0' || document.getElementById("selectProjetoVersao").value === "")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 
 <script>
     $(function () {
@@ -269,5 +264,3 @@
         })
     })
 </script>
-
-

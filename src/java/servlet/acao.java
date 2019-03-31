@@ -6,16 +6,10 @@
 package servlet;
 
 import DAO.CidadeDAO;
-import DAO.ClienteDAO;
-import DAO.FaseDAO;
 import DAO.ModuloDAO;
-import DAO.MotivoDAO;
-import DAO.PrioridadeDAO;
-import DAO.ProjetoDAO;
 import DAO.TarefaDAO;
 import DAO.UsuarioDAO;
 import DAO.VersaoDAO;
-import apoio.Arquivo;
 
 import apoio.Formatacao;
 import controle.ControleCidade;
@@ -50,12 +44,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
 
 /**
  *
@@ -238,36 +230,7 @@ public class acao extends HttpServlet {
 
         }
 
-        if (parametro.equals("exModulo")) {
-            PrintWriter out = response.getWriter();
-
-            try {
-                int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-                ModuloDAO moduloDAO = new ModuloDAO();
-
-                Modulo mod = new Modulo();
-                ArrayList<Modulo> modulos = moduloDAO.consultarId(id);
-                mod.setId(id);
-                mod.setDescricao(modulos.get(0).getDescricao());
-                Projeto projeto = new Projeto();
-                projeto.setId(modulos.get(0).getProjeto().getId());
-                mod.setProjeto(projeto);
-                mod.setSituacao('I');
-
-                int retorno = new ControleModulo().salvar(mod);
-
-                request.setAttribute("paginaOrigem", "cadastroModulo.jsp");
-
-                if (retorno == 1) {
-                    out.println("ok");
-                } else {
-                    out.println("erro");
-                }
-            } catch (Exception e) {
-                out.println("" + e);
-            }
-
-        }
+       
 
         if (parametro.equals("exFase")) {
             PrintWriter out = response.getWriter();
@@ -531,6 +494,53 @@ public class acao extends HttpServlet {
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
         
+        if(parametro.equals("cadMovimentacao")){
+            String idTarefa = request.getParameter("idTarefa");
+            String movimentacao = request.getParameter("movimentacao");
+            PrintWriter out = response.getWriter();
+            
+             MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
+            try {
+                Usuario autorMovimento = new Usuario();
+                TarefaDAO tarefaDAO = new TarefaDAO();
+                HttpSession sessao = request.getSession();
+
+                autorMovimento.setId(Integer.parseInt(sessao.getAttribute("usuarioLogado").toString()));
+
+                ArrayList<Tarefa> tarefa = tarefaDAO.consultarId(Integer.valueOf(idTarefa));
+                movimentacaoTarefa.setTarefa(tarefa.get(0));
+                movimentacaoTarefa.setSituacao('A');
+
+                movimentacaoTarefa.setUsuario(autorMovimento);
+                movimentacaoTarefa.setDatahoraMovimento(new Date());
+                movimentacaoTarefa.setDescricao(movimentacao);
+                movimentacaoTarefa.setAnexo("teste");
+
+                ControleMovimentacaoTarefa controleMovimento = new ControleMovimentacaoTarefa();
+              int retorno =  controleMovimento.salvar(movimentacaoTarefa);
+                
+               if (retorno == 1) {
+                    out.println("ok");
+                    //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
+                } else if (retorno == 2) {
+                    out.println("Descrição precisa ter mais que 3 caracteres");
+                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+                } else if (retorno == 6) {
+                    out.println("Erro ao salvar");
+                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
+                } else {
+                    out.println("Erro desconhecido");
+                }
+                
+                
+            } catch (Exception e) {
+                System.out.println("Erro ao salvar movimentação " + e);
+                out.println(""+e);
+            }
+
+            
+        }
+        
         
         if (parametro.equals("listarTarefas")) {
             
@@ -681,26 +691,26 @@ public class acao extends HttpServlet {
             ControleTarefa controleTarefa = new ControleTarefa();
             int retorno = controleTarefa.salvar(tarefa);
 
-            MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
-            try {
-                Usuario autorMovimento = new Usuario();
-                HttpSession sessao = request.getSession();
-
-                autorMovimento.setId(Integer.parseInt(sessao.getAttribute("usuarioLogado").toString()));
-
-                movimentacaoTarefa.setTarefa(tarefa);
-                movimentacaoTarefa.setSituacao('A');
-
-                movimentacaoTarefa.setUsuario(autorMovimento);
-                movimentacaoTarefa.setDatahoraMovimento(new Date());
-                movimentacaoTarefa.setDescricao(request.getParameter("movimentacao"));
-                movimentacaoTarefa.setAnexo("teste");
-
-                ControleMovimentacaoTarefa controleMovimento = new ControleMovimentacaoTarefa();
-                controleMovimento.salvar(movimentacaoTarefa);
-            } catch (Exception e) {
-                System.out.println("Erro ao salvar movimentação " + e);
-            }
+//            MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
+//            try {
+//                Usuario autorMovimento = new Usuario();
+//                HttpSession sessao = request.getSession();
+//
+//                autorMovimento.setId(Integer.parseInt(sessao.getAttribute("usuarioLogado").toString()));
+//
+//                movimentacaoTarefa.setTarefa(tarefa);
+//                movimentacaoTarefa.setSituacao('A');
+//
+//                movimentacaoTarefa.setUsuario(autorMovimento);
+//                movimentacaoTarefa.setDatahoraMovimento(new Date());
+//                movimentacaoTarefa.setDescricao(request.getParameter("movimentacao"));
+//                movimentacaoTarefa.setAnexo("teste");
+//
+//                ControleMovimentacaoTarefa controleMovimento = new ControleMovimentacaoTarefa();
+//                controleMovimento.salvar(movimentacaoTarefa);
+//            } catch (Exception e) {
+//                System.out.println("Erro ao salvar movimentação " + e);
+//            }
 
             request.setAttribute("paginaOrigem", "cadastroTarefa.jsp");
 
@@ -751,7 +761,7 @@ public class acao extends HttpServlet {
                     out.println("Nome precisa ter de 3 até 45 caractere");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
+                    out.println("Motivo já cadastrado");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else {
                     out.println("Erro desconhecido");
@@ -760,8 +770,6 @@ public class acao extends HttpServlet {
             } catch (Exception e) {
                 out.println("Erro desconhecido"+e);
             }
-           
-
            
 
         }
@@ -869,7 +877,7 @@ public class acao extends HttpServlet {
                     out.println("Nome precisa ter de 3 até 45 caractere");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
+                    out.println("Projeto já cadastrado");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else {
                     out.println("Erro desconhecido");
@@ -880,49 +888,6 @@ public class acao extends HttpServlet {
 
         }
 
-        if (parametro.equals("cadModulo")) {
-
-            PrintWriter out = response.getWriter();
-
-            try {
-                String idProjeto = request.getParameter("projeto");
-                // System.out.println(".i.d" + id);
-                Modulo modulo = new Modulo();
-                int idModulo;
-                if (request.getParameter("id").equals("")) {
-                    idModulo = 0;
-                } else {
-                    idModulo = Integer.parseInt(String.valueOf(request.getParameter("id")));
-                }
-                modulo.setId(idModulo);
-                modulo.setDescricao(request.getParameter("descricao"));
-                modulo.setSituacao('A');
-                Projeto projeto = new Projeto();
-                projeto.setId(Integer.parseInt(idProjeto));
-                modulo.setProjeto(projeto);
-
-                ControleModulo controleModulo = new ControleModulo();
-                int retorno = controleModulo.salvar(modulo);
-
-                request.setAttribute("paginaOrigem", "cadastroModulo.jsp");
-
-                if (retorno == 1) {
-                    out.println("ok");
-                    //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
-                } else if (retorno == 2) {
-                    out.println("Nome precisa ter de 3 até 45 caractere");
-                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
-                } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
-                    //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
-                } else {
-                    out.println("Erro desconhecido");
-                }
-            } catch (Exception e) {
-                out.println("" + e);
-            }
-
-        }
 
         if (parametro.equals("cadFase")) {
             PrintWriter out = response.getWriter();
@@ -951,7 +916,7 @@ public class acao extends HttpServlet {
                     out.println("Nome precisa ter de 3 até 45 caractere");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
+                    out.println("Fase já cadastrada");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else {
                     out.println("Erro desconhecido");
@@ -990,7 +955,7 @@ public class acao extends HttpServlet {
                     out.println("Nome precisa ter de 3 até 45 caractere");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
+                    out.println("Prioridade já cadastrada");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else {
                     out.println("Erro desconhecido");
@@ -1032,7 +997,7 @@ public class acao extends HttpServlet {
                     out.println("Nome precisa ter de 3 até 45 caractere");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else if (retorno == 3) {
-                    out.println("Modulo já cadastrada");
+                    out.println("Modulo já cadastrado");
                     //redirecionarPagina("cadastroCidade.jsp?m=" + retorno, request, response);
                 } else {
                     out.println("Erro desconhecido");

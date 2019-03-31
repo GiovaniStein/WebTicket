@@ -75,6 +75,11 @@
         $(document).ready(function () {
             $('#cadastraTarefa').click(function (event) {
                 event.preventDefault();
+                
+                var descricao = CKEDITOR.instances.editor1.getData();
+                
+                $('#idDescricao').val(descricao);
+                
                 if (valida_form() === true) {
                     $.ajax({
                         type: "POST",
@@ -90,6 +95,17 @@
                             $('#cadTarefa').each(function () {
                                 this.reset();
                             });
+                            $('#selectCliente').val(0).change();
+                            $('#selectAutor').val(1).change();
+                            $('#selectResponsavel').val(0).change();
+                            $('#selectProjeto').val(0).change();
+                            $('#selectMotivo').val(0).change();
+                            $('#selectModulo').val(0).change();
+                            $('#selectFase').val(0).change();
+                            $('#selectPrioridade').val(0).change();
+                            $('#selectVersao').val(0).change();
+                            $('#selectVersaoCorrecao').val(0).change();
+                            $('#dataPrevisao').val('');
                         }
                     });
                     return false;
@@ -105,8 +121,8 @@
     <script type="text/javascript">
 
         function valida_form() {
-            if ((document.getElementById("selectCliente").value === '0' || document.getElementById("selectCliente").value === "") || 
-                    ((document.getElementById("selectAutor").value === '0' || document.getElementById("selectAutor").value === "")) || 
+            if ((document.getElementById("selectCliente").value === '0' || document.getElementById("selectCliente").value === "") ||
+                    ((document.getElementById("selectAutor").value === '0' || document.getElementById("selectAutor").value === "")) ||
                     ((document.getElementById("selectResponsavel").value === '0' || document.getElementById("selectResponsavel").value === "")) ||
                     ((document.getElementById("selectProjeto").value === '0' || document.getElementById("selectProjeto").value === "")) ||
                     ((document.getElementById("selectMotivo").value === '0' || document.getElementById("selectMotivo").value === "")) ||
@@ -117,7 +133,7 @@
                     ((document.getElementById("selectVersaoCorrecao").value === '0' || document.getElementById("selectVersaoCorrecao").value === "")) ||
                     ((document.getElementById("dataPrevisao").value === '' || document.getElementById("dataPrevisao").value === null)) ||
                     ((document.getElementById("tituloTarefa").value === '' || document.getElementById("tituloTarefa").value === null)) ||
-                    ((document.getElementById("editor1").value === '' || document.getElementById("editor1").value === null))) {
+                    ((CKEDITOR.instances.editor1.getData( )=== ''  || CKEDITOR.instances.editor1.getData() === null))) {
                 return false;
             } else {
                 return true;
@@ -145,7 +161,7 @@
 
                                 <div class="col-sm-1">
                                     <%                                                       if (tar.getId() > 0) {%>
-                                    <input type="text" class="form-control" name="id" value="<%= tar.getId()%>" readonly >
+                                    <input type="text" id="idTarefa" class="form-control" name="id" value="<%= tar.getId()%>" readonly >
                                     <%} else {
                                     %>
 
@@ -579,10 +595,10 @@
 
 
 
-                                <div class="col-xs-8">
+                                <div class="col-xs-10">
 
-                                    <textarea id="editor1" name="descricao"  rows="5" cols="5">
-                                        <%=tar.getDescricao()%></textarea>
+                                    <textarea id="editor1" name="descricaotextarea"  rows="5" cols="5"><%=tar.getDescricao()%></textarea>
+                                    <input id="idDescricao" name="descricao" type="hidden" value="<%=tar.getDescricao()%>" >
                                 </div>
 
 
@@ -590,14 +606,14 @@
 
 
 
-                            <div class="form-group">
+<!--                            <div class="form-group">
                                 <label for="movimentacao" class="col-sm-1 control-label">Movimentação</label>
                                 <div class="col-xs-8">
 
                                     <textarea id="editor2" name="movimentacao"  rows="5" cols="5">
                                     </textarea>
                                 </div>
-                            </div>
+                            </div>-->
 
 
 
@@ -623,8 +639,20 @@
             <%//@include file = "listaMovimentacoes.jsp"%>
     </section>
 
-    <%@include file = "listaMovimentacoes.jsp"%>
-    <!-- /.content -->
+
+
+    <%                                                       if (tar.getId() > 0) {%>
+    <div id="listaMovimentacoes">
+        <%@include file = "listaMovimentacoes.jsp"%>
+    </div>
+    <%}
+    %>
+
+
+
+
+
+
 
 </div>
 
@@ -750,8 +778,14 @@
     $(function () {
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
-        CKEDITOR.replace('editor1')
-        CKEDITOR.replace('editor2')
+
+
+
+        CKEDITOR.replace('editor1');
+        var value = $('#idDescricao').val();
+        CKEDITOR.instances['editor1'].setData(value);
+
+       
         //bootstrap WYSIHTML5 - text editor
         $('.textarea').wysihtml5()
     })

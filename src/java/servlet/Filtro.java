@@ -1,4 +1,3 @@
-
 package servlet;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 @WebFilter("/*")
 public class Filtro extends HttpServlet implements Filter {
@@ -122,17 +120,22 @@ public class Filtro extends HttpServlet implements Filter {
         excessoes.add("/WebTicket/js/jquery-3.3.1.min.js");
         excessoes.add("/WebTicket/js/sweetalert2.js");
         excessoes.add("/WebTicket/js/sweetalert2.css");
-        excessoes.add("/WebTicket/js/jquery.modal.min.js");
-        excessoes.add("/WebTicket/js/jquery.modal.min.css");
-        
-        
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
+        excessoes.add("/WebTicket/js/ckeditor.js");
+        excessoes.add("/WebTicket/js/config.js");
+        excessoes.add("/WebTicket/js/editor.css");
+        excessoes.add("/WebTicket/js/Chart.bundle.js");
+        excessoes.add("/WebTicket/js/Chart.bundle.min.js");
+        excessoes.add("/WebTicket/js/canvasjs.min.js");
+        excessoes.add("/WebTicket/js/Chart.js");
+        excessoes.add("/WebTicket/js/Chart.min.css");
+        excessoes.add("/WebTicket/js/Chart.min.js");
 
+//         excessoes.add("/WebTicket/");
+//         excessoes.add("/WebTicket/");
+//         excessoes.add("/WebTicket/");
+//         excessoes.add("/WebTicket/");
+//         excessoes.add("/WebTicket/");
+//         excessoes.add("/WebTicket/");
     }
 
     @Override

@@ -30,7 +30,7 @@
         <div class="row">
 
             <!-- right column -->
-            <div style="width: 100%" class="col-md-6">
+             <div class="col-md-12">
 
                 <!-- Horizontal Form -->
                 <div class="box box-info">

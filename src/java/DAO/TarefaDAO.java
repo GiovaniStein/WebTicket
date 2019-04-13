@@ -33,6 +33,93 @@ import static sun.security.krb5.Confounder.bytes;
 public class TarefaDAO extends DAO {
 
     Tarefa tarefa;
+    
+    public int countTask() {
+        this.tarefa = tarefa;
+        List resultado = null;
+
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+
+            sql = "from Tarefa";
+
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            return q.list().size();
+
+            
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+       
+    }
+    
+    public int countTaskByProject(int id) {
+        this.tarefa = tarefa;
+        List resultado = null;
+
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+
+            sql = "from Tarefa  "
+                    + "where "
+                    + "projeto.id = "+id;
+
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            return q.list().size();
+
+            
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+       
+    }
+    public int countTaskByStep(int id) {
+        this.tarefa = tarefa;
+        List resultado = null;
+
+        ArrayList<Tarefa> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+
+            sql = "from Tarefa  "
+                    + "where "
+                    + "fase.id = "+id;
+
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            return q.list().size();
+
+            
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+       
+    }
+    
+    
+    
 
     public ArrayList<Tarefa> listar(Tarefa tarefa) {
         this.tarefa = tarefa;

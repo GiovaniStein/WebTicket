@@ -6,6 +6,7 @@
 package servlet;
 
 import DAO.CidadeDAO;
+import DAO.FaseDAO;
 import DAO.ModuloDAO;
 import DAO.ProjetoDAO;
 import DAO.TarefaDAO;
@@ -13,6 +14,7 @@ import DAO.UsuarioDAO;
 import DAO.VersaoDAO;
 
 import apoio.Formatacao;
+import com.google.gson.Gson;
 import controle.ControleCidade;
 import controle.ControleCliente;
 import controle.ControleFase;
@@ -44,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -88,13 +91,38 @@ public class acao extends HttpServlet {
         System.out.println(parametro);
         
         if(parametro.equals("appInformation")){
-            HashMap<String, Integer> values = new HashMap<String, Integer>();
-            UsuarioDAO userdao = new UsuarioDAO();
+            PrintWriter out = response.getWriter(); 
+            try {
+            TreeMap<String, Object> values = new TreeMap<String, Object>();
+            TreeMap<String, Integer> proj = new TreeMap<String, Integer>();
+            TreeMap<String, Object> fase = new TreeMap<String, Object>();
             ProjetoDAO projetodao = new ProjetoDAO();
-            VersaoDAO versaodao = new VersaoDAO();
-            values.put("countUsers", userdao.CountUsers());
-            values.put("countProjects", projetodao.countProject());
-            values.put("countVersion", versaodao.countVersion());
+            TarefaDAO tarefadao = new TarefaDAO();
+            FaseDAO fasedao = new FaseDAO(); 
+            
+            ArrayList<Projeto> projects = projetodao.getAll();
+            
+            for(Projeto p:projects){
+                proj.put(p.getDescricao(),tarefadao.countTaskByProject(p.getId()));
+            }
+            
+            ArrayList<Fase> fas = fasedao.getAll();
+            
+            for(Fase f:fas){
+                fase.put(f.getDescricao(),tarefadao.countTaskByStep(f.getId()));
+            }
+            
+            values.put("tasksPerProject", proj);
+            values.put("tasksPerStep", fase);
+            
+           Gson gson = new Gson();
+           String s = (gson.toJson(values));
+            
+            out.println(s);
+            
+            } catch (Exception e) {
+            }
+            
             
             
         }

@@ -633,10 +633,7 @@
 
 
             </div>
-            <!--/.col (right) -->
-            <!--</div>-->
-            <!-- /.row -->
-            <%//@include file = "listaMovimentacoes.jsp"%>
+          
     </section>
 
 

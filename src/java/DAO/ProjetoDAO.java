@@ -38,6 +38,34 @@ public class ProjetoDAO extends DAO {
         
     }
     
+    public ArrayList<Projeto> getAll() {
+        List resultado = null;
+
+        ArrayList<Projeto> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+             String sql = "from Projeto  "
+                    + " order by descricao";
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            resultado = q.list();
+
+            for (Object o : resultado) {
+                Projeto proj = ((Projeto) ((Object) o));
+                lista.add(proj);
+            }
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }// finally {
+//            session.close();
+//        }
+        return lista;
+    }
+    
     
     
 

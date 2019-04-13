@@ -13,6 +13,31 @@ import org.hibernate.Session;
 public class FaseDAO extends DAO{
 
     Fase fase;
+    
+    
+     public ArrayList<Fase> getAll() {
+        List resultado = null;
+        ArrayList<Fase> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "from Fase";
+            org.hibernate.Query q = session.createQuery(sql);
+            resultado = q.list();
+
+            for (Object o : resultado) {
+                Fase fas = ((Fase) ((Object) o));
+                lista.add(fas);
+            }
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return lista;
+    }
+    
+    
+    
      public ArrayList<Fase> listar(Fase fase) {
         this.fase = fase;
         List resultado = null;

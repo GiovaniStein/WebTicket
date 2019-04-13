@@ -18,6 +18,34 @@ public class VersaoDAO extends DAO {
 
     Versao versao;
     List<Object[]> listResult;
+    
+    public int countVersion() {
+        this.versao = versao;
+        List resultado = null;
+
+        ArrayList<Versao> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+
+            sql = "from Versao";
+
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            return q.list().size();
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+        
+    }
+    
+    
+    
 
     public ArrayList<Versao> listar(Versao versao) {
         this.versao = versao;

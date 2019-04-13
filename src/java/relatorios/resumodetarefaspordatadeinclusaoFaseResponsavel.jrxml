@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resumo de tarefas por data de inclusao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44d62392-cfda-43a3-9abb-092ce5419e39">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="58"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="datainclusaoinicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datahorainclusaofinal" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idresponsavel" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select t.id,f.descricao descricaofase,m.descricao descricaomodulo, pri.descricao descricraoprioridade, resp.nome,t.datahora_criacao
+from tarefa t, fase f, projeto p, MODULO M, prioridade pri, usuario resp
+where t.id_fase = f.id
+and t.id_projeto = p.id
+and t.id_modulo = m.id
+and t.id_prioridade = pri.id
+and t.id_usuario_responsavel = resp.id
+and t.datahora_criacao >= $P{datainclusaoinicio}
+and t.datahora_criacao <= $P{datahorainclusaofinal}
+
+order by resp.nome ]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="descricaofase" class="java.lang.String"/>
+	<field name="descricaomodulo" class="java.lang.String"/>
+	<field name="descricraoprioridade" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="datahora_criacao" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="31" forecolor="#0033CC" uuid="174d3d4c-a380-4c2a-9e26-ef3a39af896d"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumo de tarefas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="555" height="31" forecolor="#0033CC" uuid="9c2c852b-750c-4639-a3b8-2be064a1f573"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[por fase,projeto e modulo de um determinado período]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="196" y="27" width="84" height="13" uuid="dc666133-16ae-40cd-9e7b-e7e7a6317dff"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{descricaofase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="26" width="89" height="15" uuid="4bbdacf7-551b-479b-8cc1-3dcb0c49074f"/>
+				<textFieldExpression><![CDATA[$F{descricaomodulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="11" width="53" height="14" uuid="d6cc5be6-bc62-471c-9599-21780d2bea8c"/>
+				<text><![CDATA[ID TAREFA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="11" width="32" height="13" uuid="7bd1e7df-13d3-4eb7-95f4-140c65c0d99b"/>
+				<text><![CDATA[FASE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="11" width="98" height="14" uuid="a6aa8064-9a73-4e38-a10d-0faa468039df"/>
+				<text><![CDATA[PRIORIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="11" width="51" height="20" uuid="09ac6d13-33e1-4b2b-acf6-4be5941f03f8"/>
+				<text><![CDATA[MODULO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="10" width="538" height="1" uuid="eb15b1be-1cae-435d-a060-3af26b841ef9"/>
+			</line>
+			<line>
+				<reportElement x="7" y="23" width="538" height="1" uuid="7cb0b31f-96c7-4868-90dc-fc8184eda506"/>
+			</line>
+			<line>
+				<reportElement x="7" y="40" width="538" height="1" uuid="465a631e-a1ef-4eec-b469-f9b27a6d253e"/>
+			</line>
+			<line>
+				<reportElement x="545" y="10" width="1" height="31" uuid="80a1c817-6c25-4a41-8c2b-84cf988977c8"/>
+			</line>
+			<line>
+				<reportElement x="373" y="10" width="1" height="31" uuid="ad81e10e-cf24-426a-bd6b-ccbb903ecd7d"/>
+			</line>
+			<line>
+				<reportElement x="280" y="10" width="1" height="31" uuid="1b137cf6-16c9-4fda-9788-dbcdd162bed7"/>
+			</line>
+			<line>
+				<reportElement x="62" y="10" width="1" height="31" uuid="c85345e4-8461-4bab-8f81-dfccb2cc747c"/>
+			</line>
+			<line>
+				<reportElement x="6" y="10" width="1" height="31" uuid="24f2637f-fb6b-4fcb-9277-44dfe673d109"/>
+			</line>
+			<textField>
+				<reportElement x="282" y="25" width="98" height="15" uuid="3bcce4c9-c3de-4882-89b0-6c65e99a5a26"/>
+				<textFieldExpression><![CDATA[$F{descricraoprioridade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="27" width="53" height="13" uuid="49f09a55-79fc-4b74-afb4-6bc305ebee83"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="27" width="148" height="14" uuid="6122b449-c2ee-4705-bb95-6471e59f0371"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="66" y="11" width="100" height="20" uuid="c253e386-0c7c-4951-b48d-8770bba8e5a4"/>
+				<text><![CDATA[RESPONSÁVEL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="192" y="10" width="1" height="31" uuid="3565d129-de48-468c-8d14-d469c387dd53"/>
+			</line>
+			<textField>
+				<reportElement x="468" y="26" width="79" height="13" uuid="af8cd280-2c9f-4a8b-9406-862ebd9cb4e1"/>
+				<textFieldExpression><![CDATA[$F{datahora_criacao}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="465" y="10" width="1" height="31" uuid="56e2cba9-dc47-43fc-addf-cf3f41a1e899"/>
+			</line>
+			<staticText>
+				<reportElement x="467" y="11" width="79" height="15" uuid="4d84917a-328d-4fbd-941d-bc958a3610a0"/>
+				<text><![CDATA[DATA CRIAÇÃO]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="525" y="34" width="100" height="20" uuid="69f1e895-1e87-4505-a6a3-0fa835e8302d"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

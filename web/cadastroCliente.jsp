@@ -8,23 +8,25 @@
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>
 
-<%  Cliente cliente = (Cliente) request.getAttribute("objcli");
 
-    if (cliente == null) {
-        cliente = new Cliente();
-        cliente.setSituacao('A');
-        cliente.setRazaoSocial("");
-        cliente.setCpfCnpj("");
-        cliente.setEndereco("");
-        cliente.setTelefone("");
-        Cidade cidade = new Cidade();
-        cliente.setCidade(cidade);
-    }
-%>
 
 <!-- Content Wrapper. Contains page content -->
 <div style="height: 300px;overflow: auto;min-height: 768px;"
      class="content-wrapper">
+
+    <%  Cliente cliente = (Cliente) request.getAttribute("objcli");
+
+        if (cliente == null) {
+            cliente = new Cliente();
+            cliente.setSituacao('A');
+            cliente.setRazaoSocial("");
+            cliente.setCpfCnpj("");
+            cliente.setEndereco("");
+            cliente.setTelefone("");
+            Cidade cidade = new Cidade();
+            cliente.setCidade(cidade);
+        }
+    %>
 
     <!-- Main content -->
     <section class="content">
@@ -208,66 +210,6 @@
                                 </div>
                             </div>
                         </div>
-                        <%
-                            if (request.getParameterMap().containsKey("m")
-                                    && (request.getParameter("m").equals("1")
-                                    || request.getParameter("m").equals("10"))) {
-                        %>
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="alert"
-                                    aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
-                            <%
-                                if (request.getParameter("m").equals("1")) {
-                            %>
-                            Cliente salvo com sucesso!
-                            <%
-                            } else if (request.getParameter("m").equals("10")) {
-                            %>
-                            Cliente excluído com sucesso!
-                            <%
-                                }
-                            %>
-                        </div>
-                        <%
-                            if (request.getParameterMap().containsKey("m")
-                                    && (request.getParameter("m").equals("2")
-                                    || request.getParameter("m").equals("3")
-                                    || request.getParameter("m").equals("4")
-                                    || request.getParameter("m").equals("5")
-                                    || request.getParameter("m").equals("6"))) {
-                        %>
-                        <div class="alert alert-danger">
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="alert"
-                                    aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-ban"></i> Erro ao salvar cliente!</h4>
-                            <%
-                                if (request.getParameter("m").equals("2")) {
-                            %>
-                            <h5>Nome precisa ter de 3 até 150 caracteres!</h5>   
-                            <%
-                            } else if (request.getParameter("m").equals("3")) {
-                            %>                           
-                            É preciso selecionar um tipo!
-                            <%
-                            } else if (request.getParameter("m").equals("4")) {
-                            %> 
-                            CPF/CNPJ inválido!
-                            <%
-                            } else if (request.getParameter("m").equals("5")) {
-                            %> 
-                            CPF/CNPJ já utilizado em outro cadastro!
-                            <%
-                                }
-                            %>
-                        </div>
-                        <%
-                            }
-                        %>
                         <div class="box-footer">
                             <input id="cadastraCliente"
                                    style="float: right;width: 95px;background-color: #1087dd;"

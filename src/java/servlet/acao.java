@@ -7,6 +7,7 @@ package servlet;
 
 import DAO.CidadeDAO;
 import DAO.ModuloDAO;
+import DAO.ProjetoDAO;
 import DAO.TarefaDAO;
 import DAO.UsuarioDAO;
 import DAO.VersaoDAO;
@@ -34,16 +35,20 @@ import entidade.Projeto;
 import entidade.Tarefa;
 import entidade.Usuario;
 import entidade.Versao;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,13 +86,25 @@ public class acao extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
+        
+        if(parametro.equals("appInformation")){
+            HashMap<String, Integer> values = new HashMap<String, Integer>();
+            UsuarioDAO userdao = new UsuarioDAO();
+            ProjetoDAO projetodao = new ProjetoDAO();
+            VersaoDAO versaodao = new VersaoDAO();
+            values.put("countUsers", userdao.CountUsers());
+            values.put("countProjects", projetodao.countProject());
+            values.put("countVersion", versaodao.countVersion());
+            
+            
+        }
 
         if (parametro.equals("logout")) {
             HttpSession sessao = request.getSession();
             sessao.invalidate();
             response.sendRedirect("index.jsp");
         }
-        
+
         if (parametro.equals("edTarefa")) {
             int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
 
@@ -99,101 +116,97 @@ public class acao extends HttpServlet {
             encaminharPagina("cadastroTarefa.jsp", request, response);
 
         }
-        
+
         if (parametro.equals("exTarefa")) {
-            
+
             PrintWriter out = response.getWriter();
-            
+
             try {
                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            Tarefa tar = new Tarefa();
-            tar.setId(id);
-            ControleTarefa controleTarefa = new ControleTarefa();
-            ArrayList<Tarefa> tarefas = controleTarefa.consultarId(tar.getId());
-            Cidade cid = new Cidade();
+                Tarefa tar = new Tarefa();
+                tar.setId(id);
+                ControleTarefa controleTarefa = new ControleTarefa();
+                ArrayList<Tarefa> tarefas = controleTarefa.consultarId(tar.getId());
+                Cidade cid = new Cidade();
 
-            Cliente cli = new Cliente();
-            cli.setId(tarefas.get(0).getCliente().getId());
-            cli.setCidade(cid);
-            tar.setCliente(cli);
-            Fase fas = new Fase();
-            fas.setId(tarefas.get(0).getFase().getId());
-            Versao versaoBug = new Versao();
-            versaoBug.setId(tarefas.get(0).getVersaoByIdVersaoBug().getId());
-            Versao versaoCorrecao = new Versao();
-            versaoCorrecao.setId(tarefas.get(0).getVersaoByIdVersaoCorrecao().getId());
-            tar.setVersaoByIdVersaoBug(versaoBug);
-            tar.setVersaoByIdVersaoCorrecao(versaoCorrecao);
-            tar.setTitulo(tarefas.get(0).getTitulo());
-            tar.setDescricao(tarefas.get(0).getDescricao());
-            tar.setDatahoraCriacao(tarefas.get(0).getDatahoraCriacao());
-            tar.setDatahoraPrevisao(tarefas.get(0).getDatahoraPrevisao());
+                Cliente cli = new Cliente();
+                cli.setId(tarefas.get(0).getCliente().getId());
+                cli.setCidade(cid);
+                tar.setCliente(cli);
+                Fase fas = new Fase();
+                fas.setId(tarefas.get(0).getFase().getId());
+                Versao versaoBug = new Versao();
+                versaoBug.setId(tarefas.get(0).getVersaoByIdVersaoBug().getId());
+                Versao versaoCorrecao = new Versao();
+                versaoCorrecao.setId(tarefas.get(0).getVersaoByIdVersaoCorrecao().getId());
+                tar.setVersaoByIdVersaoBug(versaoBug);
+                tar.setVersaoByIdVersaoCorrecao(versaoCorrecao);
+                tar.setTitulo(tarefas.get(0).getTitulo());
+                tar.setDescricao(tarefas.get(0).getDescricao());
+                tar.setDatahoraCriacao(tarefas.get(0).getDatahoraCriacao());
+                tar.setDatahoraPrevisao(tarefas.get(0).getDatahoraPrevisao());
 
-            Modulo modulo = new Modulo();
-            modulo.setId(tarefas.get(0).getModulo().getId());
-            tar.setModulo(modulo);
-            Prioridade prioridade = new Prioridade();
-            prioridade.setId(tarefas.get(0).getPrioridade().getId());
-            tar.setPrioridade(prioridade);
-            Projeto projeto = new Projeto();
-            projeto.setId(tarefas.get(0).getProjeto().getId());
-            tar.setProjeto(projeto);
-            Usuario autor = new Usuario();
-            autor.setId(tarefas.get(0).getUsuarioByIdUsuarioAutor().getId());
-            tar.setUsuarioByIdUsuarioAutor(autor);
-            Usuario responsavel = new Usuario();
-            responsavel.setId(tarefas.get(0).getUsuarioByIdUsuarioResponsavel().getId());
-            tar.setUsuarioByIdUsuarioResponsavel(responsavel);
-            Motivo motivo = new Motivo();
-            motivo.setId(tarefas.get(0).getMotivo().getId());
-            tar.setMotivo(motivo);
-            tar.setFase(fas);
+                Modulo modulo = new Modulo();
+                modulo.setId(tarefas.get(0).getModulo().getId());
+                tar.setModulo(modulo);
+                Prioridade prioridade = new Prioridade();
+                prioridade.setId(tarefas.get(0).getPrioridade().getId());
+                tar.setPrioridade(prioridade);
+                Projeto projeto = new Projeto();
+                projeto.setId(tarefas.get(0).getProjeto().getId());
+                tar.setProjeto(projeto);
+                Usuario autor = new Usuario();
+                autor.setId(tarefas.get(0).getUsuarioByIdUsuarioAutor().getId());
+                tar.setUsuarioByIdUsuarioAutor(autor);
+                Usuario responsavel = new Usuario();
+                responsavel.setId(tarefas.get(0).getUsuarioByIdUsuarioResponsavel().getId());
+                tar.setUsuarioByIdUsuarioResponsavel(responsavel);
+                Motivo motivo = new Motivo();
+                motivo.setId(tarefas.get(0).getMotivo().getId());
+                tar.setMotivo(motivo);
+                tar.setFase(fas);
 
-            tar.setSituacao('I');
-            int retorno;
+                tar.setSituacao('I');
+                int retorno;
 
-            retorno = controleTarefa.salvar(tar);
+                retorno = controleTarefa.salvar(tar);
 
-            request.setAttribute("paginaOrigem", "cadastroTarefa.jsp");
+                request.setAttribute("paginaOrigem", "cadastroTarefa.jsp");
 
-           if (retorno == 1) {
+                if (retorno == 1) {
                     out.println("ok");
                 } else {
                     out.println("erro");
                 }
             } catch (Exception e) {
-                out.println(""+e);
+                out.println("" + e);
             }
 
-            
-
         }
-        
-        
-        
+
         if (parametro.equals("exMotivo")) {
-            
+
             PrintWriter out = response.getWriter();
-            
+
             try {
-                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            Motivo motiv = new Motivo();
-            motiv.setId(id);
+                int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+                Motivo motiv = new Motivo();
+                motiv.setId(id);
 
-            motiv.setDescricao("");
-            motiv.setSituacao('I');
+                motiv.setDescricao("");
+                motiv.setSituacao('I');
 
-            int retorno = new ControleMotivo().salvar(motiv);
+                int retorno = new ControleMotivo().salvar(motiv);
 
-            request.setAttribute("paginaOrigem", "cadastroMotivo.jsp");
-            
-             if (retorno == 1) {
+                request.setAttribute("paginaOrigem", "cadastroMotivo.jsp");
+
+                if (retorno == 1) {
                     out.println("ok");
                 } else {
                     out.println("erro");
                 }
             } catch (Exception e) {
-                out.println(""+e);
+                out.println("" + e);
             }
 
         }
@@ -229,8 +242,6 @@ public class acao extends HttpServlet {
             }
 
         }
-
-       
 
         if (parametro.equals("exFase")) {
             PrintWriter out = response.getWriter();
@@ -287,42 +298,40 @@ public class acao extends HttpServlet {
             }
 
         }
-        
+
         if (parametro.equals("exCliente")) {
             PrintWriter out = response.getWriter();
-            
+
             try {
                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            Cliente cli = new Cliente();
-            cli.setId(id);
-            ControleCliente controleCliente = new ControleCliente();
-            ArrayList<Cliente> clientes = controleCliente.consultarId(cli.getId());
-            Cidade cid = new Cidade();
-            cid.setId(clientes.get(0).getCidade().getId());
-            cli.setRazaoSocial(clientes.get(0).getRazaoSocial());
-            cli.setCpfCnpj(clientes.get(0).getCpfCnpj());
-            // cli = clientes.get(0);
-            cli.setEndereco(clientes.get(0).getEndereco());
-            cli.setTelefone(clientes.get(0).getTelefone());
-            cli.setTipoCadastro(clientes.get(0).getTipoCadastro());
-            cli.setSituacao('I');
-            cli.setCidade(cid);
-            int retorno;
+                Cliente cli = new Cliente();
+                cli.setId(id);
+                ControleCliente controleCliente = new ControleCliente();
+                ArrayList<Cliente> clientes = controleCliente.consultarId(cli.getId());
+                Cidade cid = new Cidade();
+                cid.setId(clientes.get(0).getCidade().getId());
+                cli.setRazaoSocial(clientes.get(0).getRazaoSocial());
+                cli.setCpfCnpj(clientes.get(0).getCpfCnpj());
+                // cli = clientes.get(0);
+                cli.setEndereco(clientes.get(0).getEndereco());
+                cli.setTelefone(clientes.get(0).getTelefone());
+                cli.setTipoCadastro(clientes.get(0).getTipoCadastro());
+                cli.setSituacao('I');
+                cli.setCidade(cid);
+                int retorno;
 
-            retorno = controleCliente.salvar(cli);
+                retorno = controleCliente.salvar(cli);
 
-            request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
+                request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
 
-             if (retorno == 1) {
+                if (retorno == 1) {
                     out.println("ok");
                 } else {
                     out.println("erro");
                 }
             } catch (Exception e) {
-                out.println(""+e);
+                out.println("" + e);
             }
-
-            
 
         }
 
@@ -493,13 +502,176 @@ public class acao extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
-        
-        if(parametro.equals("cadMovimentacao")){
+
+        if (parametro.equals("excelTarefasResumo")) {
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            ArrayList<Tarefa> tarefas = new ArrayList<>();
+
+            try {
+                tarefas = tarefaDAO.gerarExcelResumoPorPeriodo(request.getParameter("datainclusaoinicio"), request.getParameter("datainclusaofinal"));
+
+                //arquivo = new Arquivo("C:\\Users\\Mileto\\Documents\\NetBeansProjects\\HelpWeb\\src\\java\\servlet\\Excel.csv");
+                String textoArquivo = "";
+                //   if (arquivo.abrirEscrita(true)) {
+
+                String cabecalho = "Id;Titulo;Cliente;Projeto;Motivo;Modulo;Prioridade;Fase;Autor;Responsavel;Versao Bug;Versao Correção";
+                // arquivo.escreverLinha(cabecalho);
+                //  textoArquivo = textoArquivo + cabecalho + "\n";
+                textoArquivo = cabecalho + "\n";
+                //  arquivo.escreverLinha(cabecalho);
+                for (int i = 0; i < tarefas.size(); i++) {
+                    String linha = tarefas.get(i).getId() + ";"
+                            + tarefas.get(i).getTitulo() + ";"
+                            + tarefas.get(i).getCliente().getRazaoSocial() + ";"
+                            + tarefas.get(i).getProjeto().getDescricao() + ";"
+                            + tarefas.get(i).getMotivo().getDescricao() + ";"
+                            + tarefas.get(i).getModulo().getDescricao() + ";"
+                            + tarefas.get(i).getPrioridade().getDescricao() + ";"
+                            + tarefas.get(i).getFase().getDescricao() + ";"
+                            + tarefas.get(i).getUsuarioByIdUsuarioAutor().getNome() + ";"
+                            + tarefas.get(i).getUsuarioByIdUsuarioResponsavel().getNome() + ";"
+                            + tarefas.get(i).getVersaoByIdVersaoBug().getDescricao() + ";"
+                            + tarefas.get(i).getVersaoByIdVersaoCorrecao().getDescricao() + ";";
+
+                    textoArquivo = textoArquivo + linha + "\n";
+                    //   arquivo.escreverLinha(linha);
+
+                }
+                // arquivo.fecharArquivo();
+
+                //  }
+                String txt = textoArquivo;
+                File file = new File(txt);
+                FileOutputStream teste = new FileOutputStream("Excel");
+                teste.write(txt.getBytes());
+                teste.flush();
+                teste.close();
+                response.setContentType("text/plain");
+                response.setHeader("Content-disposition", "attachment; filename=" + "Tarefas por periodo" + ".csv");
+                ServletOutputStream os = response.getOutputStream();
+                os.write(txt.getBytes());
+                os.flush();
+                os.close();
+
+            } catch (Exception e) {
+                System.out.println("erro ao gerar excel jsp " + e);
+            }
+
+        }
+        if (parametro.equals("excelTarefasResumoPorProjeto")) {
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            ArrayList<Tarefa> tarefas = new ArrayList<>();
+
+            try {
+                tarefas = tarefaDAO.gerarExcelResumoPorPeriodoEProjeto(request.getParameter("datainclusaoinicio"), request.getParameter("datainclusaofinal"), Integer.parseInt(request.getParameter("idProjeto")));
+
+                String textoArquivo = "";
+
+                String cabecalho = "Id;Titulo;Cliente;Projeto;Motivo;Modulo;Prioridade;Fase;Autor;Responsavel;Versao Bug;Versao Correção";
+
+                textoArquivo = cabecalho + "\n";
+
+                for (int i = 0; i < tarefas.size(); i++) {
+                    String linha = tarefas.get(i).getId() + ";"
+                            + tarefas.get(i).getTitulo() + ";"
+                            + tarefas.get(i).getCliente().getRazaoSocial() + ";"
+                            + tarefas.get(i).getProjeto().getDescricao() + ";"
+                            + tarefas.get(i).getMotivo().getDescricao() + ";"
+                            + tarefas.get(i).getModulo().getDescricao() + ";"
+                            + tarefas.get(i).getPrioridade().getDescricao() + ";"
+                            + tarefas.get(i).getFase().getDescricao() + ";"
+                            + tarefas.get(i).getUsuarioByIdUsuarioAutor().getNome() + ";"
+                            + tarefas.get(i).getUsuarioByIdUsuarioResponsavel().getNome() + ";"
+                            + tarefas.get(i).getVersaoByIdVersaoBug().getDescricao() + ";"
+                            + tarefas.get(i).getVersaoByIdVersaoCorrecao().getDescricao() + ";";
+
+                    textoArquivo = textoArquivo + linha + "\n";
+
+                }
+
+                String txt = textoArquivo;
+                File file = new File(txt);
+                FileOutputStream teste = new FileOutputStream("Excel");
+                teste.write(txt.getBytes());
+                teste.flush();
+                teste.close();
+                response.setContentType("text/plain");
+                response.setHeader("Content-disposition", "attachment; filename=" + "Tarefas por periodo e projeto" + ".csv");
+                ServletOutputStream os = response.getOutputStream();
+                os.write(txt.getBytes());
+                os.flush();
+                os.close();
+
+            } catch (Exception e) {
+                System.out.println("erro ao gerar excel jsp " + e);
+            }
+
+        }
+
+
+        if (parametro.equals("relTarefasResumo")) {
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            try {
+                byte[] bytes = tarefaDAO.gerarRelatorioResumoPorPeriodo(request.getParameter("datainclusaoinicio"), request.getParameter("datainclusaofinal"));
+
+                response.setContentType("application/pdf");
+                response.setContentLength(bytes.length);
+                ServletOutputStream outStream = response.getOutputStream();
+                outStream.write(bytes, 0, bytes.length);
+                outStream.flush();
+                outStream.close();
+            } catch (Exception e) {
+                System.out.println("erro ao gerar relatorio jsp " + e);
+            }
+
+        }
+
+        if (parametro.equals("relTarefasPorProjeto")) {
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            try {
+                byte[] bytes = tarefaDAO.gerarRelatorioResumoPorPeriodoEProjeto(request.getParameter("datainclusaoinicio"), request.getParameter("datainclusaofinal"), Integer.parseInt(request.getParameter("idProjeto")));
+
+                response.setContentType("application/pdf");
+                response.setContentLength(bytes.length);
+                ServletOutputStream outStream = response.getOutputStream();
+                outStream.write(bytes, 0, bytes.length);
+                outStream.flush();
+                outStream.close();
+                response.getWriter().print("ok");
+            } catch (Exception e) {
+                System.out.println("erro ao gerar relatorio jsp " + e);
+                response.getWriter().print("erro " + e);
+            }
+
+        }
+        if (parametro.equals("relTarefasPorResponsavel")) {
+
+            TarefaDAO tarefaDAO = new TarefaDAO();
+            try {
+                byte[] bytes = tarefaDAO.gerarRelatorioResumoPorPeriodoEResponsavel(request.getParameter("datainclusaoinicio"), request.getParameter("datainclusaofinal"));
+
+                response.setContentType("application/pdf");
+                response.setContentLength(bytes.length);
+                ServletOutputStream outStream = response.getOutputStream();
+                outStream.write(bytes, 0, bytes.length);
+                outStream.flush();
+                outStream.close();
+            } catch (Exception e) {
+                System.out.println("erro ao gerar relatorio jsp " + e);
+            }
+
+        }
+
+        if (parametro.equals("cadMovimentacao")) {
             String idTarefa = request.getParameter("idTarefa");
             String movimentacao = request.getParameter("movimentacao");
             PrintWriter out = response.getWriter();
-            
-             MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
+
+            MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
             try {
                 Usuario autorMovimento = new Usuario();
                 TarefaDAO tarefaDAO = new TarefaDAO();
@@ -517,9 +689,9 @@ public class acao extends HttpServlet {
                 movimentacaoTarefa.setAnexo("teste");
 
                 ControleMovimentacaoTarefa controleMovimento = new ControleMovimentacaoTarefa();
-              int retorno =  controleMovimento.salvar(movimentacaoTarefa);
-                
-               if (retorno == 1) {
+                int retorno = controleMovimento.salvar(movimentacaoTarefa);
+
+                if (retorno == 1) {
                     out.println("ok");
                     //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
                 } else if (retorno == 2) {
@@ -531,21 +703,16 @@ public class acao extends HttpServlet {
                 } else {
                     out.println("Erro desconhecido");
                 }
-                
-                
+
             } catch (Exception e) {
                 System.out.println("Erro ao salvar movimentação " + e);
-                out.println(""+e);
+                out.println("" + e);
             }
 
-            
         }
-        
-        
+
         if (parametro.equals("listarTarefas")) {
-            
-            
-            
+
             //-----------------------//
             String idTarefa = request.getParameter("id");
             String idCliente = request.getParameter("cliente");
@@ -574,9 +741,9 @@ public class acao extends HttpServlet {
 
             cliente.setId(Integer.parseInt(idCliente));
             tarefa.setCliente(cliente);
-          //  tarefa.setDescricao(request.getParameter("descricao"));
+            //  tarefa.setDescricao(request.getParameter("descricao"));
             fase.setId(Integer.parseInt(idFase));
-            System.out.println("id da fase = "+idFase);
+            System.out.println("id da fase = " + idFase);
             tarefa.setFase(fase);
             modulo.setId(Integer.parseInt(idModulo));
             tarefa.setModulo(modulo);
@@ -588,10 +755,9 @@ public class acao extends HttpServlet {
             tarefa.setProjeto(projeto);
             tarefa.setSituacao('A');
             try {
-            tarefa.setId(Integer.parseInt(idTarefa));    
+                tarefa.setId(Integer.parseInt(idTarefa));
             } catch (Exception e) {
             }
-            
 
             versaoBug.setId(Integer.parseInt(idVersaoBug));
             tarefa.setVersaoByIdVersaoBug(versaoBug);
@@ -605,91 +771,88 @@ public class acao extends HttpServlet {
             TarefaDAO tarefaDAO = new TarefaDAO();
             ArrayList<Tarefa> tarefas = new ArrayList<>();
             tarefas = tarefaDAO.listarComParametro(tarefa);
-            
-            
 
-           request.setAttribute("tarefas", tarefas);
-           request.setAttribute("tarefa", tarefa);
-                encaminharPagina("listaTarefas.jsp", request, response);
+            request.setAttribute("tarefas", tarefas);
+            request.setAttribute("tarefa", tarefa);
+            encaminharPagina("listaTarefas.jsp", request, response);
         }
-        
-        
+
         if (parametro.equals("cadTarefa")) {
-            
+
             PrintWriter out = response.getWriter();
-            
+
             try {
                 String idCliente = request.getParameter("cliente");
-            String idProjeto = request.getParameter("projeto");
-            String idPrioridade = request.getParameter("prioridade");
-            String idMotivo = request.getParameter("motivo");
-            String idModulo = request.getParameter("modulo");
-            String idFase = request.getParameter("fase");
-            String idVersaoBug = request.getParameter("versao");
-            String idVersaoCorrecao = request.getParameter("versaoCorrecao");
-            String idAutor = request.getParameter("autor");
-            String idResponsavel = request.getParameter("responsavel");
+                String idProjeto = request.getParameter("projeto");
+                String idPrioridade = request.getParameter("prioridade");
+                String idMotivo = request.getParameter("motivo");
+                String idModulo = request.getParameter("modulo");
+                String idFase = request.getParameter("fase");
+                String idVersaoBug = request.getParameter("versao");
+                String idVersaoCorrecao = request.getParameter("versaoCorrecao");
+                String idAutor = request.getParameter("autor");
+                String idResponsavel = request.getParameter("responsavel");
 
-            Tarefa tarefa = new Tarefa();
+                Tarefa tarefa = new Tarefa();
 
-            Cliente cliente = new Cliente();
-            Fase fase = new Fase();
-            Modulo modulo = new Modulo();
-            Motivo motivo = new Motivo();
-            Prioridade prioridade = new Prioridade();
-            Projeto projeto = new Projeto();
-            Versao versaoBug = new Versao();
-            Versao versaoCorrecao = new Versao();
-            Usuario autor = new Usuario();
-            Usuario responsavel = new Usuario();
+                Cliente cliente = new Cliente();
+                Fase fase = new Fase();
+                Modulo modulo = new Modulo();
+                Motivo motivo = new Motivo();
+                Prioridade prioridade = new Prioridade();
+                Projeto projeto = new Projeto();
+                Versao versaoBug = new Versao();
+                Versao versaoCorrecao = new Versao();
+                Usuario autor = new Usuario();
+                Usuario responsavel = new Usuario();
 
-            int idTarefa;
-            if (request.getParameter("id").equals("")) {
-                idTarefa = 0;
-            } else {
-                idTarefa = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            }
+                int idTarefa;
+                if (request.getParameter("id").equals("")) {
+                    idTarefa = 0;
+                } else {
+                    idTarefa = Integer.parseInt(String.valueOf(request.getParameter("id")));
+                }
 
-            tarefa.setId(idTarefa);
-            cliente.setId(Integer.parseInt(idCliente));
-            tarefa.setCliente(cliente);
-            tarefa.setDescricao(request.getParameter("descricao"));
-            fase.setId(Integer.parseInt(idFase));
-            tarefa.setFase(fase);
-            modulo.setId(Integer.parseInt(idModulo));
-            tarefa.setModulo(modulo);
-            motivo.setId(Integer.parseInt(idMotivo));
-            tarefa.setMotivo(motivo);
-            prioridade.setId(Integer.parseInt(idPrioridade));
-            tarefa.setPrioridade(prioridade);
-            projeto.setId(Integer.parseInt(idProjeto));
-            tarefa.setProjeto(projeto);
-            tarefa.setSituacao('A');
-            tarefa.setTitulo(request.getParameter("titulo"));
+                tarefa.setId(idTarefa);
+                cliente.setId(Integer.parseInt(idCliente));
+                tarefa.setCliente(cliente);
+                tarefa.setDescricao(request.getParameter("descricao"));
+                fase.setId(Integer.parseInt(idFase));
+                tarefa.setFase(fase);
+                modulo.setId(Integer.parseInt(idModulo));
+                tarefa.setModulo(modulo);
+                motivo.setId(Integer.parseInt(idMotivo));
+                tarefa.setMotivo(motivo);
+                prioridade.setId(Integer.parseInt(idPrioridade));
+                tarefa.setPrioridade(prioridade);
+                projeto.setId(Integer.parseInt(idProjeto));
+                tarefa.setProjeto(projeto);
+                tarefa.setSituacao('A');
+                tarefa.setTitulo(request.getParameter("titulo"));
 
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
 
-            try {
-                Date data = formato.parse(request.getParameter("dataPrevisao").replace("-", "/"));
-                tarefa.setDatahoraPrevisao(data);
-            } catch (ParseException ex) {
-                Logger.getLogger(acao.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    Date data = formato.parse(request.getParameter("dataPrevisao").replace("-", "/"));
+                    tarefa.setDatahoraPrevisao(data);
+                } catch (ParseException ex) {
+                    Logger.getLogger(acao.class.getName()).log(Level.SEVERE, null, ex);
 
-            }
+                }
 
-            tarefa.setDatahoraCriacao(new Date());
+                tarefa.setDatahoraCriacao(new Date());
 
-            versaoBug.setId(Integer.parseInt(idVersaoBug));
-            tarefa.setVersaoByIdVersaoBug(versaoBug);
-            versaoCorrecao.setId(Integer.parseInt(idVersaoCorrecao));
-            tarefa.setVersaoByIdVersaoCorrecao(versaoCorrecao);
-            responsavel.setId(Integer.parseInt(idResponsavel));
-            tarefa.setUsuarioByIdUsuarioResponsavel(responsavel);
-            autor.setId(Integer.parseInt(idAutor));
-            tarefa.setUsuarioByIdUsuarioAutor(autor);
+                versaoBug.setId(Integer.parseInt(idVersaoBug));
+                tarefa.setVersaoByIdVersaoBug(versaoBug);
+                versaoCorrecao.setId(Integer.parseInt(idVersaoCorrecao));
+                tarefa.setVersaoByIdVersaoCorrecao(versaoCorrecao);
+                responsavel.setId(Integer.parseInt(idResponsavel));
+                tarefa.setUsuarioByIdUsuarioResponsavel(responsavel);
+                autor.setId(Integer.parseInt(idAutor));
+                tarefa.setUsuarioByIdUsuarioAutor(autor);
 
-            ControleTarefa controleTarefa = new ControleTarefa();
-            int retorno = controleTarefa.salvar(tarefa);
+                ControleTarefa controleTarefa = new ControleTarefa();
+                int retorno = controleTarefa.salvar(tarefa);
 
 //            MovimentoTarefa movimentacaoTarefa = new MovimentoTarefa();
 //            try {
@@ -711,10 +874,9 @@ public class acao extends HttpServlet {
 //            } catch (Exception e) {
 //                System.out.println("Erro ao salvar movimentação " + e);
 //            }
+                request.setAttribute("paginaOrigem", "cadastroTarefa.jsp");
 
-            request.setAttribute("paginaOrigem", "cadastroTarefa.jsp");
-
-            if (retorno == 1) {
+                if (retorno == 1) {
                     out.println("ok");
                     //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
                 } else if (retorno == 2) {
@@ -729,32 +891,28 @@ public class acao extends HttpServlet {
             } catch (Exception e) {
             }
 
-            
-
         }
-        
-        
-        
+
         if (parametro.equals("cadMotivo")) {
-             PrintWriter out = response.getWriter();
-             try {
-                 Motivo motiv = new Motivo();
-            int id;
-            if (request.getParameter("id").equals("")) {
-                id = 0;
-            } else {
-                id = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            }
-            motiv.setId(id);
-            motiv.setDescricao(request.getParameter("descricao"));
-            motiv.setSituacao('A');
+            PrintWriter out = response.getWriter();
+            try {
+                Motivo motiv = new Motivo();
+                int id;
+                if (request.getParameter("id").equals("")) {
+                    id = 0;
+                } else {
+                    id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+                }
+                motiv.setId(id);
+                motiv.setDescricao(request.getParameter("descricao"));
+                motiv.setSituacao('A');
 
-            ControleMotivo controleMotivo = new ControleMotivo();
-            int retorno = controleMotivo.salvar(motiv);
+                ControleMotivo controleMotivo = new ControleMotivo();
+                int retorno = controleMotivo.salvar(motiv);
 
-            request.setAttribute("paginaOrigem", "cadastroProjeto.jsp");
-            
-            if (retorno == 1) {
+                request.setAttribute("paginaOrigem", "cadastroProjeto.jsp");
+
+                if (retorno == 1) {
                     out.println("ok");
                     //redirecionarPagina("cadastroCidade.jsp?m=1", request, response);
                 } else if (retorno == 2) {
@@ -766,59 +924,58 @@ public class acao extends HttpServlet {
                 } else {
                     out.println("Erro desconhecido");
                 }
-            
+
             } catch (Exception e) {
-                out.println("Erro desconhecido"+e);
+                out.println("Erro desconhecido" + e);
             }
-           
 
         }
-        
+
         if (parametro.equals("cadCliente")) {
-            
+
             PrintWriter out = response.getWriter();
-            
+
             try {
-                 String idCidade = request.getParameter("cidade");
-            // System.out.println(".i.d" + id);
-            Cliente cliente = new Cliente();
-            Cidade cid = new Cidade();
-            int idCliente;
-            if (request.getParameter("id").equals("")) {
-                idCliente = 0;
-            } else {
-                idCliente = Integer.parseInt(String.valueOf(request.getParameter("id")));
-            }
-            cliente.setId(idCliente);
-            cliente.setRazaoSocial(request.getParameter("nome"));
-            cliente.setTipoCadastro(request.getParameter("tipo").charAt(0));
-            cliente.setTelefone(request.getParameter("telefone"));
-            cliente.setEndereco(request.getParameter("endereco"));
-            System.out.println("cpf = " + request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
-            System.out.println("cnpj = " + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
-            try {
-                if (request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", "").replace("_", "  ").length() < 12) {
-                    System.out.println("cpf acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
-                    cliente.setCpfCnpj(request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
+                String idCidade = request.getParameter("cidade");
+                // System.out.println(".i.d" + id);
+                Cliente cliente = new Cliente();
+                Cidade cid = new Cidade();
+                int idCliente;
+                if (request.getParameter("id").equals("")) {
+                    idCliente = 0;
                 } else {
-                    cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                    idCliente = Integer.parseInt(String.valueOf(request.getParameter("id")));
                 }
-            } catch (Exception e) {
-                System.out.println("cnpj acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
-                cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
-                System.out.println("Erro validar cpf" + e);
-            }
+                cliente.setId(idCliente);
+                cliente.setRazaoSocial(request.getParameter("nome"));
+                cliente.setTipoCadastro(request.getParameter("tipo").charAt(0));
+                cliente.setTelefone(request.getParameter("telefone"));
+                cliente.setEndereco(request.getParameter("endereco"));
+                System.out.println("cpf = " + request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
+                System.out.println("cnpj = " + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                try {
+                    if (request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", "").replace("_", "  ").length() < 12) {
+                        System.out.println("cpf acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                        cliente.setCpfCnpj(request.getParameter("cpf").replace(".", "").replace("-", "").replace("/", ""));
+                    } else {
+                        cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                    }
+                } catch (Exception e) {
+                    System.out.println("cnpj acao" + request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                    cliente.setCpfCnpj(request.getParameter("cnpj").replace(".", "").replace("-", "").replace("/", ""));
+                    System.out.println("Erro validar cpf" + e);
+                }
 
-            cid.setId(Integer.parseInt(idCidade));
-            cliente.setCidade(cid);
-            cliente.setSituacao('A');
+                cid.setId(Integer.parseInt(idCidade));
+                cliente.setCidade(cid);
+                cliente.setSituacao('A');
 
-            ControleCliente controleCliente = new ControleCliente();
-            int retorno = controleCliente.salvar(cliente);
+                ControleCliente controleCliente = new ControleCliente();
+                int retorno = controleCliente.salvar(cliente);
 
-            request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
+                request.setAttribute("paginaOrigem", "cadastroCliente.jsp");
 
-            if (retorno == 1) {
+                if (retorno == 1) {
                     out.println("ok");
                     //redirecionarPagina("cadastroUsuario.jsp?m=1", request, response); 
                 } else if (retorno == 2) {
@@ -835,14 +992,10 @@ public class acao extends HttpServlet {
                     out.println("Erro desconhecido");
                 }
             } catch (Exception e) {
-                out.println(""+e);
+                out.println("" + e);
             }
-            
-           
 
         }
-        
-        
 
         if (parametro.equals("cadVersao")) {
 
@@ -887,7 +1040,6 @@ public class acao extends HttpServlet {
             }
 
         }
-
 
         if (parametro.equals("cadFase")) {
             PrintWriter out = response.getWriter();
@@ -1145,16 +1297,16 @@ public class acao extends HttpServlet {
                 }
 
                 if (retorno) {
-                if (user != null) {
-                    HttpSession sessao = request.getSession();
-                    //System.out.println("id..."+usuarios.get(0).getId());
-                    sessao.setAttribute("usuarioLogado", usuarios.get(0).getId());
+                    if (user != null) {
+                        HttpSession sessao = request.getSession();
+                        //System.out.println("id..."+usuarios.get(0).getId());
+                        sessao.setAttribute("usuarioLogado", usuarios.get(0).getId());
 
+                    }
+                    response.sendRedirect("inicio.jsp");
+                } else {
+                    redirecionarPagina("index.jsp?m=2", request, response);
                 }
-                response.sendRedirect("inicio.jsp");
-            } else {
-                redirecionarPagina("index.jsp?m=2", request, response);
-            }
             } catch (Exception e) {
                 out.println("" + e);
             }

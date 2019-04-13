@@ -14,6 +14,32 @@ import org.hibernate.Session;
 public class ProjetoDAO extends DAO {
 
     Projeto projeto;
+    
+    public int countProject() {
+        this.projeto = projeto;
+        List resultado = null;
+
+        ArrayList<Projeto> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+             String sql = "from Projeto  ";
+                  
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+
+            return q.list().size();
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+        
+    }
+    
+    
+    
 
     public ArrayList<Projeto> listar(Projeto projeto) {
         this.projeto = projeto;

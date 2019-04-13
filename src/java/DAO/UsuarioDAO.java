@@ -56,6 +56,26 @@ public class UsuarioDAO extends DAO {
     }
     
     
+    public int CountUsers() {
+        this.usuario = usuario;
+        List resultado = null;
+
+        ArrayList<Usuario> lista = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "from Usuario";
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+            return q.list().size();
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 0;
+        }
+     
+    }
     
     public ArrayList<Usuario> listarTodos(Usuario usuario) {
         this.usuario = usuario;

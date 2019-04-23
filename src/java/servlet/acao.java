@@ -89,42 +89,80 @@ public class acao extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
-        
-        if(parametro.equals("appInformation")){
-            PrintWriter out = response.getWriter(); 
+
+        if (parametro.equals("taskInformation")) {
+            PrintWriter out = response.getWriter();
             try {
-            TreeMap<String, Object> values = new TreeMap<String, Object>();
-            TreeMap<String, Integer> proj = new TreeMap<String, Integer>();
-            TreeMap<String, Object> fase = new TreeMap<String, Object>();
-            ProjetoDAO projetodao = new ProjetoDAO();
-            TarefaDAO tarefadao = new TarefaDAO();
-            FaseDAO fasedao = new FaseDAO(); 
-            
-            ArrayList<Projeto> projects = projetodao.getAll();
-            
-            for(Projeto p:projects){
-                proj.put(p.getDescricao(),tarefadao.countTaskByProject(p.getId()));
+                TreeMap<String, Object> values = new TreeMap<String, Object>();
+                TreeMap<Integer, String> movi = new TreeMap<Integer, String>();
+                ProjetoDAO projetodao = new ProjetoDAO();
+                TarefaDAO tarefadao = new TarefaDAO();
+                FaseDAO fasedao = new FaseDAO();
+                int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+                Tarefa tarefa = tarefadao.consultarId(id).get(0);
+
+                values.put("titulo", tarefa.getTitulo());
+                values.put("descricao", tarefa.getDescricao());
+                values.put("cliente", tarefa.getCliente().getRazaoSocial());
+                
+
+                ArrayList<MovimentoTarefa> mainList = new ArrayList<MovimentoTarefa>();
+                mainList.addAll(tarefa.getMovimentoTarefas());
+
+                for (MovimentoTarefa t : mainList) {
+                    movi.put(t.getId(), t.getUsuario().getNome()+" : "+t.getDescricao().trim());
+                }
+
+                values.put("movimentacoes", movi);
+                values.put("modulo", tarefa.getModulo().getDescricao());
+                values.put("projeto", tarefa.getProjeto().getDescricao());
+                values.put("dataciacao", tarefa.getDatahoraCriacao());
+                values.put("situacao", tarefa.getSituacao());
+
+                Gson gson = new Gson();
+                String s = (gson.toJson(values));
+
+                out.println(s);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            
-            ArrayList<Fase> fas = fasedao.getAll();
-            
-            for(Fase f:fas){
-                fase.put(f.getDescricao(),tarefadao.countTaskByStep(f.getId()));
-            }
-            
-            values.put("tasksPerProject", proj);
-            values.put("tasksPerStep", fase);
-            
-           Gson gson = new Gson();
-           String s = (gson.toJson(values));
-            
-            out.println(s);
-            
+
+        }
+
+        if (parametro.equals("appInformation")) {
+            PrintWriter out = response.getWriter();
+            try {
+                TreeMap<String, Object> values = new TreeMap<String, Object>();
+                TreeMap<String, Integer> proj = new TreeMap<String, Integer>();
+                TreeMap<String, Object> fase = new TreeMap<String, Object>();
+                ProjetoDAO projetodao = new ProjetoDAO();
+                TarefaDAO tarefadao = new TarefaDAO();
+                FaseDAO fasedao = new FaseDAO();
+
+                ArrayList<Projeto> projects = projetodao.getAll();
+
+                for (Projeto p : projects) {
+                    proj.put(p.getDescricao(), tarefadao.countTaskByProject(p.getId()));
+                }
+
+                ArrayList<Fase> fas = fasedao.getAll();
+
+                for (Fase f : fas) {
+                    fase.put(f.getDescricao(), tarefadao.countTaskByStep(f.getId()));
+                }
+
+                values.put("tasksPerProject", proj);
+                values.put("tasksPerStep", fase);
+
+                Gson gson = new Gson();
+                String s = (gson.toJson(values));
+
+                out.println(s);
+
             } catch (Exception e) {
             }
-            
-            
-            
+
         }
 
         if (parametro.equals("logout")) {
@@ -637,7 +675,6 @@ public class acao extends HttpServlet {
             }
 
         }
-
 
         if (parametro.equals("relTarefasResumo")) {
 

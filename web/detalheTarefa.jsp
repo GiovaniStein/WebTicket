@@ -8,7 +8,7 @@
         <title >JSP Page</title>
     </head>
     <body>
-        <h1 id="tasktitle"></h1>
+        <h1  style="-webkit-line-clamp: 1;-webkit-box-orient: vertical;word-wrap: break-word;display: -webkit-box;width: 100%;overflow: hidden;" id="tasktitle"></h1>
         <div style="height: 85%;max-height: 85%;overflow: auto;">
             <div style="display: inline-flex;padding-top: 20px">
                 <span style="font-weight: bold;">Cliente : </span>
@@ -17,12 +17,14 @@
                 <div id="taskproject"></div>
                 <span style="padding-left: 20px;font-weight: bold;">Módulo : </span>
                 <div id="taskmodule"></div> 
+                <span style="padding-left: 20px;font-weight: bold;">Data Criação : </span>
+                <div id="taskcreatedate"></div>
             </div>
 
-            <div style="padding-top: 50px;min-height: 200px;" id="taskdescription"></div>
+            <div style="padding-top: 50px;min-height: 200px;max-height: 300px;overflow: auto;" id="taskdescription"></div>
 
-            <div class="box-body"  id="tasktablecontainer" style="padding-top: 20px">
-                <table class="table table-bordered table-striped table-hover" id="taskmov">
+            <div class="box-body"  id="tasktablecontainer" style="padding-top: 30px">
+                <table style="table-layout: fixed; width: 100%" class="table table-bordered table-striped table-hover" id="taskmov">
 
                 </table>
 

@@ -201,11 +201,13 @@
                 var resultado = $.trim(retorno);
                 values = JSON.parse(resultado);
                 $('#tasktitle')[0].innerHTML = values.titulo;
+                $('#tasktitle')[0].title = values.titulo;
                 $('#taskdescription')[0].innerHTML = values.descricao;
                 $('#taskclient')[0].innerHTML = values.cliente;
                 $('#taskproject')[0].innerHTML = values.projeto;
                 $('#taskmodule')[0].innerHTML = values.modulo;
-                console.log('movimentacoes ',values.movimentacoes);
+                $('#taskcreatedate')[0].innerHTML = values.datacriacao;
+                console.log('movimentacoes ',values);
                 var data = values.movimentacoes;
                 var cityTable = makeTable($('#tasktablecontainer'), data);
             });
@@ -237,11 +239,24 @@
             var row = $("<tr/>");
             row.append($("<th" + "/>").text('Movimentações'));
             table.append(row);
-            $.each(data, function (rowIndex, r) {
+            
+            if(data.length>0){
+                $.each(data, function (rowIndex, r) {
                 var row = $("<tr/>");
-                row.append($("<td" + "/>").text(r));
+                var td = $("<td" + "/>");
+                td.text(r);
+                td.css("word-wrap","break-word");
+                row.append(td);
                 table.append(row);
             });
+            }else{
+                var row = $("<tr/>");
+                var td = $("<td" + "/>");
+                td.text('Não há movimentações para essa tarefa');
+                td.css("word-wrap","break-word");
+                row.append(td);
+                table.append(row);
+            }
             return container.append(table);
         }
     </script>

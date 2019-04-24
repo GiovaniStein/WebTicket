@@ -42,7 +42,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 800px;
-            height: 75%;
+            height: 436px;
             top: 8%;
         }
 

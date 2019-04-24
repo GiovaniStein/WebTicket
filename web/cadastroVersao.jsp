@@ -186,7 +186,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_versao() {
         if ((document.getElementById("versaoDescricao").value === null || document.getElementById("versaoDescricao").value === "") ||
                 (document.getElementById("selectProjetoVersao").value === '0' || document.getElementById("selectProjetoVersao").value === "")) {
             return false;

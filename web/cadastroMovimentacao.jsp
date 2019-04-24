@@ -16,7 +16,10 @@
                     
                     var id = $('#idTarefa').val();
                     
-                    var v = values+"&idTarefa="+id;
+                   var movimentacao =  $('#editorMovimentacao').val();
+                    
+                    
+                    var v = "movimentacao="+movimentacao+""+"&idTarefa="+id;
                      console.log('values ', v);
                     if (valida_form() === true) {
                         $.ajax({
@@ -54,6 +57,7 @@
             function valida_form() {
                 if ((document.getElementById("editorMovimentacao").value === null || document.getElementById("editorMovimentacao").value === "")) {
                     return false;
+                    
                 } else {
                     return true;
                 }

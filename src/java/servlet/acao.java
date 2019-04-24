@@ -94,7 +94,7 @@ public class acao extends HttpServlet {
             PrintWriter out = response.getWriter();
             try {
                 TreeMap<String, Object> values = new TreeMap<String, Object>();
-                TreeMap<Integer, String> movi = new TreeMap<Integer, String>();
+                ArrayList<String> movi = new ArrayList<String>();
                 ProjetoDAO projetodao = new ProjetoDAO();
                 TarefaDAO tarefadao = new TarefaDAO();
                 FaseDAO fasedao = new FaseDAO();
@@ -110,13 +110,13 @@ public class acao extends HttpServlet {
                 mainList.addAll(tarefa.getMovimentoTarefas());
 
                 for (MovimentoTarefa t : mainList) {
-                    movi.put(t.getId(), t.getUsuario().getNome()+" : "+t.getDescricao().trim());
+                    movi.add(t.getUsuario().getNome()+" : "+t.getDescricao().trim());
                 }
 
                 values.put("movimentacoes", movi);
                 values.put("modulo", tarefa.getModulo().getDescricao());
                 values.put("projeto", tarefa.getProjeto().getDescricao());
-                values.put("dataciacao", tarefa.getDatahoraCriacao());
+                values.put("datacriacao", tarefa.getDatahoraCriacao());
                 values.put("situacao", tarefa.getSituacao());
 
                 Gson gson = new Gson();

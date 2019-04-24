@@ -158,7 +158,7 @@
     $(document).ready(function () {
         $('#cadastraModulo').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_modulo() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadModulo",
@@ -186,7 +186,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_modulo() {
         if ((document.getElementById("moduloDescricao").value === null || document.getElementById("moduloDescricao").value === "") ||
                 (document.getElementById("selectProjeto").value === '0' || document.getElementById("selectProjeto").value === "")) {
             return false;

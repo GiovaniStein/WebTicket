@@ -35,8 +35,8 @@
         padding: 20px;
         border: 1px solid #888;
         width: 800px;
-        height: 50%;
-        top: 20%;
+        height: 100%;
+        top: -6%;
     }
 
     /* The Close Button */
@@ -92,6 +92,8 @@
             });
         }
     </script>
+
+
 
     <script type="text/javascript">
         // Via JQuery
@@ -188,30 +190,38 @@
             var value = $(element).val();
             var modal = document.getElementById('myModal');
             modal.style.display = "block";
-            
-           
+
+
             var values = {};
-                $.ajax({
-                    type: "GET",
-                    url: "/WebTicket/acao?parametro=taskInformation&id=" + value,
-                    data: $('form').serialize()
-                }).done(function (retorno) {
-                    var resultado = $.trim(retorno);
-                    console.log(resultado);
-                    values = JSON.parse(resultado);
-                    console.log(values);
-                });
-            
+            $.ajax({
+                type: "GET",
+                url: "/WebTicket/acao?parametro=taskInformation&id=" + value,
+                data: $('form').serialize()
+            }).done(function (retorno) {
+                var resultado = $.trim(retorno);
+                values = JSON.parse(resultado);
+                $('#tasktitle')[0].innerHTML = values.titulo;
+                $('#taskdescription')[0].innerHTML = values.descricao;
+                $('#taskclient')[0].innerHTML = values.cliente;
+                $('#taskproject')[0].innerHTML = values.projeto;
+                $('#taskmodule')[0].innerHTML = values.modulo;
+                console.log('movimentacoes ',values.movimentacoes);
+                var data = values.movimentacoes;
+                var cityTable = makeTable($('#tasktablecontainer'), data);
+            });
+
 
             var span = document.getElementsByClassName("close")[0];
             span.onclick = function () {
                 modal.style.display = "none";
+                $("#taskmov > tr").remove();
             }
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
                 if (event.target === modal) {
                     modal.style.display = "none";
+                    $("#taskmov > tr").remove();
                 }
             }
         }
@@ -221,8 +231,22 @@
         // Get the modal
 
     </script>
-    
-    
+    <script>
+        function makeTable(container, data) {
+            var table = $("#taskmov").addClass('CSSTableGenerator');
+            var row = $("<tr/>");
+            row.append($("<th" + "/>").text('Movimentações'));
+            table.append(row);
+            $.each(data, function (rowIndex, r) {
+                var row = $("<tr/>");
+                row.append($("<td" + "/>").text(r));
+                table.append(row);
+            });
+            return container.append(table);
+        }
+    </script>
+
+
 
 </section>
 

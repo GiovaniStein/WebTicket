@@ -115,7 +115,7 @@
     $(document).ready(function () {
         $('#cadastraCidade').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_cidade() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadCidade",
@@ -143,7 +143,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_cidade() {
         if ((document.getElementById("idDescricao").value === null || document.getElementById("idDescricao").value === "")) {
             return false;
         } else {

@@ -115,7 +115,7 @@
     $(document).ready(function () {
         $('#cadastraFase').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_Fase() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadFase",
@@ -143,7 +143,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_Fase() {
         if ((document.getElementById("faseDescricao").value === null || document.getElementById("faseDescricao").value === "")) {
             return false;
         } else {

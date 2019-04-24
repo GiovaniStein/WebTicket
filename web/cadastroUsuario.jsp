@@ -177,7 +177,7 @@
         $('#cadastraUsuario').click(function (event) {
             var resultado = "";
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_usuario() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadUsuario",
@@ -206,7 +206,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_usuario() {
         if ((document.getElementById("nomeUsuario").value == null || document.getElementById("nomeUsuario").value == "") || (document.getElementById("loginUsuario").value == null || document.getElementById("loginUsuario").value == "") || (document.getElementById("senhaUsuario").value == null || document.getElementById("senhaUsuario").value == "") || (document.getElementById("repetirSenhaUsuario").value == null || document.getElementById("repetirSenhaUsuario").value == "")) {
             return false
         } else {

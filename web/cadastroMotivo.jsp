@@ -110,7 +110,7 @@
     $(document).ready(function () {
         $('#cadastraMotivo').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_motivo() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadMotivo",
@@ -138,7 +138,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_motivo() {
         if ((document.getElementById("motivoDescricao").value === null || document.getElementById("motivoDescricao").value === "")) {
             return false;
         } else {

@@ -80,7 +80,7 @@
                 
                 $('#idDescricao').val(descricao);
                 
-                if (valida_form() === true) {
+                if (valida_form_tarefa() === true) {
                     $.ajax({
                         type: "POST",
                         url: "/WebTicket/acao?parametro=cadTarefa",
@@ -106,6 +106,7 @@
                             $('#selectVersao').val(0).change();
                             $('#selectVersaoCorrecao').val(0).change();
                             $('#dataPrevisao').val('');
+                              CKEDITOR.instances.editor1.setData('');
                         }
                     });
                     return false;
@@ -116,11 +117,11 @@
             }
             );
         });
-    </script>
+    </script> 
 
     <script type="text/javascript">
 
-        function valida_form() {
+        function valida_form_tarefa() {
             if ((document.getElementById("selectCliente").value === '0' || document.getElementById("selectCliente").value === "") ||
                     ((document.getElementById("selectAutor").value === '0' || document.getElementById("selectAutor").value === "")) ||
                     ((document.getElementById("selectResponsavel").value === '0' || document.getElementById("selectResponsavel").value === "")) ||
@@ -133,7 +134,7 @@
                     ((document.getElementById("selectVersaoCorrecao").value === '0' || document.getElementById("selectVersaoCorrecao").value === "")) ||
                     ((document.getElementById("dataPrevisao").value === '' || document.getElementById("dataPrevisao").value === null)) ||
                     ((document.getElementById("tituloTarefa").value === '' || document.getElementById("tituloTarefa").value === null)) ||
-                    ((CKEDITOR.instances.editor1.getData( )=== ''  || CKEDITOR.instances.editor1.getData() === null))) {
+                    ((CKEDITOR.instances.editor1.getData( ) === ''|| CKEDITOR.instances.editor1.getData() === null))) {
                 return false;
             } else {
                 return true;

@@ -253,7 +253,7 @@
     $(document).ready(function () {
         $('#cadastraCliente').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_cliente() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadCliente",
@@ -282,7 +282,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_cliente() {
         if ((document.getElementById("clienteNome").value === null || document.getElementById("clienteNome").value === "") ||
                 (document.getElementById("tipo").value === null || document.getElementById("tipo").value === "") ||
                 (document.getElementById("clienteTelefone").value === null || document.getElementById("clienteTelefone").value === "") ||

@@ -113,7 +113,7 @@
     $(document).ready(function () {
         $('#cadastraPrioridade').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_prioridade() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadPrioridade",
@@ -141,7 +141,7 @@
 </script>
 
 <script type="text/javascript">
-    function valida_form() {
+    function valida_form_prioridade() {
         if ((document.getElementById("prioridadeDescricao").value === null || document.getElementById("prioridadeDescricao").value === "")) {
             return false;
         } else {

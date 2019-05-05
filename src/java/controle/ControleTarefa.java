@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controle;
 
-import DAO.ClienteDAO;
 import DAO.TarefaDAO;
-import apoio.Validacao;
-import entidade.Cliente;
 import entidade.Tarefa;
 import java.util.ArrayList;
-
 
 public class ControleTarefa {
 
@@ -22,56 +13,47 @@ public class ControleTarefa {
         this.tarefa = tarefa;
 
         if (tarefa.getSituacao() == 'A') {
-
-            if (tarefa.getTitulo().length() < 3 || tarefa.getTitulo().length() > 150) {
+            if (tarefa.getTitulo().length() < 3
+                    || tarefa.getTitulo().length() > 150) {
                 return 2;
             }
             if (tarefa.getDescricao().length() < 3) {
                 return 3;
             }
-            
-            if (tarefa.getCliente().getId()<1) {
+            if (tarefa.getCliente().getId() < 1) {
                 return 7;
-            }else if (tarefa.getFase().getId()<1) {
+            } else if (tarefa.getFase().getId() < 1) {
                 return 7;
-            }else if (tarefa.getModulo().getId()<1) {
+            } else if (tarefa.getModulo().getId() < 1) {
                 return 7;
-            }else if (tarefa.getMotivo().getId()<1) {
+            } else if (tarefa.getMotivo().getId() < 1) {
                 return 7;
-            }else if (tarefa.getPrioridade().getId()<1) {
+            } else if (tarefa.getPrioridade().getId() < 1) {
                 return 7;
-            }else if (tarefa.getProjeto().getId()<1) {
+            } else if (tarefa.getProjeto().getId() < 1) {
                 return 7;
-            }else if (tarefa.getUsuarioByIdUsuarioResponsavel().getId()<1) {
+            } else if (tarefa.getUsuarioByIdUsuarioResponsavel().getId() < 1) {
                 return 7;
-            }else if (tarefa.getVersaoByIdVersaoBug().getId()<1) {
+            } else if (tarefa.getVersaoByIdVersaoBug().getId() < 1) {
                 return 7;
-            }else if (tarefa.getVersaoByIdVersaoCorrecao().getId()<1) {
+            } else if (tarefa.getVersaoByIdVersaoCorrecao().getId() < 1) {
                 return 7;
             }
-{
-                
-            }
-
         }
+
         if (tarefaDAO.salvar(tarefa)) {
             return 1;
         } else {
             return 6;
         }
-
     }
 
     public ArrayList<Tarefa> listar(Tarefa tarefa) {
-        this.tarefa= tarefa;
-
+        this.tarefa = tarefa;
         return tarefaDAO.listar(this.tarefa);
     }
 
     public ArrayList<Tarefa> consultarId(int id) {
-
         return tarefaDAO.consultarId(id);
-
     }
-
 }

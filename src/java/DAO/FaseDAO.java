@@ -1,23 +1,20 @@
-
 package DAO;
 
 import apoio.HibernateUtil;
 import entidade.Fase;
-import entidade.Motivo;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-
-public class FaseDAO extends DAO{
+public class FaseDAO extends DAO {
 
     Fase fase;
-    
-    
-     public ArrayList<Fase> getAll() {
+
+    public ArrayList<Fase> getAll() {
         List resultado = null;
         ArrayList<Fase> lista = new ArrayList<>();
+
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -35,32 +32,28 @@ public class FaseDAO extends DAO{
         }
         return lista;
     }
-    
-    
-    
-     public ArrayList<Fase> listar(Fase fase) {
+
+    public ArrayList<Fase> listar(Fase fase) {
         this.fase = fase;
         List resultado = null;
-
         ArrayList<Fase> lista = new ArrayList<>();
+
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            String sql = "from Fase  "                    
-                    + "where  "
-                    + "situacao ='A'"
-                    + " order by descricao";
+            String sql = "from Fase "
+                    + "where "
+                    + "situacao = 'A' "
+                    + "order by descricao";
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);
-
             resultado = q.list();
 
             for (Object o : resultado) {
                 Fase fas = ((Fase) ((Object) o));
                 lista.add(fas);
             }
-
         } catch (HibernateException he) {
             he.printStackTrace();
         }// finally {
@@ -68,43 +61,32 @@ public class FaseDAO extends DAO{
 //        }
         return lista;
     }
-     
-     
-     
-       public ArrayList<Fase> consultarId(int id) {
-        //this.projeto = projeto;
-        List resultado = null;
 
+    public ArrayList<Fase> consultarId(int id) {
+        List resultado = null;
         ArrayList<Fase> listas = new ArrayList<>();
+
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             String sql = "";
-
-            sql = "from Fase  "
+            sql = "from Fase "
                     + "where "
-                    + " id =" + id;
-
+                    + "id = " + id;
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);
-
             resultado = q.list();
 
-            for (Object o : resultado) {    
+            for (Object o : resultado) {
                 Fase fas = ((Fase) ((Object) o));
                 listas.add(fas);
             }
-
         } catch (HibernateException he) {
             he.printStackTrace();
         }// finally {
 //            session.close();
 //        }
         return listas;
-
-
     }
-     
-    
 }

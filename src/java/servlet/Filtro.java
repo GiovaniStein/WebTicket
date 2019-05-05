@@ -18,22 +18,13 @@ import javax.servlet.http.HttpSession;
 @WebFilter("/*")
 public class Filtro extends HttpServlet implements Filter {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    ArrayList<String> excessoes = new ArrayList<>();
+    ArrayList<String> excecoes = new ArrayList<>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -87,79 +78,67 @@ public class Filtro extends HttpServlet implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        excessoes.add("/WebTicket/index.jsp");
-        excessoes.add("/WebTicket/acao");
-        excessoes.add("/WebTicket/bower_components/bootstrap/dist/css/bootstrap.min.css");
-        excessoes.add("/WebTicket/bower_components/font-awesome/css/font-awesome.min.css");
-        excessoes.add("/WebTicket/bower_components/Ionicons/css/ionicons.min.css");
-        excessoes.add("/WebTicket/dist/css/AdminLTE.min.css");
-        excessoes.add("/WebTicket/dist/css/skins/_all-skins.min.css");
-        excessoes.add("/WebTicket/bower_components/bootstrap-daterangepicker/daterangepicker.css");
-        excessoes.add("/WebTicket/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css");
-        excessoes.add("/WebTicket/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css");
-        excessoes.add("/WebTicket/plugins/timepicker/bootstrap-timepicker.min.css");
-        excessoes.add("/WebTicket/bower_components/select2/dist/css/select2.min.css");
-        excessoes.add("/WebTicket/dist/css/AdminLTE.min.css");
-        excessoes.add("/WebTicket/bower_components/jquery/dist/jquery.min.js");
-        excessoes.add("/WebTicket/bower_components/bootstrap/dist/js/bootstrap.min.js");
-        excessoes.add("/WebTicket/bower_components/select2/dist/js/select2.full.js");
-        excessoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.js");
-        excessoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.date.extensions.js");
-        excessoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.extensions.js");
-        excessoes.add("/WebTicket/bower_components/moment/min/moment.min.js");
-        excessoes.add("/WebTicket/bower_components/bootstrap-daterangepicker/daterangepicker.js");
-        excessoes.add("/WebTicket/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js");
-        excessoes.add("/WebTicket/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js");
-        excessoes.add("/WebTicket/plugins/timepicker/bootstrap-timepicker.min.js");
-        excessoes.add("/WebTicket/bower_components/jquery-slimscroll/jquery.slimscroll.min.js");
-        excessoes.add("/WebTicket/bower_components/fastclick/lib/fastclick.js");
-        excessoes.add("/WebTicket/dist/js/adminlte.min.js");
-        excessoes.add("/WebTicket/dist/js/demo.js");
-        excessoes.add("/WebTicket/images/ic_launcher.jpg");
-        excessoes.add("/WebTicket/images/ic_launcher.png");
-        excessoes.add("/WebTicket/js/jquery-3.3.1.min.js");
-        excessoes.add("/WebTicket/js/sweetalert2.js");
-        excessoes.add("/WebTicket/js/sweetalert2.css");
-        excessoes.add("/WebTicket/js/ckeditor.js");
-        excessoes.add("/WebTicket/js/config.js");
-        excessoes.add("/WebTicket/js/editor.css");
-        excessoes.add("/WebTicket/js/Chart.bundle.js");
-        excessoes.add("/WebTicket/js/Chart.bundle.min.js");
-        excessoes.add("/WebTicket/js/canvasjs.min.js");
-        excessoes.add("/WebTicket/js/Chart.js");
-        excessoes.add("/WebTicket/js/Chart.min.css");
-        excessoes.add("/WebTicket/js/Chart.min.js");
-
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
-//         excessoes.add("/WebTicket/");
+        excecoes.add("/WebTicket/index.jsp");
+        excecoes.add("/WebTicket/acao");
+        excecoes.add("/WebTicket/bower_components/bootstrap/dist/css/bootstrap.min.css");
+        excecoes.add("/WebTicket/bower_components/font-awesome/css/font-awesome.min.css");
+        excecoes.add("/WebTicket/bower_components/Ionicons/css/ionicons.min.css");
+        excecoes.add("/WebTicket/dist/css/AdminLTE.min.css");
+        excecoes.add("/WebTicket/dist/css/skins/_all-skins.min.css");
+        excecoes.add("/WebTicket/bower_components/bootstrap-daterangepicker/daterangepicker.css");
+        excecoes.add("/WebTicket/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css");
+        excecoes.add("/WebTicket/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css");
+        excecoes.add("/WebTicket/plugins/timepicker/bootstrap-timepicker.min.css");
+        excecoes.add("/WebTicket/bower_components/select2/dist/css/select2.min.css");
+        excecoes.add("/WebTicket/dist/css/AdminLTE.min.css");
+        excecoes.add("/WebTicket/bower_components/jquery/dist/jquery.min.js");
+        excecoes.add("/WebTicket/bower_components/bootstrap/dist/js/bootstrap.min.js");
+        excecoes.add("/WebTicket/bower_components/select2/dist/js/select2.full.js");
+        excecoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.js");
+        excecoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.date.extensions.js");
+        excecoes.add("/WebTicket/plugins/input-mask/jquery.inputmask.extensions.js");
+        excecoes.add("/WebTicket/bower_components/moment/min/moment.min.js");
+        excecoes.add("/WebTicket/bower_components/bootstrap-daterangepicker/daterangepicker.js");
+        excecoes.add("/WebTicket/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js");
+        excecoes.add("/WebTicket/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js");
+        excecoes.add("/WebTicket/plugins/timepicker/bootstrap-timepicker.min.js");
+        excecoes.add("/WebTicket/bower_components/jquery-slimscroll/jquery.slimscroll.min.js");
+        excecoes.add("/WebTicket/bower_components/fastclick/lib/fastclick.js");
+        excecoes.add("/WebTicket/dist/js/adminlte.min.js");
+        excecoes.add("/WebTicket/dist/js/demo.js");
+        excecoes.add("/WebTicket/images/ic_launcher.jpg");
+        excecoes.add("/WebTicket/images/ic_launcher.png");
+        excecoes.add("/WebTicket/js/jquery-3.3.1.min.js");
+        excecoes.add("/WebTicket/js/sweetalert2.js");
+        excecoes.add("/WebTicket/js/sweetalert2.css");
+        excecoes.add("/WebTicket/js/ckeditor.js");
+        excecoes.add("/WebTicket/js/config.js");
+        excecoes.add("/WebTicket/js/editor.css");
+        excecoes.add("/WebTicket/js/Chart.bundle.js");
+        excecoes.add("/WebTicket/js/Chart.bundle.min.js");
+        excecoes.add("/WebTicket/js/canvasjs.min.js");
+        excecoes.add("/WebTicket/js/Chart.js");
+        excecoes.add("/WebTicket/js/Chart.min.css");
+        excecoes.add("/WebTicket/js/Chart.min.js");
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
-// verifica se URL requisitada consta na lista de URLs permitidas
-        // caso afirmativo, envia para página de Login
-        if (excessoes.contains(req.getRequestURI())) {
+        if (excecoes.contains(req.getRequestURI())) {
             request.setAttribute("parametro", "login");
             chain.doFilter(request, response);
         } else {
             HttpSession sessao = ((HttpServletRequest) request).getSession();
 
-            // caso não pertença a lista, verifica se há usuário na sessão
-            // se não houver, encaminha para o Login
             if (sessao.getAttribute("usuarioLogado") == null) {
                 ((HttpServletResponse) response).sendRedirect("index.jsp");
             } else {
-                // se usuário estiver logado, apenas abra a página solicitada
                 System.out.println("Destino: " + req.getRequestURI());
                 chain.doFilter(request, response);
             }
         }
     }
-
 }

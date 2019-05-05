@@ -68,7 +68,7 @@
                                     logado.setLogin("");
                                     logado.setSituacao('A');
                                     UsuarioDAO usuaDAO = new UsuarioDAO();
-                                    ArrayList<Usuario> users = usuaDAO.listar(logado);
+                                    ArrayList<Usuario> users = usuaDAO.consultarId(logado.getId());
                                 %>
                             </a>
                         </li>

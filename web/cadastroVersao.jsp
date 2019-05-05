@@ -158,7 +158,7 @@
     $(document).ready(function () {
         $('#cadastraVersao').click(function (event) {
             event.preventDefault();
-            if (valida_form() === true) {
+            if (valida_form_versao() === true) {
                 $.ajax({
                     type: "POST",
                     url: "/WebTicket/acao?parametro=cadVersao",

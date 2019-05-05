@@ -20,7 +20,7 @@
                     logad.setLogin("");
                     logad.setSituacao('A');
                     UsuarioDAO usDAO = new UsuarioDAO();
-                    ArrayList<Usuario> usrs = usDAO.listar(logad);
+                    ArrayList<Usuario> usrs = usDAO.consultarId(logad.getId());
                 %>
                 <p><%=usrs.get(0).getNome()%></p>
                 <a style="padding-left: 8px"

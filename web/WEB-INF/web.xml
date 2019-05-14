@@ -5,20 +5,12 @@
         <servlet-class>servlet.acao</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>filtro</servlet-name>
-        <servlet-class>servlet.filtro</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Filtro</servlet-name>
         <servlet-class>servlet.Filtro</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>acao</servlet-name>
         <url-pattern>/acao</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>filtro</servlet-name>
-        <url-pattern>/filtro</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Filtro</servlet-name>

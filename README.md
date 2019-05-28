@@ -18,4 +18,7 @@ O sistema é desenvolvido com:
 ### Links úteis
 Template [AdminLTE](https://adminlte.io/)  
 Ícones de interface [Font Awesome](https://fontawesome.com/v4.7.0/cheatsheet/)  
-Banco de dados [PostgreSQL 10](https://www.enterprisedb.com/thank-you-downloading-postgresql?anid=1256376)  
+Banco de dados [PostgreSQL 10 x64](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)  
+IDE [NetBeans 8.2 All](https://netbeans.org/downloads/8.2/)  
+IDE [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/#section=windows)  
+Java SE Development Kit [JDK 8 x64](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  

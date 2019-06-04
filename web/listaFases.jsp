@@ -43,13 +43,7 @@
     </script>
 
     <script>
-        function editUser(element) {
-            var element = $(element);
-            var row = element.parent().parent();
-            var td = row[0].children;
-            $('#idfase').val(td[0].innerText);
-            $('#faseDescricao').val(td[1].innerText);
-        }
+        
     </script>
 
     <div class="box box-info">
@@ -79,8 +73,8 @@
                         <td><%=fases.get(i).getId()%></td>
                         <td><%=fases.get(i).getDescricao()%></td>
                         <td>
-                            <button title="Editar Fase" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Fase" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=fases.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                            <button title="Editar Fase" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editFase(this)" ><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Fase" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeFase(this)" value="<%=fases.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                         </td>
 
                     </tr>

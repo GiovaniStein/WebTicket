@@ -104,45 +104,4 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
-
-<script type="text/javascript">
-    // Via JQuery
-    $(document).ready(function () {
-        $('#cadastraMotivo').click(function (event) {
-            event.preventDefault();
-            if (valida_form_motivo() === true) {
-                $.ajax({
-                    type: "POST",
-                    url: "/WebTicket/acao?parametro=cadMotivo",
-                    data: $('form').serialize()
-                }).done(function (retorno) {
-                    var resultado = $.trim(retorno);
-                    if (resultado !== "ok") {
-                        swal("Houve um erro!", resultado, "error");
-                        //$('#idDescricao').focus();
-                    } else {
-                        swal("Sucesso ao Salvar!", "", "success");
-                        $('#formMotivo').each(function () {
-                            this.reset();
-                        });
-                        $("#listadeMotivo").load("listaMotivos.jsp");
-                    }
-                });
-                return false;
-            } else {
-                swal("Preencha os campos corretamente!");
-            }
-        }
-        );
-    });
-</script>
-
-<script type="text/javascript">
-    function valida_form_motivo() {
-        if ((document.getElementById("motivoDescricao").value === null || document.getElementById("motivoDescricao").value === "")) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
+<script src="js/CrudActionsMotivo.js" type="text/javascript"></script>

@@ -23,7 +23,6 @@
         <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
         <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <script src="js/sweetalert2.js" type="text/javascript"></script>

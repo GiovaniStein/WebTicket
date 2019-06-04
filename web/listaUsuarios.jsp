@@ -9,50 +9,6 @@
 
 <section class="content-header">
 
-    <script>
-        function removeUser(element) {
-            var value = $(element).val();
-            swal({
-                title: 'Cuidado!',
-                text: "Tem certeza que deseja remover esse usuário?",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim',
-                cancelButtonText: 'Não'
-            }).then(function (isConfirm) {
-                if (isConfirm.value) {
-                    $.ajax({
-                        type: "GET",
-                        url: '/WebTicket/acao?parametro=exUsuario&id='+value,
-                        data: $('form').serialize()
-                    }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
-                        if (resultado !== "ok") {
-                            swal("Erro ao remover usuário!", resultado, "error");
-                        } else {
-                            swal("Usuário removido com sucesso!", "", "success");
-                            $("#listadeUsuarios").load("listaUsuarios.jsp");
-                        }
-                    });
-                    return false;
-                }
-            });
-        }
-    </script>
-
-    <script>
-        function editUser(element) {
-            var element = $(element);
-            var row = element.parent().parent();
-            var td = row[0].children;
-            $('#idUsuario').val(td[0].innerText);
-            $('#nomeUsuario').val(td[1].innerText);
-            $('#loginUsuario').val(td[2].innerText);
-        }
-    </script>
-
     <div style="margin-top: -37px;" class="box box-info">
         <div class="box-header">
             <h3 class="box-title">Lista de usuários</h3>

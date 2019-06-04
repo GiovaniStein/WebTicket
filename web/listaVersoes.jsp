@@ -46,20 +46,7 @@
     </script>
 
     <script>
-        function editUser(element) {
-            var element = $(element);
-            var row = element.parent().parent();
-            var td = row[0].children;
-            $('#idversao').val(td[0].innerText);
-            $('#versaoDescricao').val(td[1].innerText);
-            var select = $('#selectProjetoVersao').children();
-            
-            for(var x =0;x<select.length;x++){
-                if(select[x].text===td[2].innerText){
-                    $('#selectProjetoVersao').val(select[x].value).change(); 
-                }
-            }
-        }
+       
     </script>
         
         
@@ -95,8 +82,8 @@
                             <td><%=versoes.get(i).getDescricao()%></td>
                             <td><%=versoes.get(i).getProjeto().getDescricao()%></td>
                             <td>
-                             <button title="Editar Versão" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)"><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Versão" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="removeUser(this)" value="<%=versoes.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                             <button title="Editar Versão" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editVercao(this)"><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Versão" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="removeVercao(this)" value="<%=versoes.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                             </td>
 
                         </tr>

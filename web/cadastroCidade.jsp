@@ -109,45 +109,4 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
-
-<script type="text/javascript">
-    // Via JQuery
-    $(document).ready(function () {
-        $('#cadastraCidade').click(function (event) {
-            event.preventDefault();
-            if (valida_form_cidade() === true) {
-                $.ajax({
-                    type: "POST",
-                    url: "/WebTicket/acao?parametro=cadCidade",
-                    data: $('form').serialize()
-                }).done(function (retorno) {
-                    var resultado = $.trim(retorno);
-                    if (resultado !== "ok") {
-                        swal("Houve um erro!", resultado, "error");
-                        //$('#idDescricao').focus();
-                    } else {
-                        swal("Sucesso ao Salvar!", "", "success");
-                        $('#formCidade').each(function () {
-                            this.reset();
-                        });
-                        $("#listadeCidades").load("listaCidades.jsp");
-                    }
-                });
-                return false;
-            } else {
-                swal("Preencha os campos corretamente!");
-            }
-        }
-        );
-    });
-</script>
-
-<script type="text/javascript">
-    function valida_form_cidade() {
-        if ((document.getElementById("idDescricao").value === null || document.getElementById("idDescricao").value === "")) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
+<script src="js/CrudActionsCidade.js" type="text/javascript"></script>

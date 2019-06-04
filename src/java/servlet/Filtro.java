@@ -120,6 +120,16 @@ public class Filtro extends HttpServlet implements Filter {
         excecoes.add("/WebTicket/js/Chart.js");
         excecoes.add("/WebTicket/js/Chart.min.css");
         excecoes.add("/WebTicket/js/Chart.min.js");
+        excecoes.add("/WebTicket/js/CrudActionsCidade.js");
+        excecoes.add("/WebTicket/js/CrudActionsCliente.js");
+        excecoes.add("/WebTicket/js/CrudActionsProjeto.js");
+        excecoes.add("/WebTicket/js/CrudActionsFase.js");
+        excecoes.add("/WebTicket/js/CrudActionsMotivo.js");
+        excecoes.add("/WebTicket/js/CrudActionsModulo.js");
+        excecoes.add("/WebTicket/js/CrudActionsPrioridade.js");
+        excecoes.add("/WebTicket/js/CrudActionsVercao.js");
+        excecoes.add("/WebTicket/js/CrudActionsUsuario.js");
+        excecoes.add("/WebTicket/js/ChartsData.js");
     }
 
     @Override

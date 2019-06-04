@@ -32,7 +32,7 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
-        <div style="background-color: #1a3246 !important" class="wrapper">
+        <div style="background-color: #1a3246 !important; height: -webkit-fill-available;" class="wrapper">
             
             
           
@@ -58,7 +58,7 @@
 
 
 
-                            <div style="text-align: center;font-size: 53px;color: #ffffff;">
+                            <div style="text-align: center; font-size: 46px; color: #ffffff; font-weight: 500">
                                 <img src="images/ic_launcher.png" alt="" width="80" height="80"/>
                                 WebTicket
                             </div>

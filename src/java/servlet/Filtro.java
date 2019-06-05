@@ -129,6 +129,9 @@ public class Filtro extends HttpServlet implements Filter {
         excecoes.add("/WebTicket/js/CrudActionsPrioridade.js");
         excecoes.add("/WebTicket/js/CrudActionsVercao.js");
         excecoes.add("/WebTicket/js/CrudActionsUsuario.js");
+        excecoes.add("/WebTicket/js/CrudActionsTarefa.js");
+        excecoes.add("/WebTicket/js/CrudActionsEditTarefa.js");
+        excecoes.add("/WebTicket/js/CrudActionsMovimentacao.js");
         excecoes.add("/WebTicket/js/ChartsData.js");
     }
 

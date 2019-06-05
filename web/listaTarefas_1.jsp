@@ -58,55 +58,6 @@
 
 <section class="content-header">
 
-
-    <script>
-        function removeUser(element) {
-            var value = $(element).val();
-            swal({
-                title: 'Cuidado!',
-                text: "Tem certeza que deseja remover essa tarefa?",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim',
-                cancelButtonText: 'Não'
-            }).then(function (isConfirm) {
-                if (isConfirm.value) {
-                    $.ajax({
-                        type: "GET",
-                        url: '/WebTicket/acao?parametro=exTarefa&id=' + value,
-                        data: $('form').serialize()
-                    }).done(function (retorno) {
-                        var resultado = $.trim(retorno);
-                        if (resultado !== "ok") {
-                            swal("Erro ao remover tarefa!", resultado, "error");
-                        } else {
-                            swal("Tarefa removida com sucesso!", "", "success");
-                            $("#listaTarefasContainer").load("listaTarefas.jsp");
-                            $("#buttonPesquisar").click();
-                        }
-                    });
-                    return false;
-                }
-            });
-        }
-    </script>
-
-
-
-    <script type="text/javascript">
-        // Via JQuery
-        function editTarefa(element) {
-            var value = $(element).val();
-            window.location.href = "/WebTicket/acao?parametro=edTarefa&id=" + value;
-        }
-        ;
-    </script>
-
-
-
-
     <div class="box box-info">
         <div class="box-header">
             <h3 class="box-title">Lista de tarefas</h3>
@@ -172,7 +123,7 @@
                         <td><%=tarefas.get(i).getUsuarioByIdUsuarioResponsavel().getNome()%></td>
                         <td><%=tarefas.get(i).getFase().getDescricao()%></td>
                         <td><button title="Editar Tarefa" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editTarefa(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Tarefa" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                            <button title="Excluir Tarefa" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeTarefa(this)" value="<%=tarefas.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                             <button id="myBtn" onclick="readTarefa(this)" title="Visualizar Tarefa" style="background-color: #3c41bc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;"  value="<%=tarefas.get(i).getId()%>"><i class="fa fa-eye"></i></button>
                         </td>
                     </tr>
@@ -184,82 +135,7 @@
         </div>
     </div>
 
-    <script>
-
-        function readTarefa(element) {
-            var value = $(element).val();
-            var modal = document.getElementById('myModal');
-            modal.style.display = "block";
-
-
-            var values = {};
-            $.ajax({
-                type: "GET",
-                url: "/WebTicket/acao?parametro=taskInformation&id=" + value,
-                data: $('form').serialize()
-            }).done(function (retorno) {
-                var resultado = $.trim(retorno);
-                values = JSON.parse(resultado);
-                $('#tasktitle')[0].innerHTML = values.titulo;
-                $('#tasktitle')[0].title = values.titulo;
-                $('#taskdescription')[0].innerHTML = values.descricao;
-                $('#taskclient')[0].innerHTML = values.cliente;
-                $('#taskproject')[0].innerHTML = values.projeto;
-                $('#taskmodule')[0].innerHTML = values.modulo;
-                $('#taskcreatedate')[0].innerHTML = values.datacriacao;
-                console.log('movimentacoes ',values);
-                var data = values.movimentacoes;
-                var cityTable = makeTable($('#tasktablecontainer'), data);
-            });
-
-
-            var span = document.getElementsByClassName("close")[0];
-            span.onclick = function () {
-                modal.style.display = "none";
-                $("#taskmov > tr").remove();
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                    $("#taskmov > tr").remove();
-                }
-            }
-        }
-        ;
-
-
-        // Get the modal
-
-    </script>
-    <script>
-        function makeTable(container, data) {
-            var table = $("#taskmov").addClass('CSSTableGenerator');
-            var row = $("<tr/>");
-            row.append($("<th" + "/>").text('Movimentações'));
-            table.append(row);
-            
-            if(data.length>0){
-                $.each(data, function (rowIndex, r) {
-                var row = $("<tr/>");
-                var td = $("<td" + "/>");
-                td.text(r);
-                td.css("word-wrap","break-word");
-                row.append(td);
-                table.append(row);
-            });
-            }else{
-                var row = $("<tr/>");
-                var td = $("<td" + "/>");
-                td.text('Não há movimentações para essa tarefa');
-                td.css("word-wrap","break-word");
-                row.append(td);
-                table.append(row);
-            }
-            return container.append(table);
-        }
-    </script>
+  
 
 
 

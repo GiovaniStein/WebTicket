@@ -107,4 +107,4 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
-<script src="js/CrudActionsPrioridade.js" type="text/javascript"></script>
+<script src="js/CrudActionsPrioridade.js" type="text/javascript" charset="utf-8"></script>

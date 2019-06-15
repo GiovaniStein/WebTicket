@@ -1,6 +1,7 @@
 package DAO;
 
 import apoio.HibernateUtil;
+import entidade.RestEntity;
 import entidade.Versao;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,36 @@ public class VersaoDAO extends DAO {
             for (Object o : resultado) {
                 Versao versao = ((Versao) ((Object) o));
                 listas.add(versao);
+            }
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }// finally {
+//            session.close();
+//        }
+        return listas;
+    }
+    public ArrayList<RestEntity> consultarIdProjeto(int id) {
+        List resultado = null;
+        ArrayList<RestEntity> listas = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+            sql = "from Versao v "
+                    + "where "
+                    + "situacao = 'A' "
+                    + " and "
+                    + "v.projeto.id = " + id;
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+            resultado = q.list();
+
+            for (Object o : resultado) {
+                Versao versao = ((Versao) ((Object) o));
+                RestEntity entity = new RestEntity(versao.getId(),versao.getDescricao());
+                listas.add(entity);
             }
         } catch (HibernateException he) {
             he.printStackTrace();

@@ -2,6 +2,7 @@ package DAO;
 
 import apoio.HibernateUtil;
 import entidade.Modulo;
+import entidade.RestEntity;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -61,6 +62,36 @@ public class ModuloDAO extends DAO {
             for (Object o : resultado) {
                 Modulo modulo = ((Modulo) ((Object) o));
                 listas.add(modulo);
+            }
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }// finally {
+//            session.close();
+//        }
+        return listas;
+    }
+    public ArrayList<RestEntity> consultarIdProjeto(int id) {
+        List resultado = null;
+        ArrayList<RestEntity> listas = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            String sql = "";
+            sql = "from Modulo m "
+                    + "where "
+                    + "situacao = 'A' "
+                    + " and "
+                    + "m.projeto.id = " + id;
+            String sel = sql;
+            System.out.println(sel);
+            org.hibernate.Query q = session.createQuery(sql);
+            resultado = q.list();
+
+            for (Object o : resultado) {
+                Modulo modulo = ((Modulo) ((Object) o));
+                RestEntity entity = new RestEntity(modulo.getId(),modulo.getDescricao());
+                listas.add(entity);
             }
         } catch (HibernateException he) {
             he.printStackTrace();

@@ -133,6 +133,7 @@ public class Filtro extends HttpServlet implements Filter {
         excecoes.add("/WebTicket/js/CrudActionsEditTarefa.js");
         excecoes.add("/WebTicket/js/CrudActionsMovimentacao.js");
         excecoes.add("/WebTicket/js/ChartsData.js");
+        excecoes.add("/WebTicket/js/CrudSelectComponentData.js");
     }
 
     @Override

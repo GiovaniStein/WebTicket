@@ -212,7 +212,8 @@
 
                                 <label for="projeto" class="col-sm-1 control-label">Projeto*</label>
                                 <div class="col-sm-2">
-                                    <select id="selectProjeto"  class="form-control select2"  name="projeto" >
+                                   
+                                    <select id="selectProjeto" onchange="changeData()" class="form-control select2" name="projeto" >
 
                                         <option value="0" >Selecione </option>
 
@@ -290,35 +291,9 @@
 
 
                                 <div class="col-sm-2">
-                                    <select id="selectModulo"  class="form-control select2" name="modulo" >
-
-                                        <option value="0">Selecione </option>
-
-                                        <%
-                                            Modulo modulo = new Modulo();
-                                            modulo.setDescricao("");
-                                            modulo.setSituacao('A');
-                                            // modulo.setProjeto(projeto);
-                                            //tar.setModulo(modulo);
-
-                                            ModuloDAO moduloDAO = new ModuloDAO();
-                                            ArrayList<Modulo> modulos = moduloDAO.listar(modulo);
-
-                                            for (int i = 0; i < modulos.size(); i++) {
-                                                // System.out.println(projetos.size()+".. tamanho");
-                                                if (tar.getModulo().getId() == modulos.get(i).getId()) {
-                                        %>
-                                        <option value="<%=modulos.get(i).getId()%>" selected><%=modulos.get(i).getDescricao()%> </option>
-
-                                        <%
-                                        } else {
-                                        %>
-                                        <option value="<%=modulos.get(i).getId()%>"><%=modulos.get(i).getDescricao()%></option>
-                                        <%
-                                                }
-                                            }
-                                        %>
-
+                                    <input id="selectModuloValue" type="hidden" class="form-control" name="modulohidden" value="<%=tar.getModulo().getId()%>">
+                                    <select disabled="disabled" id="selectModulo"  class="form-control select2" name="modulo" >
+                                        <option value="0">Selecione um projeto</option>
                                     </select>
                                 </div>
 
@@ -392,36 +367,10 @@
 
                                 <label  for="versao" class="col-sm-1 control-label">V.BUG*</label>
                                 <div class="col-sm-2">
-                                    <select id="selectVersao"  class="form-control select2" name="versao" >
-
-                                        <option value="0">Selecione </option>
-
-
-                                        <%
-                                            Versao versaoBug = new Versao();
-                                            versaoBug.setDescricao("");
-                                            versaoBug.setSituacao('A');
-                                            //  versaoBug.setProjeto(projeto);
-                                            //    tar.setVersaoByIdVersaoBug(versaoBug);
-
-                                            VersaoDAO versaoBugDAO = new VersaoDAO();
-                                            ArrayList<Versao> versoesBug = versaoBugDAO.listar(versaoBug);
-
-                                            for (int i = 0; i < versoesBug.size(); i++) {
-                                                // System.out.println(projetos.size()+".. tamanho");
-                                                if (tar.getVersaoByIdVersaoBug().getId() == versoesBug.get(i).getId()) {
-                                        %>
-                                        <option value="<%=versoesBug.get(i).getId()%>" selected><%=versoesBug.get(i).getDescricao()%> </option>
-
-                                        <%
-                                        } else {
-                                        %>
-                                        <option value="<%=versoesBug.get(i).getId()%>"><%=versoesBug.get(i).getDescricao()%></option>
-                                        <%
-                                                }
-                                            }
-                                        %>
-
+                                    <input id="selectVersaoValue" type="hidden" class="form-control" name="vercaohidden" value="<%=tar.getVersaoByIdVersaoBug().getId()%>">
+                                    <select disabled="disabled" id="selectVersao"  class="form-control select2" name="versao" >
+                                        <option value="0">Selecione um projeto</option>
+                                        
                                     </select>
                                 </div>
 
@@ -438,34 +387,11 @@
 
 
                                 <div class="col-sm-2">
-                                    <select id="selectVersaoCorrecao"  class="form-control select2" name="versaoCorrecao" >
+                                     <input id="selectVersaoCorrecaoValue" type="hidden" class="form-control" name="vercaocorhidden" value="<%=tar.getVersaoByIdVersaoCorrecao().getId()%>">
+                                    <select disabled="disabled" id="selectVersaoCorrecao"  class="form-control select2" name="versaoCorrecao" >
 
-                                        <option value="0" >Selecione </option>
+                                        <option value="0">Selecione um projeto</option>
 
-                                        <%
-                                            Versao versaoCorrecao = new Versao();
-                                            versaoCorrecao.setDescricao("");
-                                            versaoCorrecao.setSituacao('A');
-                                            //  versaoCorrecao.setProjeto(projeto);
-                                            //tar.setVersaoByIdVersaoCorrecao(versaoCorrecao);
-
-                                            VersaoDAO versaoCorrecaoDAO = new VersaoDAO();
-                                            ArrayList<Versao> versoesCorrecao = versaoCorrecaoDAO.listar(versaoCorrecao);
-
-                                            for (int i = 0; i < versoesCorrecao.size(); i++) {
-                                                // System.out.println(projetos.size()+".. tamanho");
-                                                if (tar.getVersaoByIdVersaoCorrecao().getId() == versoesCorrecao.get(i).getId()) {
-                                        %>
-                                        <option value="<%=versoesCorrecao.get(i).getId()%>" selected><%=versoesCorrecao.get(i).getDescricao()%> </option>
-
-                                        <%
-                                        } else {
-                                        %>
-                                        <option value="<%=versoesCorrecao.get(i).getId()%>"><%=versoesCorrecao.get(i).getDescricao()%></option>
-                                        <%
-                                                }
-                                            }
-                                        %>
 
                                     </select>
                                 </div>
@@ -532,20 +458,6 @@
 
 
                             </div>
-
-
-
-<!--                            <div class="form-group">
-                                <label for="movimentacao" class="col-sm-1 control-label">Movimentação</label>
-                                <div class="col-xs-8">
-
-                                    <textarea id="editor2" name="movimentacao"  rows="5" cols="5">
-                                    </textarea>
-                                </div>
-                            </div>-->
-
-
-
 
 
                             <div class="box-footer">
@@ -649,4 +561,4 @@
     })
 </script>
 <script src="js/CrudActionsTarefa.js" type="text/javascript" charset="utf-8"></script>
-
+<script src="js/CrudSelectComponentData.js" type="text/javascript" charset="utf-8"></script>

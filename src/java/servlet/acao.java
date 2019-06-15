@@ -34,6 +34,7 @@ import entidade.Motivo;
 import entidade.MovimentoTarefa;
 import entidade.Prioridade;
 import entidade.Projeto;
+import entidade.RestEntity;
 import entidade.Tarefa;
 import entidade.Usuario;
 import entidade.Versao;
@@ -89,6 +90,31 @@ public class acao extends HttpServlet {
 
         String parametro = request.getParameter("parametro");
         System.out.println(parametro);
+        
+        
+        
+        if (parametro.equals("comboData")) {
+            PrintWriter out = response.getWriter();
+            int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
+            try {
+                TreeMap<String, ArrayList<RestEntity>> values = new TreeMap<>();
+                ModuloDAO moduloDAO = new ModuloDAO();
+                VersaoDAO versaoDAO = new VersaoDAO();
+                ArrayList<RestEntity> modulos = moduloDAO.consultarIdProjeto(id);
+                ArrayList<RestEntity> versao = versaoDAO.consultarIdProjeto(id);
+
+                values.put("modulo", modulos);
+                values.put("versao", versao);
+                
+                Gson gson = new Gson();
+                String s = (gson.toJson(values));
+                out.println(s);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
 
         if (parametro.equals("taskInformation")) {
             PrintWriter out = response.getWriter();
@@ -779,17 +805,17 @@ public class acao extends HttpServlet {
         if (parametro.equals("listarTarefas")) {
 
             //-----------------------//
-            String idTarefa = request.getParameter("id");
-            String idCliente = request.getParameter("cliente");
-            String idProjeto = request.getParameter("projeto");
-            String idPrioridade = request.getParameter("prioridade");
-            String idMotivo = request.getParameter("motivo");
-            String idModulo = request.getParameter("modulo");
-            String idFase = request.getParameter("fase");
-            String idVersaoBug = request.getParameter("versao");
-            String idVersaoCorrecao = request.getParameter("versaoCorrecao");
-            String idAutor = request.getParameter("autor");
-            String idResponsavel = request.getParameter("responsavel");
+            String idTarefa = request.getParameter("id")!=null ? request.getParameter("id") : "0" ;
+            String idCliente = request.getParameter("cliente")!=null ? request.getParameter("cliente"): "0" ;
+            String idProjeto = request.getParameter("projeto")!=null ? request.getParameter("projeto"): "0" ;
+            String idPrioridade = request.getParameter("prioridade")!=null ? request.getParameter("prioridade"): "0" ;
+            String idMotivo = request.getParameter("motivo")!=null ? request.getParameter("motivo"): "0" ;
+            String idModulo = request.getParameter("modulo")!=null ? request.getParameter("modulo"): "0" ;
+            String idFase = request.getParameter("fase")!=null ? request.getParameter("fase"): "0" ;
+            String idVersaoBug = request.getParameter("versao")!=null ? request.getParameter("versao"): "0" ;
+            String idVersaoCorrecao = request.getParameter("versaoCorrecao")!=null ? request.getParameter("versaoCorrecao"): "0" ;
+            String idAutor = request.getParameter("autor")!=null ? request.getParameter("autor"): "0" ;
+            String idResponsavel = request.getParameter("responsavel")!=null ? request.getParameter("responsavel"): "0" ;
 //
             Tarefa tarefa = new Tarefa();
 
@@ -857,6 +883,7 @@ public class acao extends HttpServlet {
                 String idVersaoCorrecao = request.getParameter("versaoCorrecao");
                 String idAutor = request.getParameter("autor");
                 String idResponsavel = request.getParameter("responsavel");
+                String descricao = request.getParameter("descricao");
 
                 Tarefa tarefa = new Tarefa();
 
@@ -881,7 +908,7 @@ public class acao extends HttpServlet {
                 tarefa.setId(idTarefa);
                 cliente.setId(Integer.parseInt(idCliente));
                 tarefa.setCliente(cliente);
-                tarefa.setDescricao(request.getParameter("descricao"));
+                tarefa.setDescricao(descricao);
                 fase.setId(Integer.parseInt(idFase));
                 tarefa.setFase(fase);
                 modulo.setId(Integer.parseInt(idModulo));

@@ -5,7 +5,7 @@ $(document).ready(function () {
         var descricao = CKEDITOR.instances.editor1.getData();
 
         $('#idDescricao').val(descricao);
-
+        
         if (valida_form_tarefa() === true) {
             $.ajax({
                 type: "POST",
@@ -32,6 +32,11 @@ $(document).ready(function () {
                     $('#selectVersao').val(0).change();
                     $('#selectVersaoCorrecao').val(0).change();
                     $('#dataPrevisao').val('');
+                    $('#datahoraCriacao').val('');
+                    $('#tituloTarefa').val('');
+                    $('#idTarefa').val('');
+                    $('#listaMovimentacoes').empty();
+                    
                     CKEDITOR.instances.editor1.setData('');
                 }
             });
@@ -43,6 +48,8 @@ $(document).ready(function () {
     }
     );
 });
+
+
 
 function valida_form_tarefa() {
     if ((document.getElementById("selectCliente").value === '0' || document.getElementById("selectCliente").value === "") ||

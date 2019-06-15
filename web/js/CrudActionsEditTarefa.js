@@ -56,7 +56,6 @@ function readTarefa(element) {
         $('#taskproject')[0].innerHTML = values.projeto;
         $('#taskmodule')[0].innerHTML = values.modulo;
         $('#taskcreatedate')[0].innerHTML = values.datacriacao;
-        console.log('movimentacoes ', values);
         var data = values.movimentacoes;
         var cityTable = makeTable($('#tasktablecontainer'), data);
     });

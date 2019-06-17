@@ -18,6 +18,7 @@
 <%@page import="entidade.Motivo"%>
 <%@page import="entidade.Projeto"%>
 <%@page import="entidade.Cidade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 <!--<html>-->
@@ -298,7 +299,7 @@
 
 
 
-                                    <label for="moculo" class="col-sm-1 control-label">Módulo*</label>
+                                    <label for="moculo" class="col-sm-1 control-label">MÃ³dulo*</label>
 
 
                                     <div class="col-sm-2">
@@ -396,7 +397,7 @@
                                 <div class="form-group">
 
 
-                                    <label  for="versaoCorrecao" class="col-sm-1 control-label">Correção*</label>
+                                    <label  for="versaoCorrecao" class="col-sm-1 control-label">CorreÃ§Ã£o*</label>
 
 
                                     <div class="col-sm-2">

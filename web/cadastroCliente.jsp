@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidade.Cidade"%>
 <%@page import="entidade.Cliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>
@@ -97,16 +98,16 @@
                                             if (cliente.getId() == 0) {
                                         %>
                                         <option value="0">Selecione</option>
-                                        <option value="F">Pessoa física</option>
-                                        <option value="J">Pessoa jurídica</option>
+                                        <option value="F">Pessoa fÃ­sica</option>
+                                        <option value="J">Pessoa jurÃ­dica</option>
                                         <%
                                         } else if (cliente.getTipoCadastro() == 'F') {
                                         %>
-                                        <option value="F" <%= cliente.getCpfCnpj().trim().equals("") ? "selected" : ""%>>Pessoa física</option>
+                                        <option value="F" <%= cliente.getCpfCnpj().trim().equals("") ? "selected" : ""%>>Pessoa fÃ­sica</option>
                                         <%
                                         } else if (cliente.getTipoCadastro() == 'J') {
                                         %>
-                                        <option value="J" <%= cliente.getCpfCnpj().trim().equals("") ? "selected" : ""%>>Pessoa jurídica</option>
+                                        <option value="J" <%= cliente.getCpfCnpj().trim().equals("") ? "selected" : ""%>>Pessoa jurÃ­dica</option>
                                         <%
                                             }
                                         %>
@@ -195,7 +196,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="endereco"
-                                       class="col-sm-2 control-label">Endereço</label>
+                                       class="col-sm-2 control-label">EndereÃ§o</label>
                                 <div class="col-sm-7">
                                     <input id="clienteEndereco"
                                            type="text"

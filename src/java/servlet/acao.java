@@ -12,7 +12,6 @@ import DAO.ProjetoDAO;
 import DAO.TarefaDAO;
 import DAO.UsuarioDAO;
 import DAO.VersaoDAO;
-
 import apoio.Formatacao;
 import com.google.gson.Gson;
 import controle.ControleCidade;
@@ -46,7 +45,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +61,10 @@ import javax.servlet.http.HttpSession;
  * @author Giovani
  */
 public class acao extends HttpServlet {
+    
+    
+    
+   
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -102,7 +104,8 @@ public class acao extends HttpServlet {
                 VersaoDAO versaoDAO = new VersaoDAO();
                 ArrayList<RestEntity> modulos = moduloDAO.consultarIdProjeto(id);
                 ArrayList<RestEntity> versao = versaoDAO.consultarIdProjeto(id);
-
+                
+            
                 values.put("modulo", modulos);
                 values.put("versao", versao);
                 
@@ -1215,6 +1218,7 @@ public class acao extends HttpServlet {
 
             try {
                 String idProjeto = request.getParameter("projeto");
+                String descricao = request.getParameter("descricao");
                 // System.out.println(".i.d" + id);
                 Modulo modulo = new Modulo();
                 int idModulo;
@@ -1224,7 +1228,7 @@ public class acao extends HttpServlet {
                     idModulo = Integer.parseInt(String.valueOf(request.getParameter("id")));
                 }
                 modulo.setId(idModulo);
-                modulo.setDescricao(request.getParameter("descricao"));
+                modulo.setDescricao(descricao);
                 modulo.setSituacao('A');
                 Projeto projeto = new Projeto();
                 projeto.setId(Integer.parseInt(idProjeto));

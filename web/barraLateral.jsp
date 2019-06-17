@@ -75,7 +75,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="relTarefas.jsp" target="_blank"><i class="fa fa-list"></i> Tarefas (geral)</a></li>
+<!--                    <li><a href="relTarefas.jsp" target="_blank"><i class="fa fa-list"></i> Tarefas (geral)</a></li>-->
                     <li><a href="relTarefasPorProjeto.jsp"><i class="fa fa-trello"></i> Tarefas de projeto
                             <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspespecífico</a></li>
                     <li><a href="relTarefasPorResponsavel.jsp"><i class="fa fa-user-circle-o"></i> Tarefas por
@@ -90,7 +90,7 @@
         </ul>
     </section>
 
-    <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
 
    
     <script>

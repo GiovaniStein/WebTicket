@@ -4,6 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidade.Cidade"%>
 <%@page import="entidade.Cliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>
@@ -35,7 +36,7 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Cadastro de usuário</h3>
+                        <h3 class="box-title">Cadastro de usuÃ¡rio</h3>
                     </div>
                     <form id="formusuario"
                           name="cadCliente"

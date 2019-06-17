@@ -1,4 +1,5 @@
 <%@page import="entidade.Motivo"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>

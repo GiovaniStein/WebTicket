@@ -1,5 +1,6 @@
 <%@page import="entidade.Projeto"%>
 <%@page import="entidade.Cidade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>

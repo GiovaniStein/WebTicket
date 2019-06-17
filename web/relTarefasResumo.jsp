@@ -1,5 +1,6 @@
 <%@page import="entidade.Tarefa"%>
 <%@page import="entidade.Cidade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 <!--<html>-->
@@ -8,7 +9,6 @@
 <!--    <body class="hold-transition skin-blue sidebar-mini">-->
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>
-<%//@include file = "inicio-teste.jsp"%>
 
 <%
         Tarefa tar = new Tarefa();
@@ -28,7 +28,7 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Filtro de relatório</h3>
+                        <h3 class="box-title">Filtro de relatÃ³rio</h3>
                     </div>
 
                     <form id="relTarefasResumo" name="relTarefasResumo" class="form-horizontal" action="/WebTicket/acao?parametro=relTarefasResumo" method="post">

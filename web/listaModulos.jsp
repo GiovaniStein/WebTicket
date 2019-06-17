@@ -2,6 +2,7 @@
 <%@page import="DAO.ModuloDAO"%>
 <%@page import="entidade.Modulo"%>
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
@@ -12,7 +13,7 @@
 
     <div class="box box-info">
         <div class="box-header">
-            <h3 class="box-title">Lista de módulos</h3>
+            <h3 class="box-title">Lista de mÃ³dulos</h3>
         </div>
 
         <div class="box-body">

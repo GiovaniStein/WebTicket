@@ -1,5 +1,6 @@
 <%@page import="entidade.Tarefa"%>
 <%@page import="entidade.Cidade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 <!--<html>-->
@@ -28,7 +29,7 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Filtro de relatório</h3>
+                        <h3 class="box-title">Filtro de relatÃ³rio</h3>
                     </div>
 
                     <form id="excelTarefasResumo" name="excelTarefasResumo" class="form-horizontal" action="/WebTicket/acao?parametro=excelTarefasResumo" method="post">

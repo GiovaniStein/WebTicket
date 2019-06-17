@@ -19,6 +19,7 @@
 <%@page import="DAO.ClienteDAO"%>
 <%@page import="entidade.Cliente"%>
 <%@page import="entidade.Tarefa"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 
@@ -287,7 +288,7 @@
                             <div class="form-group">
 
 
-                                <label for="moculo" class="col-sm-1 control-label">MÛdulo*</label>
+                                <label for="moculo" class="col-sm-1 control-label">M√≥dulo*</label>
 
 
                                 <div class="col-sm-2">
@@ -383,7 +384,7 @@
                             <div class="form-group">
 
 
-                                <label  for="versaoCorrecao" class="col-sm-1 control-label">CorreÁ„o*</label>
+                                <label  for="versaoCorrecao" class="col-sm-1 control-label">Corre√ß√£o*</label>
 
 
                                 <div class="col-sm-2">
@@ -396,7 +397,7 @@
                                     </select>
                                 </div>
 
-                                <label for="datahoraCriacao" class="col-sm-1 control-label" >Inclus„o</label>
+                                <label for="datahoraCriacao" class="col-sm-1 control-label" >Inclus√£o</label>
                                 <div class="col-sm-2">
                                     <%
                                         try {
@@ -426,7 +427,7 @@
                                     %>
                                 </div>
 
-                                <label for="dataPrevisao" class="col-sm-1 control-label" >Previs„o*</label>
+                                <label for="dataPrevisao" class="col-sm-1 control-label" >Previs√£o*</label>
 
                                 <div class="col-sm-2">                                                                                                      <!--data-inputmask='"mask": "99/99/9999"' data-mask -->
                                     <input id="dataPrevisao" type="date" class="form-control" name="dataPrevisao"  value="<%=tar.getDatahoraPrevisao()%>">
@@ -436,7 +437,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="nome" class="col-sm-1 control-label">TÌtulo*</label>
+                                <label for="nome" class="col-sm-1 control-label">T√≠tulo*</label>
                                 <div class="col-xs-6">
                                     <input id="tituloTarefa" type="text" class="form-control" name="titulo" value="<%= tar.getTitulo()%>">
                                 </div>
@@ -446,7 +447,7 @@
 
                             <div class="form-group">
 
-                                <label for="descricao" class="col-sm-1 control-label">DescriÁ„o*</label>
+                                <label for="descricao" class="col-sm-1 control-label">Descri√ß√£o*</label>
 
 
 

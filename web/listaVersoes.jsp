@@ -4,6 +4,7 @@
 <%@page import="DAO.ModuloDAO"%>
 <%@page import="entidade.Modulo"%>
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
@@ -17,13 +18,13 @@
             var value = $(element).val();
             swal({
                 title: 'Cuidado!',
-                text: "Tem certeza que deseja remover essa vers„o?",
+                text: "Tem certeza que deseja remover essa vers√£o?",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim',
-                cancelButtonText: 'N„o'
+                cancelButtonText: 'N√£o'
             }).then(function (isConfirm) {
                 if (isConfirm.value) {
                     $.ajax({
@@ -33,9 +34,9 @@
                     }).done(function (retorno) {
                         var resultado = $.trim(retorno);
                         if (resultado !== "ok") {
-                            swal("Erro ao remover vers„o!", resultado, "error");
+                            swal("Erro ao remover vers√£o!", resultado, "error");
                         } else {
-                            swal("Vers„o removida com sucesso!", "", "success");
+                            swal("Vers√£o removida com sucesso!", "", "success");
                             $("#listadeVersao").load("listaVersoes.jsp");
                         }
                     });
@@ -53,7 +54,7 @@
 
         <div class="box box-info">
             <div class="box-header">
-                <h3 class="box-title">Lista de versıes</h3>
+                <h3 class="box-title">Lista de vers√µes</h3>
             </div>
 
             <div class="box-body">
@@ -82,8 +83,8 @@
                             <td><%=versoes.get(i).getDescricao()%></td>
                             <td><%=versoes.get(i).getProjeto().getDescricao()%></td>
                             <td>
-                             <button title="Editar Vers„o" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editVercao(this)"><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Vers„o" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="removeVercao(this)" value="<%=versoes.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                             <button title="Editar Vers√£o" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editVercao(this)"><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Vers√£o" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="removeVercao(this)" value="<%=versoes.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                             </td>
 
                         </tr>

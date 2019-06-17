@@ -3,6 +3,7 @@
 <%@page import="DAO.CidadeDAO"%>
 <%@page import="entidade.Cidade"%>
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 
@@ -11,7 +12,7 @@
 
     <div style="margin-top: -37px;" class="box box-info">
         <div class="box-header">
-            <h3 class="box-title">Lista de usu·rios</h3>
+            <h3 class="box-title">Lista de usu√°rios</h3>
         </div>
 
         <div class="box-body">
@@ -40,8 +41,8 @@
                         <td><%=usuarios.get(i).getId()%></td>
                         <td><%=usuarios.get(i).getNome()%></td>
                         <td><%=usuarios.get(i).getLogin()%></td>
-                        <td><button title="Editar Usu·rio" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
-                            <button title="Excluir Usu·rio" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=usuarios.get(i).getId()%>"><i class="fa fa-trash"></i></button>
+                        <td><button title="Editar Usu√°rio" style="background-color: #3c8dbc !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" onclick="editUser(this)" ><i class="fa fa-pencil-square-o"></i></button>
+                            <button title="Excluir Usu√°rio" style="background-color: #dd4b39 !important;border-radius: 4px;border: none;width: 28px;height: 22px;color: #FFFFFF;" id="valuesuser" onclick="removeUser(this)" value="<%=usuarios.get(i).getId()%>"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     <%

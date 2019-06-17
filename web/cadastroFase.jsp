@@ -1,5 +1,6 @@
 <%@page import="entidade.Fase"%>
 <%@page import="entidade.Cidade"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@include file = "topo.jsp"%>
 <%@include file = "barraLateral.jsp"%>

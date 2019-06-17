@@ -6,7 +6,6 @@
 
 <html>
     <head>
-        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Web Ticket</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -25,9 +24,9 @@
         <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <script src="js/sweetalert2.js" type="text/javascript"></script>
+        <script src="js/sweetalert2.js" type="text/javascript" charset="utf-8"></script>
         <link href="js/sweetalert2.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     </head>
 
     <body style="overflow: hidden;"

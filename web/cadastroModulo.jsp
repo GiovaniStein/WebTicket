@@ -2,6 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidade.Projeto"%>
 <%@page import="entidade.Modulo"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%@include file = "topo.jsp"%>
@@ -32,7 +33,7 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Cadastro de módulo</h3>
+                        <h3 class="box-title">Cadastro de mÃ³dulo</h3>
                     </div>
                     <form id="formModulo"
                           name="cadModulo"

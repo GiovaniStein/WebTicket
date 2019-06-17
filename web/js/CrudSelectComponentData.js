@@ -18,17 +18,15 @@ function changeData() {
     var id = $('#selectProjeto').val();
 
     if (id !== '0') {
-        var values = {};
         $.ajax({
             type: "GET",
-            url: "/WebTicket/acao?parametro=comboData&id=" + id,
-            data: $('form').serialize(),
+            url: "/WebTicket/acao",
+            data: {parametro:"comboData",id:id},
+            dataType : 'json'
         }).done(function (retorno) {
-            var resultado = $.trim(retorno);
-            values = JSON.parse(resultado);
-
-            var modulo = Object.values(values.modulo);
-            var versao = Object.values(values.versao);
+           
+            var modulo = Object.values(retorno.modulo);
+            var versao = Object.values(retorno.versao);
 
             createOptionsElements('#selectModulo', modulo);
             createOptionsElements('#selectVersao', versao);

@@ -8,6 +8,7 @@
 <%@page import="entidade.Cliente"%>
 
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 
@@ -76,9 +77,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>TÕTULO</th>
+                        <th>T√çTULO</th>
                         <th>AUTOR</th>
-                        <th>RESPONS¡VEL</th>
+                        <th>RESPONS√ÅVEL</th>
                         <th>FASE</th>
                         <th></th>
                     </tr>

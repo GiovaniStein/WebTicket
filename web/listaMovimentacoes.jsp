@@ -13,6 +13,7 @@
 <%@page import="entidade.Cliente"%>
 
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 
@@ -110,9 +111,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>DESCRI«√O</th>
-                        <th>USU¡RIO</th>
-                        <th>DATA DA MOVIMENTA«√O</th>
+                        <th>DESCRI√á√ÉO</th>
+                        <th>USU√ÅRIO</th>
+                        <th>DATA DA MOVIMENTA√á√ÉO</th>
                     </tr>
                 </thead>
                 <tbody>

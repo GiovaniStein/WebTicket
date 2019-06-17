@@ -2,6 +2,7 @@
 <%@page import="entidade.Cliente"%>
 
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 
@@ -19,7 +20,7 @@
                             <th>ID</th>
                             <th>NOME</th>
                             <th>CPF/CNPJ</th>
-                            <th>Endereço</th>
+                            <th>EndereÃ§o</th>
                             <th>Cidade</th>
                             <th>Telefone</th>
                             <th></th>

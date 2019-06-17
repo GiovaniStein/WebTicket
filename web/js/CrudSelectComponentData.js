@@ -14,8 +14,7 @@ function changeData() {
     $('#selectVersao').attr('disabled', 'disabled');
     $('#selectVersaoCorrecao').attr('disabled', 'disabled');
     
-   
-
+ 
     var id = $('#selectProjeto').val();
 
     if (id !== '0') {
@@ -23,7 +22,7 @@ function changeData() {
         $.ajax({
             type: "GET",
             url: "/WebTicket/acao?parametro=comboData&id=" + id,
-            data: $('form').serialize()
+            data: $('form').serialize(),
         }).done(function (retorno) {
             var resultado = $.trim(retorno);
             values = JSON.parse(resultado);
@@ -61,6 +60,7 @@ function createOptionsElements(elementId, items) {
     $.each(items, function (i, item) {
         
         var value = $(elementId+'Value').val();
+        
         
         if(value+''===item.id+'' && value!==0){
             $(elementId).append($('<option>', {

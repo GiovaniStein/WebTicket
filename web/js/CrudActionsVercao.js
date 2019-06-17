@@ -17,6 +17,7 @@ $(document).ready(function () {
                         this.reset();
                     });
                     $("#listadeVersao").load("listaVersoes.jsp");
+                    $('#selectProjetoVersao').val(0).change();
                 }
             });
             return false;

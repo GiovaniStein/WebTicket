@@ -17,6 +17,7 @@ $(document).ready(function () {
                         this.reset();
                     });
                     $("#listadeModulos").load("listaModulos.jsp");
+                    $('#selectProjeto').val(0).change();
                 }
             });
             return false;

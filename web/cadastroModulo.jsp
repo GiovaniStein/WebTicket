@@ -87,6 +87,7 @@
                                     <select id="selectProjeto"
                                             class="form-control select2"
                                             name="projeto">
+                                        <option value="0">Selecione</option>
                                         <%
                                             Projeto projeto = new Projeto();
                                             projeto.setDescricao("");

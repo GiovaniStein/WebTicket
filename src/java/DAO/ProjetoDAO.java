@@ -15,7 +15,7 @@ public class ProjetoDAO extends DAO {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            String sql = "from Projeto";
+            String sql = "from Projeto where situacao = 'A'";
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);
@@ -34,8 +34,7 @@ public class ProjetoDAO extends DAO {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            String sql = "from Projeto "
-                    + "order by descricao";
+            String sql = "from Projeto p where p.situacao = 'A' order by p.descricao";
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);

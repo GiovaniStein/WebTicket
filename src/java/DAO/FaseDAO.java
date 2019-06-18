@@ -18,7 +18,7 @@ public class FaseDAO extends DAO {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            String sql = "from Fase";
+            String sql = "from Fase f where f.situacao = 'A'";
             org.hibernate.Query q = session.createQuery(sql);
             resultado = q.list();
 

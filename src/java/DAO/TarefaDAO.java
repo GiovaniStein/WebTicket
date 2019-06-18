@@ -24,7 +24,7 @@ public class TarefaDAO extends DAO {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             String sql = "";
-            sql = "from Tarefa";
+            sql = "from Tarefa where situacao = 'A'";
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);
@@ -40,9 +40,7 @@ public class TarefaDAO extends DAO {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             String sql = "";
-            sql = "from Tarefa "
-                    + "where "
-                    + "projeto.id = " + id;
+            sql = "from Tarefa t where situacao = 'A' and projeto.id = "+id;
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);

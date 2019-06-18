@@ -81,10 +81,10 @@
                     <li><a href="relTarefasPorResponsavel.jsp"><i class="fa fa-user-circle-o"></i> Tarefas por
                             <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspresponsável</a></li>
                     <li><a href="relTarefasResumo.jsp"><i class="fa fa-table"></i> Tarefas por período</a></li>
-                    <li><a href="ExcelTarefasResumo.jsp"><i class="fa fa-table"></i> Tarefas por período
+<!--                    <li><a href="ExcelTarefasResumo.jsp"><i class="fa fa-table"></i> Tarefas por período
                             <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(.xls)</a></li>
                     <li><a href="ExcelTarefasResumoPorProjeto.jsp"><i class="fa fa-wpforms"></i> Tarefas por projeto
-                            <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspe período (.xls)</a></li>
+                            <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspe período (.xls)</a></li>-->
                 </ul>
             </li>
         </ul>

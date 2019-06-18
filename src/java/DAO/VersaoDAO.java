@@ -24,7 +24,7 @@ public class VersaoDAO extends DAO {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             String sql = "";
-            sql = "from Versao";
+            sql = "from Versao where situacao = 'A'";
             String sel = sql;
             System.out.println(sel);
             org.hibernate.Query q = session.createQuery(sql);

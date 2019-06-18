@@ -1,3 +1,12 @@
+function readCharCodeArray(array){
+    var text = '';
+    array.map(x => text = text+String.fromCharCode(x));
+    return text;
+}
+
+
+
+
 $(document).ready(function () {
     var values = {};
     $.ajax({
@@ -7,18 +16,22 @@ $(document).ready(function () {
     }).done(function (retorno) {
         var resultado = $.trim(retorno);
         values = JSON.parse(resultado);
-        console.log(values);
-
-        var projectsnames = Object.getOwnPropertyNames(values.tasksPerProject);
+        
+        var projectsnames = Object.values(values.namesProject);
         var projectvalues = Object.values(values.tasksPerProject);
-        var stepnames = Object.getOwnPropertyNames(values.tasksPerStep);
+        var stepnames = Object.values(values.namesStep);
         var stepvalues = Object.values(values.tasksPerStep);
+        var projnames = [];
+        var steps = [];
+        projectsnames.map(x => projnames.push(readCharCodeArray(x)));
+        stepnames.map(x => steps.push(readCharCodeArray(x)));
+        
         var ctx = document.getElementById('barChartContainer').getContext('2d');
         var ctx2 = document.getElementById('pieChartContainer').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: projectsnames,
+                labels: projnames,
                 datasets: [{
                         label: 'Nº de projetos',
                         data: projectvalues,
@@ -54,7 +67,7 @@ $(document).ready(function () {
         var myChart2 = new Chart(ctx2, {
             type: 'pie',
             data: {
-                labels: stepnames,
+                labels: steps,
                 datasets: [{
                         label: '',
                         data: stepvalues,

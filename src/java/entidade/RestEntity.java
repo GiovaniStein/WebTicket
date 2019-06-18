@@ -11,14 +11,24 @@ package entidade;
  */
 public class RestEntity {
      private int id;
-     private String descricao;
+     private int[] descricao;
 
-    public RestEntity(int id, String descricao) {
+    public RestEntity(int id, int[] descricao) {
         this.id = id;
         this.descricao = descricao;
     }
      
      
+
+    public int[] getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(int[] descricao) {
+        this.descricao = descricao;
+    }
+
+  
     public int getId() {
         return id;
     }
@@ -27,13 +37,7 @@ public class RestEntity {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+   
      
      
 }

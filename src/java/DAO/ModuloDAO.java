@@ -1,6 +1,7 @@
 package DAO;
 
 import apoio.HibernateUtil;
+import apoio.ProjectUtils;
 import entidade.Modulo;
 import entidade.RestEntity;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class ModuloDAO extends DAO {
 //        }
         return lista;
     }
+    
+   
 
     public ArrayList<Modulo> consultarId(int id) {
         List resultado = null;
@@ -90,7 +93,7 @@ public class ModuloDAO extends DAO {
 
             for (Object o : resultado) {
                 Modulo modulo = ((Modulo) ((Object) o));
-                RestEntity entity = new RestEntity(modulo.getId(),modulo.getDescricao());
+                 RestEntity entity = new RestEntity(modulo.getId(), ProjectUtils.stringToCharCodeArray(modulo.getDescricao()));
                 listas.add(entity);
             }
         } catch (HibernateException he) {

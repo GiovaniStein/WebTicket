@@ -35,6 +35,13 @@ function editTarefa(element) {
     window.location.href = "/WebTicket/acao?parametro=edTarefa&id=" + value;
 }
 
+function readCharCodeArray(array){
+    var text = '';
+    array.map(x => text = text+String.fromCharCode(x));
+    return text;
+}
+
+
 function readTarefa(element) {
     var value = $(element).val();
     var modal = document.getElementById('myModal');
@@ -49,12 +56,12 @@ function readTarefa(element) {
     }).done(function (retorno) {
         var resultado = $.trim(retorno);
         values = JSON.parse(resultado);
-        $('#tasktitle')[0].innerHTML = values.titulo;
-        $('#tasktitle')[0].title = values.titulo;
-        $('#taskdescription')[0].innerHTML = values.descricao;
-        $('#taskclient')[0].innerHTML = values.cliente;
-        $('#taskproject')[0].innerHTML = values.projeto;
-        $('#taskmodule')[0].innerHTML = values.modulo;
+        $('#tasktitle')[0].innerHTML = readCharCodeArray(values.titulo);
+        $('#tasktitle')[0].title = readCharCodeArray(values.titulo);
+        $('#taskdescription')[0].innerHTML = readCharCodeArray(values.descricao);
+        $('#taskclient')[0].innerHTML = readCharCodeArray(values.cliente);
+        $('#taskproject')[0].innerHTML = readCharCodeArray(values.projeto);
+        $('#taskmodule')[0].innerHTML = readCharCodeArray(values.modulo);
         $('#taskcreatedate')[0].innerHTML = values.datacriacao;
         var data = values.movimentacoes;
         var cityTable = makeTable($('#tasktablecontainer'), data);
@@ -86,7 +93,7 @@ function makeTable(container, data) {
         $.each(data, function (rowIndex, r) {
             var row = $("<tr/>");
             var td = $("<td" + "/>");
-            td.text(r);
+            td.text(readCharCodeArray(r));
             td.css("word-wrap", "break-word");
             row.append(td);
             table.append(row);

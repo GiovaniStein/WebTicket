@@ -13,7 +13,9 @@ import DAO.TarefaDAO;
 import DAO.UsuarioDAO;
 import DAO.VersaoDAO;
 import apoio.Formatacao;
+import apoio.ProjectUtils;
 import com.google.gson.Gson;
+import com.sun.javafx.util.Utils;
 import controle.ControleCidade;
 import controle.ControleCliente;
 import controle.ControleFase;
@@ -105,7 +107,6 @@ public class acao extends HttpServlet {
                 ArrayList<RestEntity> modulos = moduloDAO.consultarIdProjeto(id);
                 ArrayList<RestEntity> versao = versaoDAO.consultarIdProjeto(id);
                 
-            
                 values.put("modulo", modulos);
                 values.put("versao", versao);
                 
@@ -123,30 +124,30 @@ public class acao extends HttpServlet {
             PrintWriter out = response.getWriter();
             try {
                 TreeMap<String, Object> values = new TreeMap<String, Object>();
-                ArrayList<String> movi = new ArrayList<String>();
+                ArrayList<int[]> movi = new ArrayList<int[]>();
                 ProjetoDAO projetodao = new ProjetoDAO();
                 TarefaDAO tarefadao = new TarefaDAO();
                 FaseDAO fasedao = new FaseDAO();
                 int id = Integer.parseInt(String.valueOf(request.getParameter("id")));
                 Tarefa tarefa = tarefadao.consultarId(id).get(0);
 
-                values.put("titulo", tarefa.getTitulo());
-                values.put("descricao", tarefa.getDescricao());
-                values.put("cliente", tarefa.getCliente().getRazaoSocial());
+                values.put("titulo", ProjectUtils.stringToCharCodeArray(tarefa.getTitulo()));
+                values.put("descricao", ProjectUtils.stringToCharCodeArray(tarefa.getDescricao()));
+                values.put("cliente", ProjectUtils.stringToCharCodeArray(tarefa.getCliente().getRazaoSocial()));
                 
 
                 ArrayList<MovimentoTarefa> mainList = new ArrayList<MovimentoTarefa>();
                 mainList.addAll(tarefa.getMovimentoTarefas());
 
                 for (MovimentoTarefa t : mainList) {
-                    movi.add(t.getUsuario().getNome()+" : "+t.getDescricao().trim());
+                    movi.add(ProjectUtils.stringToCharCodeArray(t.getUsuario().getNome()+" : "+t.getDescricao().trim()));
                 }
 
                 values.put("movimentacoes", movi);
-                values.put("modulo", tarefa.getModulo().getDescricao());
-                values.put("projeto", tarefa.getProjeto().getDescricao());
+                values.put("modulo", ProjectUtils.stringToCharCodeArray(tarefa.getModulo().getDescricao()));
+                values.put("projeto", ProjectUtils.stringToCharCodeArray(tarefa.getProjeto().getDescricao()));
                 values.put("datacriacao", tarefa.getDatahoraCriacao());
-                values.put("situacao", tarefa.getSituacao());
+                values.put("situacao", ProjectUtils.stringToCharCodeArray(tarefa.getSituacao()+""));
 
                 Gson gson = new Gson();
                 String s = (gson.toJson(values));
@@ -162,9 +163,11 @@ public class acao extends HttpServlet {
         if (parametro.equals("appInformation")) {
             PrintWriter out = response.getWriter();
             try {
-                TreeMap<String, Object> values = new TreeMap<String, Object>();
-                TreeMap<String, Integer> proj = new TreeMap<String, Integer>();
-                TreeMap<String, Object> fase = new TreeMap<String, Object>();
+                TreeMap<String, Object> values = new TreeMap<>();
+                TreeMap<String, Integer> proj = new TreeMap<>();
+                TreeMap<String, int[]> projNames = new TreeMap<>();
+                TreeMap<String, Object> fase = new TreeMap<>();
+                TreeMap<String, int[]> faseNames = new TreeMap<>();
                 ProjetoDAO projetodao = new ProjetoDAO();
                 TarefaDAO tarefadao = new TarefaDAO();
                 FaseDAO fasedao = new FaseDAO();
@@ -173,16 +176,20 @@ public class acao extends HttpServlet {
 
                 for (Projeto p : projects) {
                     proj.put(p.getDescricao(), tarefadao.countTaskByProject(p.getId()));
+                    projNames.put(p.getDescricao(), ProjectUtils.stringToCharCodeArray(p.getDescricao()));
                 }
 
                 ArrayList<Fase> fas = fasedao.getAll();
 
                 for (Fase f : fas) {
                     fase.put(f.getDescricao(), tarefadao.countTaskByStep(f.getId()));
+                    faseNames.put(f.getDescricao(),ProjectUtils.stringToCharCodeArray(f.getDescricao()));
                 }
 
                 values.put("tasksPerProject", proj);
                 values.put("tasksPerStep", fase);
+                values.put("namesProject", projNames);
+                values.put("namesStep", faseNames);
 
                 Gson gson = new Gson();
                 String s = (gson.toJson(values));

@@ -24,7 +24,7 @@ function changeData() {
             data: {parametro:"comboData",id:id},
             dataType : 'json'
         }).done(function (retorno) {
-           
+            
             var modulo = Object.values(retorno.modulo);
             var versao = Object.values(retorno.versao);
 
@@ -60,16 +60,22 @@ function createOptionsElements(elementId, items) {
         var value = $(elementId+'Value').val();
         
         
+        var text = '';
+        
+        item.descricao.map(x => text = text+String.fromCharCode(x));
+        
+        console.log('item ',item);
+        
         if(value+''===item.id+'' && value!==0){
             $(elementId).append($('<option>', {
             value: item.id,
-            text: item.descricao,
+            text: text,
             selected: 'selected'
         }));
         }else{
            $(elementId).append($('<option>', {
             value: item.id,
-            text: item.descricao
+            text: text
         })); 
         }
         

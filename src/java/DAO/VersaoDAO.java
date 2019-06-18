@@ -1,6 +1,7 @@
 package DAO;
 
 import apoio.HibernateUtil;
+import apoio.ProjectUtils;
 import entidade.RestEntity;
 import entidade.Versao;
 import java.util.ArrayList;
@@ -12,6 +13,9 @@ public class VersaoDAO extends DAO {
 
     Versao versao;
     List<Object[]> listResult;
+    
+    
+   
 
     public int countVersion() {
         this.versao = versao;
@@ -31,6 +35,9 @@ public class VersaoDAO extends DAO {
         }
 
     }
+    
+    
+   
 
     public ArrayList<Versao> listar(Versao versao) {
         this.versao = versao;
@@ -111,7 +118,7 @@ public class VersaoDAO extends DAO {
 
             for (Object o : resultado) {
                 Versao versao = ((Versao) ((Object) o));
-                RestEntity entity = new RestEntity(versao.getId(),versao.getDescricao());
+                RestEntity entity = new RestEntity(versao.getId(), ProjectUtils.stringToCharCodeArray(versao.getDescricao()));
                 listas.add(entity);
             }
         } catch (HibernateException he) {
